@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>bin/boot_4k.img.gz</file>
+        <file>bin/boot_8k.img.gz</file>
+        <file>bin/boot_16k.img.gz</file>
+        <file>bin/boot_32k.img.gz</file>
+        <file>bin/shadow</file>
+        <file>bin/syslinux</file>
+        <file>bin/syslinux_linux</file>
+        <file>bin/syslinux.exe</file>
+        <file>images/winapp_icon.ico</file>
+        <file>images/icon_256.png</file>
+        <file>images/header.png</file>
+        <file>images/refresh.png</file>
+        <file>images/eye_on.png</file>
+        <file>images/eye_off.png</file>
+        <file>images/no1.png</file>
+        <file>images/no2.png</file>
+        <file>images/no3.png</file>
+    </qresource>
+</RCC>

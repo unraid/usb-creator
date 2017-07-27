@@ -1,0 +1,71 @@
+////////////////////////////////////////////////////////////////////////////////
+//      This file is part of unRAID USB Creator - https://github.com/limetech/usb-creator
+//      Copyright (C) 2013-2015 RasPlex project
+//      Copyright (C) 2016 Team LibreELEC
+//      Copyright (C) 2017 Lime TEchnology, Inc
+//
+//  unRAID USB Creator is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 2 of the License, or
+//  (at your option) any later version.
+//
+//  unRAID USB Creator is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with unRAID USB Creator.  If not, see <http://www.gnu.org/licenses/>.
+////////////////////////////////////////////////////////////////////////////////
+
+#include <windows.h>
+
+////////////////////////////////////////////////////////////////
+#define VER_FILEVERSION             0,0,0,0
+#define VER_FILEVERSION_STR         "0.0.0.0\0"
+
+#define VER_PRODUCTVERSION          0,0,0,0
+#define VER_PRODUCTVERSION_STR      "0.0\0"
+
+#define VER_COMPANYNAME_STR         "Lime Technology"
+#define VER_FILEDESCRIPTION_STR     "unRAID USB Flash device creator application"
+#define VER_INTERNALNAME_STR        "unRAID USB Creator"
+#define VER_LEGALCOPYRIGHT_STR      "Copyright © 2017 Lime Technology, Inc"
+#define VER_LEGALTRADEMARKS1_STR    "All Rights Reserved"
+#define VER_LEGALTRADEMARKS2_STR    VER_LEGALTRADEMARKS1_STR
+#define VER_ORIGINALFILENAME_STR    "unRAID.USB.Creator.exe"
+#define VER_PRODUCTNAME_STR         "unRAID USB Creator"
+
+#define VER_COMPANYDOMAIN_STR       "https://lime-technology.com/"
+////////////////////////////////////////////////////////////////
+
+#define IDR_RT_MANIFEST1    1
+IDR_RT_MANIFEST1 RT_MANIFEST DISCARDABLE "windows.manifest"
+IDI_ICON1 ICON DISCARDABLE "images/winapp_icon.ico"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     VER_FILEVERSION
+PRODUCTVERSION  VER_PRODUCTVERSION
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName",        VER_COMPANYNAME_STR
+            VALUE "FileDescription",    VER_FILEDESCRIPTION_STR
+            VALUE "FileVersion",        VER_FILEVERSION_STR
+            VALUE "InternalName",       VER_INTERNALNAME_STR
+            VALUE "LegalCopyright",     VER_LEGALCOPYRIGHT_STR
+            VALUE "LegalTrademarks1",   VER_LEGALTRADEMARKS1_STR
+            VALUE "LegalTrademarks2",   VER_LEGALTRADEMARKS2_STR
+            //VALUE "OriginalFilename",   VER_ORIGINALFILENAME_STR
+            VALUE "ProductName",        VER_PRODUCTNAME_STR
+            VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END

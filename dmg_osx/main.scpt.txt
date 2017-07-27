@@ -1,0 +1,11 @@
+-- https://discussions.apple.com/message/23355413#23355413
+-- https://discussions.apple.com/thread/133512?start=0&tstart=0
+
+set myPath to POSIX path of (path to me as text) -- gets it in "/" form
+set ASTID to AppleScript's text item delimiters -- save 'em
+set AppleScript's text item delimiters to "/"
+set theFolder to (text 1 thru text item -2 of myPath) & "/" as Unicode text
+set AppleScript's text item delimiters to ASTID -- restore 'em
+set execpath to theFolder & "Contents/MacOS/unRAID USB Creator"
+set quotedexec to quoted form of execpath
+do shell script "sudo " & quotedexec with administrator privileges
