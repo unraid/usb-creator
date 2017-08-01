@@ -59,13 +59,16 @@ class JsonParser
 {
 public:
     JsonParser() {}
-    JsonParser(const QByteArray &data);
     void addExtra(const QByteArray &data, const QString label);
-    void parseAndSet(const QByteArray &data, const QString label);
+    void parseBranches(const QByteArray &data);
+    void parseVersions(const QByteArray &data, const QString &projectName);
+    QVariantMap getNextBranchToFetch();
     QList<JsonData> getJsonData() const;
+    QList<QVariantMap> getBranches() const;
 
 private:
     QList<JsonData> dataList;
+    QList<QVariantMap> dataBranches;
 };
 
 #endif // JSONPARSER_H

@@ -62,7 +62,7 @@
 // force update notification dialog
 //#define FORCE_UPDATE_NOTIFICATION "1.3"
 
-const QString Creator::releasesUrl = "https://s3.amazonaws.com/dnld.lime-technology.com/releases.json";
+const QString Creator::branchesUrl = "https://s3.amazonaws.com/dnld.lime-technology.com/creator_branches.json";
 const QString Creator::versionUrl = "https://s3.amazonaws.com/dnld.lime-technology.com/creator_version";
 const QString Creator::validatorUrl = "https://keys.lime-technology.com/validate/guid";
 const QString Creator::helpUrl = "https://lime-technology.com/download/";
@@ -86,6 +86,8 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
 
     ui->setupUi(this);
     installEventFilter(this);
+
+    parserData = new JsonParser();
 
 #if defined(Q_OS_WIN)
     diskWriter = new DiskWriter_windows();
@@ -366,11 +368,8 @@ void Creator::flashProgressBarText(const QString &text)
     //qApp->processEvents();
 }
 
-void Creator::parseJsonAndSet(const QByteArray &data)
+void Creator::populateBranches()
 {
-    //qDebug() << "JSON data:" << data;
-    parserData = new JsonParser(data);
-
     // parse local file if exist
     QFile fileLocalReleases("releases-user.json");
     if (fileLocalReleases.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -762,7 +761,7 @@ void Creator::handleDownloadError(QNetworkReply *reply)
     switch (state)
     {
         case STATE_GET_VERSION:
-            downloadReleases();
+            downloadBranches();
             break;
 
         case STATE_DOWNLOADING_VALIDATION:
@@ -804,13 +803,16 @@ void Creator::handleFinishedDownload(const QByteArray &data)
 #else
             checkNewVersion(data);
 #endif
-            downloadReleases();
+            downloadBranches();
             break;
 
         case STATE_GET_RELEASES:
-            parseJsonAndSet(data);
-            //ui->downloadButton->setEnabled(true);
-            state = STATE_IDLE;
+            if (parserData->getBranches().empty())
+                parserData->parseBranches(data);
+            else
+                parserData->parseVersions(data, manager->currentBranch.value("name").toString());
+
+            downloadNextBranch();
             break;
 
         case STATE_DOWNLOADING_VALIDATION:
@@ -936,12 +938,30 @@ void Creator::downloadVersionCheck()
     manager->get(url);
 }
 
-void Creator::downloadReleases()
+void Creator::downloadBranches()
 {
     state = STATE_GET_RELEASES;
     disableControls();
 
-    QUrl url(releasesUrl);
+    QUrl url(branchesUrl);
+    manager->get(url);
+}
+
+void Creator::downloadNextBranch()
+{
+    state = STATE_GET_RELEASES;
+    disableControls();
+
+    QVariantMap branch = parserData->getNextBranchToFetch();
+
+    if (branch.empty()) { // When all the branch files have been downloaded, this will be empty
+        populateBranches();
+        state = STATE_IDLE;
+        return;
+    }
+
+    QUrl url(branch.value("url").toString());
+    manager->currentBranch = branch;
     manager->get(url);
 }
 

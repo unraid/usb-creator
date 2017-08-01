@@ -22,6 +22,7 @@
 #define DOWNLOADMANAGER_H
 
 #include <QObject>
+#include <QVariant>
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -36,6 +37,8 @@ public:
 
     QNetworkReply* get(const QUrl& url);
     QNetworkReply* post(const QUrl& url, const QByteArray &body);
+
+    QVariantMap currentBranch;
 
 signals:
     void downloadComplete(const QByteArray&);

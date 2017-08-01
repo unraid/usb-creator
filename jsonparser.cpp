@@ -26,71 +26,69 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonValue>
-#include <QStandardPaths>
-#include <QCollator>
-#include <algorithm>
-
-JsonParser::JsonParser(const QByteArray &data)
-{
-    parseAndSet(data, "");
-}
 
 void JsonParser::addExtra(const QByteArray &data, const QString label)
 {
-    parseAndSet(data, label);
+    parseVersions(data, label);
 }
 
-void JsonParser::parseAndSet(const QByteArray &data, const QString label)
+QVariantMap JsonParser::getNextBranchToFetch()
 {
-    //qDebug() << "parseAndSet data:" << data;
-    QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
-    QJsonObject jsonObject = jsonDocument.object();
+    if (dataBranches.empty())
+        return QVariantMap();
 
-    // get project versions (7.0, 8.0, ...)
-    for (QJsonObject::Iterator itProjectVersions  = jsonObject.begin();
-                               itProjectVersions != jsonObject.end();
-                               itProjectVersions++)
-    {
-        QString projectName = itProjectVersions.key();
+    if (dataList.empty())
+        return dataBranches.first();
 
-        if (label != "")
-            projectName = projectName + " - " + label;
-
-        // get projects (unRAID 6.3.5, unRAID 6.4.0, ...)
-        QList<QVariantMap> images;
-        QJsonArray val = itProjectVersions.value().toArray();
-        foreach (const QJsonValue & itProjects, val)
-        {
-            images.append(itProjects.toObject().toVariantMap());
+    for (int ix = 0; ix < dataBranches.size(); ix++) {
+        bool found = false;
+        for (int ij = 0; ij < dataList.size(); ij++) {
+            if (dataList.at(ij).name == dataBranches.at(ix).value("name").toString()) {
+                found = true;
+                break;
+            }
         }
 
-        JsonData projectData(projectName, images);
-        dataList.append(projectData);
+        if (!found)
+            return dataBranches.at(ix);
     }
-/*
-    QCollator collator;
-    collator.setNumericMode(true);
-    collator.setCaseSensitivity(Qt::CaseSensitive);
 
-    std::sort(dataList.begin(), dataList.end(),
-              [&collator](const JsonData &proj1, const JsonData &proj2)
-         {return collator.compare(proj1.name, proj2.name) > 0;});
+    return QVariantMap();
+}
 
-    for (int ix = 0; ix < dataList.size(); ix++)
+void JsonParser::parseBranches(const QByteArray &data)
+{
+    //qDebug() << "parseBranches data:" << data;
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+    QJsonArray jsonArray = jsonDocument.array();
+    foreach (const QJsonValue & branch, jsonArray)
     {
-        QCollator collator;
-        collator.setNumericMode(true);
-        collator.setCaseSensitivity(Qt::CaseSensitive);
-
-        std::sort(dataList[ix].images.begin(), dataList[ix].images.end(),
-                  [&collator](const QVariantMap &image1, const QVariantMap &image2)
-             {return collator.compare(image1["name"].toString(),
-                                      image2["name"].toString()) > 0;});
+        dataBranches.append(branch.toObject().toVariantMap());
+        qDebug() << "parseBranches added branch" << branch.toObject().value("name").toString();
     }
-    */
+}
+
+void JsonParser::parseVersions(const QByteArray &data, const QString &projectName)
+{
+    //qDebug() << "parseVersions data:" << data;
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
+    QJsonArray jsonArray = jsonDocument.array();
+    QList<QVariantMap> images;
+    foreach (const QJsonValue & version, jsonArray)
+    {
+        images.append(version.toObject().toVariantMap());
+        qDebug() << "parseVersions added version" << version.toObject().value("name").toString() << "to branch" << projectName;
+    }
+    JsonData projectData(projectName, images);
+    dataList.append(projectData);
 }
 
 QList<JsonData> JsonParser::getJsonData() const
 {
     return dataList;
+}
+
+QList<QVariantMap> JsonParser::getBranches() const
+{
+    return dataBranches;
 }

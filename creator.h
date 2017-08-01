@@ -116,7 +116,7 @@ private:
     QThread* diskWriterThread;
     DeviceEnumerator* devEnumerator;
     static const int timerValue;
-    static const QString releasesUrl;
+    static const QString branchesUrl;
     static const QString versionUrl;
     static const QString validatorUrl;
     static const QString helpUrl;
@@ -151,8 +151,9 @@ private slots:
     void handleDownloadError(QNetworkReply *reply);
     void downloadVersionCheck();
     void checkNewVersion(const QString &version);
-    void downloadReleases();
-    void parseJsonAndSet(const QByteArray &data);
+    void downloadBranches();
+    void downloadNextBranch();
+    void populateBranches();
     void setProjectImages();
     void localZipPickerButtonClicked();
     void refreshRemovablesList();
