@@ -15,6 +15,7 @@
 /*.app
 /*.dmg
 /*.exe
+release/
 
 # Qt-es
 
@@ -34,6 +35,7 @@ Makefile*
 .generated_files
 log.txt
 s3
+unraid.usb.creator.win32_plugin_import.cpp
 
 
 # QtCreator
