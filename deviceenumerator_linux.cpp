@@ -18,27 +18,24 @@
 //  along with unRAID USB Creator.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "deviceenumerator_unix.h"
+#include "deviceenumerator_linux.h"
 
 #include <QDebug>
 #include <QTextStream>
 #include <QDir>
 #include <QProcess>
-#if defined(Q_OS_LINUX)
 #include <blkid/blkid.h>
 #include <unistd.h>
 #include <sys/mount.h>
-#endif
 
 // show only USB devices
 #define SHOW_ONLY_USB_DEVICES
 
-QStringList DeviceEnumerator_unix::getRemovableDeviceNames() const
+QStringList DeviceEnumerator_linux::getRemovableDeviceNames() const
 {
     QStringList names;
     QStringList unmounted;
 
-#ifdef Q_OS_LINUX
     names = getDeviceNamesFromSysfs();
 
     foreach (QString device, names) {
@@ -48,31 +45,9 @@ QStringList DeviceEnumerator_unix::getRemovableDeviceNames() const
     }
 
     return unmounted;
-#else
-    QProcess lsblk;
-    lsblk.start("diskutil list", QIODevice::ReadOnly);
-    lsblk.waitForStarted();
-    lsblk.waitForFinished();
-
-    QString device = lsblk.readLine();
-    while (!lsblk.atEnd()) {
-        device = device.trimmed(); // Odd trailing whitespace
-
-        if (device.startsWith("/dev/disk")) {
-            QString name = device.split(QRegExp("\\s+")).first();
-            // We only want to add USB devics
-            if (this->checkIfUSB(name))
-                names << name;
-        }
-
-        device = lsblk.readLine();
-    }
-
-    return names;
-#endif
 }
 
-QStringList DeviceEnumerator_unix::getUserFriendlyNames(const QStringList &devices) const
+QStringList DeviceEnumerator_linux::getUserFriendlyNames(const QStringList &devices) const
 {
     QStringList returnList;
 
@@ -93,12 +68,8 @@ QStringList DeviceEnumerator_unix::getUserFriendlyNames(const QStringList &devic
     return returnList;
 }
 
-bool DeviceEnumerator_unix::unmountDevicePartitions(const QString &device) const
+bool DeviceEnumerator_linux::unmountDevicePartitions(const QString &device) const
 {
-#ifdef Q_OS_MACOS
-    Q_UNUSED(device);
-    return true;
-#else
     if (checkIsMounted(device) == false)
         return true;    // not mounted
 
@@ -141,10 +112,9 @@ bool DeviceEnumerator_unix::unmountDevicePartitions(const QString &device) const
     }
 
     return true;
-#endif
 }
 
-bool DeviceEnumerator_unix::checkIsMounted(const QString &device) const
+bool DeviceEnumerator_linux::checkIsMounted(const QString &device) const
 {
     qDebug() << "checkIsMounted " << device;
     char buf[2];
@@ -165,13 +135,12 @@ bool DeviceEnumerator_unix::checkIsMounted(const QString &device) const
     return false;
 }
 
-bool DeviceEnumerator_unix::checkIfUSB(const QString &device) const
+bool DeviceEnumerator_linux::checkIfUSB(const QString &device) const
 {
 #ifndef SHOW_ONLY_USB_DEVICES
     return true;
 #endif
 
-#ifdef Q_OS_LINUX
     QString path = "/sys/block/" + device;
     QByteArray devPath(256, '\0');
     ssize_t rc = readlink(path.toLocal8Bit().data(), devPath.data(), devPath.size());
@@ -179,25 +148,9 @@ bool DeviceEnumerator_unix::checkIfUSB(const QString &device) const
         return true;
 
     return false;
-#else
-    QProcess lssize;
-    lssize.start(QString("diskutil info %1").arg(device), QIODevice::ReadOnly);
-    lssize.waitForStarted();
-    lssize.waitForFinished();
-
-    QString s = lssize.readLine();
-    while (!lssize.atEnd()) {
-         if (s.contains("Protocol:") && s.contains("USB"))
-             return true;
-
-         s = lssize.readLine();
-    }
-
-    return false;
-#endif
 }
 
-QStringList DeviceEnumerator_unix::getDeviceNamesFromSysfs() const
+QStringList DeviceEnumerator_linux::getDeviceNamesFromSysfs() const
 {
     QStringList names;
 
@@ -217,8 +170,7 @@ QStringList DeviceEnumerator_unix::getDeviceNamesFromSysfs() const
     return names;
 }
 
-#if defined(Q_OS_LINUX)
-qint64 DeviceEnumerator_unix::getSizeOfDevice(const QString& device) const
+qint64 DeviceEnumerator_linux::getSizeOfDevice(const QString& device) const
 {
     blkid_probe pr;
 
@@ -234,7 +186,7 @@ qint64 DeviceEnumerator_unix::getSizeOfDevice(const QString& device) const
     return size;
 }
 
-QStringList DeviceEnumerator_unix::getPartitionsInfo(const QString& device) const
+QStringList DeviceEnumerator_linux::getPartitionsInfo(const QString& device) const
 {
     blkid_probe pr;
     blkid_partlist ls;
@@ -301,7 +253,7 @@ QStringList DeviceEnumerator_unix::getPartitionsInfo(const QString& device) cons
     }*/
 }
 
-QString DeviceEnumerator_unix::getFirstPartitionLabel(const QString& device) const
+QString DeviceEnumerator_linux::getFirstPartitionLabel(const QString& device) const
 {
     blkid_probe pr;
     blkid_probe prPart;
@@ -365,7 +317,7 @@ QString DeviceEnumerator_unix::getFirstPartitionLabel(const QString& device) con
     return qLabel;
 }
 
-bool DeviceEnumerator_unix::unmount(const QString& what) const
+bool DeviceEnumerator_linux::unmount(const QString& what) const
 {
     QProcess cmd;
     cmd.start("umount " + what, QIODevice::ReadOnly);
@@ -381,59 +333,28 @@ bool DeviceEnumerator_unix::unmount(const QString& what) const
     qDebug() << "unmount: done";
     return true;
 }
-#else
-qint64 DeviceEnumerator_unix::getSizeOfDevice(const QString& device) const
+
+QList<QVariantMap> DeviceEnumerator_linux::listBlockDevices() const
 {
-    QProcess lsblk;
-    QString output;
+    QList<QVariantMap> ValidList;
 
-    lsblk.start(QString("diskutil info %1").arg(device), QIODevice::ReadOnly);
-    lsblk.waitForStarted();
-    lsblk.waitForFinished();
+    QStringList devNames = getRemovableDeviceNames();
 
-    QString size;
-    output = lsblk.readLine();
-    while (!lsblk.atEnd()) {
-        output = output.trimmed(); // Odd trailing whitespace
-        if (output.contains("Total Size:") ||
-            output.contains("Disk Size:")) {
-            // Total Size:  574.6 MB (574619648 Bytes) (exactly 1122304 512-Byte-Units)
-            // on 2015 Macbook Pro 15" running MacOS Sierra beta
-            // Disk Size:                15.9 GB (15931539456 Bytes) (exactly 31116288 512-Byte-Units)
-            QStringList sizeList = output.split('(').value(1).split(' ');
-            size = sizeList.first().trimmed();
-            break;
-        }
+    foreach (QString device, devNames) {
+        qint64 size = getSizeOfDevice(device);
+        QString label = getFirstPartitionLabel(device);
 
-        output = lsblk.readLine();
+        QVariantMap projectData;
+        projectData.insert("pid", "");      // todo
+        projectData.insert("vid", "");      // todo
+        projectData.insert("serial", "");   // todo
+        projectData.insert("guid", "");     // todo
+        projectData.insert("name", device);
+        projectData.insert("size", size);
+        projectData.insert("dev", device);
+
+        ValidList.append(projectData);
     }
 
-    return size.toLongLong();
+    return ValidList;
 }
-
-QString DeviceEnumerator_unix::getFirstPartitionLabel(const QString& device) const
-{
-    QProcess lsblk;
-    QString output;
-    QString label;
-
-    lsblk.start(QString("diskutil info %1s1").arg(device), QIODevice::ReadOnly);
-    lsblk.waitForStarted();
-    lsblk.waitForFinished();
-
-    output = lsblk.readLine();
-    while (!lsblk.atEnd()) {
-        output = output.trimmed(); // Odd trailing whitespace
-        if (output.contains("Volume Name:")) {
-            // Volume Name:              UNRAID
-            QStringList tokens = output.split(":");
-            label = tokens[1].trimmed();
-            break;
-        }
-
-        output = lsblk.readLine();
-    }
-
-    return label;
-}
-#endif

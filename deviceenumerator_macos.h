@@ -18,18 +18,22 @@
 //  along with unRAID USB Creator.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#ifndef DEVICEENUMERATOR_UNIX_H
-#define DEVICEENUMERATOR_UNIX_H
+#ifndef DEVICEENUMERATOR_MACOS_H
+#define DEVICEENUMERATOR_MACOS_H
 
 #include "deviceenumerator.h"
 #include <QStringList>
 
-class DeviceEnumerator_unix : public DeviceEnumerator
+class DeviceEnumerator_macos : public DeviceEnumerator
 {
 public:
     QStringList getRemovableDeviceNames() const;
     QStringList getUserFriendlyNames(const QStringList& devices) const;
-    bool unmountDevicePartitions(const QString &device) const;
+    bool unmountDevicePartitions(const QString &device) const
+    {
+        Q_UNUSED(device);
+        return true;
+    }
     qint64 getSizeOfDevice(const QString &device) const;
     int loadEjectDrive(const QString &device, const loadEject action) const
     {
@@ -42,40 +46,13 @@ public:
         Q_UNUSED(device);
         return 0;
     }
-    QList<QVariantMap> listBlockDevices() const
-    {
-        QList<QVariantMap> ValidList;
-
-        QStringList devNames = getRemovableDeviceNames();
-
-        foreach (QString device, devNames) {
-            qint64 size = getSizeOfDevice(device);
-            QString label = getFirstPartitionLabel(device);
-
-            QVariantMap projectData;
-            projectData.insert("pid", "");      // todo
-            projectData.insert("vid", "");      // todo
-            projectData.insert("serial", "");   // todo
-            projectData.insert("guid", "");     // todo
-            projectData.insert("name", device);
-            projectData.insert("size", size);
-            projectData.insert("dev", device);
-
-            ValidList.append(projectData);
-        }
-
-        return ValidList;
-    }
+    QList<QVariantMap> listBlockDevices() const;
 
 private:
     bool checkIsMounted(const QString& device) const;
     bool checkIfUSB(const QString& device) const;
     QStringList getDeviceNamesFromSysfs() const;
     QString getFirstPartitionLabel(const QString& device) const;
-#if defined(Q_OS_LINUX)
-    QStringList getPartitionsInfo(const QString &device) const;
-    bool unmount(const QString& what) const;
-#endif
 };
 
-#endif // DEVICEENUMERATOR_UNIX_H
+#endif // DEVICEENUMERATOR_MACOS_H

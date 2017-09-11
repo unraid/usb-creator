@@ -156,10 +156,10 @@ unix {
     }
 
     SOURCES += diskwriter_unix.cpp \
-               deviceenumerator_unix.cpp
+               privileges_unix.cpp
 
     HEADERS += diskwriter_unix.h \
-               deviceenumerator_unix.h
+               privileges_unix.h
 
     #INCLUDEPATH += "libs\sha256crypt"
 
@@ -170,8 +170,8 @@ macx {
     # use spaces on macOS
     TARGET = "unRAID USB Creator"
 
-    SOURCES += privileges_unix.cpp
-    HEADERS += privileges_unix.h
+    SOURCES += deviceenumerator_macos.cpp
+    HEADERS += deviceenumerator_macos.h
 
     # Specifies where to find the libraries at runtime
     QMAKE_RPATHDIR += @executable_path/../Frameworks
@@ -186,8 +186,8 @@ linux* {
     # manually add suffix 32/64
     TARGET = unRAID.USB.Creator.Linux-bit.bin
 
-    SOURCES += privileges_unix.cpp
-    HEADERS += privileges_unix.h
+    SOURCES += deviceenumerator_linux.cpp
+    HEADERS += deviceenumerator_linux.h
 
     #QMAKE_CXXFLAGS += -std=c++11
 

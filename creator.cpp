@@ -53,10 +53,14 @@
 #if defined(Q_OS_WIN)
 #include "diskwriter_windows.h"
 #include "deviceenumerator_windows.h"
-#elif defined(Q_OS_UNIX)
+#elif defined(Q_OS_MACOS)
 #include <unistd.h>
 #include "diskwriter_unix.h"
-#include "deviceenumerator_unix.h"
+#include "deviceenumerator_macos.h"
+#elif defined(Q_OS_LINUX)
+#include <unistd.h>
+#include "diskwriter_unix.h"
+#include "deviceenumerator_linux.h"
 #endif
 
 // force update notification dialog
@@ -92,9 +96,12 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
 #if defined(Q_OS_WIN)
     diskWriter = new DiskWriter_windows();
     devEnumerator = new DeviceEnumerator_windows();
-#elif defined(Q_OS_UNIX)
+#elif defined(Q_OS_MACOS)
     diskWriter = new DiskWriter_unix();
-    devEnumerator = new DeviceEnumerator_unix();
+    devEnumerator = new DeviceEnumerator_macos();
+#elif defined(Q_OS_LINUX)
+    diskWriter = new DiskWriter_unix();
+    devEnumerator = new DeviceEnumerator_linux();
 #endif
     diskWriterThread = new QThread(this);
     diskWriter->moveToThread(diskWriterThread);
@@ -1282,8 +1289,10 @@ void Creator::refreshRemovablesList()
 
         #if defined(Q_OS_WIN)
             devEnumerator = new DeviceEnumerator_windows();
-        #elif defined(Q_OS_UNIX)
-            devEnumerator = new DeviceEnumerator_unix();
+        #elif defined(Q_OS_MACOS)
+            devEnumerator = new DeviceEnumerator_macos();
+        #elif defined(Q_OS_LINUX)
+            devEnumerator = new DeviceEnumerator_linux();
         #endif
 
         privileges.SetRoot();    // root need for opening a device
