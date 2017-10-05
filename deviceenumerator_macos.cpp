@@ -332,9 +332,9 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
         bsdNameString = "/dev/" + QString::fromCFString(bsdNameAsCFString);
         if (bsdNameAsCFString) CFRelease(bsdNameAsCFString);
 
-        vendorIdString = QString::number(vendorId, 16).rightJustified(4, '0', true);
-        productIdString = QString::number(productId, 16).rightJustified(4, '0', true);
-        SerialPadded = QString(serialNumberString).rightJustified(16, '0', true);
+        vendorIdString = QString::number(vendorId, 16).rightJustified(4, '0').rightRef(4);
+        productIdString = QString::number(productId, 16).rightJustified(4, '0').rightRef(4);
+        SerialPadded = QString(serialNumberString).rightJustified(16, '0').rightRef(16);
         GUID = (vendorIdString + "-" + productIdString + "-" + SerialPadded.left(4) + "-" + SerialPadded.mid(4)).toUpper();
 
         size = getSizeOfDevice(bsdNameString);
