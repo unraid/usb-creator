@@ -301,7 +301,7 @@ QList<QVariantMap> DeviceEnumerator_windows::listBlockDevices() const
             projectData.insert("vid", strDeviceInstanceID.mid(VIDpos+4, 4));
             projectData.insert("serial", strDeviceInstanceID.mid(Serialpos+1));
 
-            QString SerialPadded = projectData["serial"].toString().rightJustified(16, '0').rightRef(16);
+            QString SerialPadded = projectData["serial"].toString().rightJustified(16, '0').right(16);
             QString GUID = (projectData["vid"].toString() + "-" + projectData["pid"].toString() + "-" + SerialPadded.left(4) + "-" + SerialPadded.mid(4)).toUpper();
 
             projectData.insert("guid", GUID);
