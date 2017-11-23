@@ -151,6 +151,11 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     connect(ui->closeAppButton, SIGNAL(clicked()), this, SLOT(close()));
 
     ui->NetmaskComboBox->addItem("255.255.0.0");
+    ui->NetmaskComboBox->addItem("255.255.128.0");
+    ui->NetmaskComboBox->addItem("255.255.192.0");
+    ui->NetmaskComboBox->addItem("255.255.224.0");
+    ui->NetmaskComboBox->addItem("255.255.240.0");
+    ui->NetmaskComboBox->addItem("255.255.248.0");
     ui->NetmaskComboBox->addItem("255.255.252.0");
     ui->NetmaskComboBox->addItem("255.255.254.0");
     ui->NetmaskComboBox->addItem("255.255.255.0");
