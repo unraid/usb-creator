@@ -29,11 +29,11 @@ chmod -R 755 dmg_osx
 
 #echo ""
 #echo "Creating .qm files"
-#/Users/$USER/Qt/5.9.1-static/bin/lrelease creator.pro
+#/Users/$USER/Qt/5.9.3-static/bin/lrelease creator.pro
 
 echo ""
 echo "Running qmake..."
-/Users/$USER/Qt/5.9.1-static/bin/qmake
+/Users/$USER/Qt/5.9.3-static/bin/qmake
 
 echo ""
 echo "Building..."
@@ -48,7 +48,7 @@ osacompile -t osas -o dmg_osx/template.app/Contents/Resources/Scripts/main.scpt 
 
 #echo ""
 #echo "Running macdeployqt..."
-#/Users/$USER/Qt/5.9.1-static/bin/macdeployqt "unRAID USB Creator.app" -no-plugins
+#/Users/$USER/Qt/5.9.3-static/bin/macdeployqt "unRAID USB Creator.app" -no-plugins
 
 echo ""
 echo "Copying template files over..."

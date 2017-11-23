@@ -117,7 +117,7 @@ win32 {
     RC_FILE = winapp.rc
 
     LIBS += -lsetupapi
-    LIBS += -LC:\Qt\5.9.1-static\openssl\lib -llibeay32 -lssleay32
+    LIBS += -LC:\Build-OpenSSL-VC32-Release-Static\lib -llibeay32 -lssleay32
 
     # remove possible other optimization flags
     QMAKE_CXXFLAGS_RELEASE -= -O

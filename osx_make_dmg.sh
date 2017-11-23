@@ -71,7 +71,7 @@ sync
 
 echo ""
 echo "Running macdeployqt..."
-/Users/$USER/Qt/5.9.1-static/bin/macdeployqt "unRAID USB Creator.app" -no-plugins -no-strip -dmg
+/Users/$USER/Qt/5.9.3-static/bin/macdeployqt "unRAID USB Creator.app" -no-plugins -no-strip -dmg
 
 echo ""
 echo "Running hdiutil attach..."

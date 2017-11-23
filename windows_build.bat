@@ -19,10 +19,7 @@ rem #  You should have received a copy of the GNU General Public License
 rem #  along with unRAID USB Creator.  If not, see <http://www.gnu.org/licenses/>.
 rem ################################################################################
 
-set PATH=c:\Qt\5.9.1-static\bin;%PATH%
-rem set PATH=C:\Qt\5.9\mingw53_32\bin;%PATH%
-rem set PATH=C:\Qt\Tools\mingw530_32\bin;%PATH%
-
+set PATH=c:\Qt\5.9.3-static\bin;%PATH%
 
 del release\unRAID.USB.Creator.Win32.exe > nul 2>&1
 
