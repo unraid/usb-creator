@@ -19,10 +19,7 @@
 ################################################################################
 
 echo ""
-echo "Signing..."
+echo "Signing DMG..."
 echo ""
 
-# clean any extended attributes otherwise codesigning fails
-xattr -cr "unRAID USB Creator.app"
-
-codesign -s "Developer ID Application: Lime Technology Inc. (B4L35Y5N35)" --deep "unRAID USB Creator.app"
+codesign -s "Developer ID Application: Lime Technology Inc. (B4L35Y5N35)" unRAID.USB.Creator.macOS.dmg
