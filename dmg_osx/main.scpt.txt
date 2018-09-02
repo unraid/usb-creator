@@ -6,6 +6,6 @@ set ASTID to AppleScript's text item delimiters -- save 'em
 set AppleScript's text item delimiters to "/"
 set theFolder to (text 1 thru text item -2 of myPath) & "/" as Unicode text
 set AppleScript's text item delimiters to ASTID -- restore 'em
-set execpath to theFolder & "Contents/MacOS/unRAID USB Creator"
+set execpath to theFolder & "Contents/MacOS/Unraid USB Creator"
 set quotedexec to quoted form of execpath
 do shell script "sudo " & quotedexec with administrator privileges

@@ -1,21 +1,21 @@
 ////////////////////////////////////////////////////////////////////////////////
-//      This file is part of unRAID USB Creator - https://github.com/limetech/usb-creator
+//      This file is part of Unraid USB Creator - https://github.com/limetech/usb-creator
 //      Copyright (C) 2013-2015 RasPlex project
 //      Copyright (C) 2016 Team LibreELEC
-//      Copyright (C) 2017 Lime Technology, Inc
+//      Copyright (C) 2018 Lime Technology, Inc
 //
-//  unRAID USB Creator is free software: you can redistribute it and/or modify
+//  Unraid USB Creator is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation, either version 2 of the License, or
 //  (at your option) any later version.
 //
-//  unRAID USB Creator is distributed in the hope that it will be useful,
+//  Unraid USB Creator is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with unRAID USB Creator.  If not, see <http://www.gnu.org/licenses/>.
+//  along with Unraid USB Creator.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "creator.h"
@@ -69,7 +69,7 @@
 const QString Creator::branchesUrl = "https://s3.amazonaws.com/dnld.lime-technology.com/creator_branches.json";
 const QString Creator::versionUrl = "https://s3.amazonaws.com/dnld.lime-technology.com/creator_version";
 const QString Creator::validatorUrl = "https://keys.lime-technology.com/validate/guid";
-const QString Creator::helpUrl = "https://lime-technology.com/download/";
+const QString Creator::helpUrl = "https://unraid.net/download/";
 const int Creator::timerValue = 1500;  // msec
 
 Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
@@ -482,7 +482,7 @@ void Creator::localZipPickerButtonClicked()
     QString filename = QFileDialog::getOpenFileName(this,
                     tr("Open Local Zip"),
                     ui->LocalZipText->text(),
-                    tr("unRAID Flash backup (*.zip);;All files (*.*)"));
+                    tr("Unraid Flash backup (*.zip);;All files (*.*)"));
 
     if (!filename.isEmpty()) {
         ui->LocalZipText->setText(filename);
@@ -784,7 +784,7 @@ void Creator::handleDownloadError(QNetworkReply *reply)
                 QJsonObject jsonObject = jsonDocument.object();
                 QJsonValue errorKey = jsonObject.value("error");
 
-                QString errorString = "Unknown error occured with this Flash device. Please chose another Flash device for unRAID";
+                QString errorString = "Unknown error occured with this Flash device. Please chose another Flash device for Unraid";
                 if (errorKey != QJsonValue::Undefined) {
                     errorString = errorKey.toString();
                 }
@@ -1002,7 +1002,7 @@ void Creator::checkNewVersion(const QString &verNewStr)
     msgBox.addButton(tr("&Close"), QMessageBox::NoRole);
 #endif
     QString verHtml = "<font color=\"blue\">" + verNewStr + "</font>";
-    QString msg = tr("unRAID USB Creator %1 is available.").arg(verHtml);
+    QString msg = tr("Unraid USB Creator %1 is available.").arg(verHtml);
     msgBox.setText("<p align='center' style='margin-right:30px'><br>" + msg + "<br></p>");
 
     msgBox.exec();
@@ -1359,7 +1359,7 @@ void Creator::handleExtractFilesComplete(const QString &targetpath)
             imageFile.remove();
         }
 
-        // write custom unRAID settings
+        // write custom Unraid settings
         if (ui->CustomizeButton->isChecked())
         {
             QFile fileIdent(targetpath+"/config/ident.cfg");

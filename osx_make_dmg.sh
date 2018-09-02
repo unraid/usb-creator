@@ -1,21 +1,21 @@
 #!/bin/sh
 ################################################################################
-#      This file is part of unRAID USB Creator - https://github.com/limetech/usb-creator
+#      This file is part of Unraid USB Creator - https://github.com/limetech/usb-creator
 #      Copyright (C) 2016 Team LibreELEC
-#      Copyright (C) 2017 Lime Technology, Inc
+#      Copyright (C) 2018 Lime Technology, Inc
 #
-#  unRAID USB Creator is free software: you can redistribute it and/or modify
+#  Unraid USB Creator is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  unRAID USB Creator is distributed in the hope that it will be useful,
+#  Unraid USB Creator is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with unRAID USB Creator.  If not, see <http://www.gnu.org/licenses/>.
+#  along with Unraid USB Creator.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 set -e
@@ -40,7 +40,7 @@ if diskutil list | grep "Windows_FAT_32 UNRAIDUC" >/dev/null 2>&1; then
   exit 1
 fi
 
-rm -f unRAID.USB.Creator*.dmg
+rm -f Unraid.USB.Creator*.dmg
 
 trap finish EXIT
 
@@ -71,22 +71,22 @@ sync
 
 echo ""
 echo "Running macdeployqt..."
-/Users/$USER/Qt/5.9.3-static/bin/macdeployqt "unRAID USB Creator.app" -no-plugins -no-strip -dmg
+/Users/$USER/Qt/5.11.1-static/bin/macdeployqt "Unraid USB Creator.app" -no-plugins -no-strip -dmg
 
 echo ""
 echo "Running hdiutil attach..."
-hdiutil attach -owners on "unRAID USB Creator.dmg" -shadow 2>&1 | tee hdiutil.log
+hdiutil attach -owners on "Unraid USB Creator.dmg" -shadow 2>&1 | tee hdiutil.log
 DEVICE=$(cat hdiutil.log | egrep '^/dev/' | sed 1q | awk '{print $1}')
 
-diskutil rename "unRAID USB Creator" unRAIDUC
+diskutil rename "Unraid USB Creator" UnraidUC
 
-mkdir /Volumes/unRAIDUC/.background
-cp dmg_osx/background.png /Volumes/unRAIDUC/.background/
+mkdir /Volumes/UnraidUC/.background
+cp dmg_osx/background.png /Volumes/UnraidUC/.background/
 
-cp "/Volumes/unRAIDUC/unRAID USB Creator.app/Contents/Resources/applet.icns" /Volumes/unRAIDUC/.VolumeIcon.icns
-SetFile -c icnC /Volumes/unRAIDUC/.VolumeIcon.icns
-SetFile -a C /Volumes/unRAIDUC
-ln -s /Applications /Volumes/unRAIDUC/Applications
+cp "/Volumes/UnraidUC/Unraid USB Creator.app/Contents/Resources/applet.icns" /Volumes/UnraidUC/.VolumeIcon.icns
+SetFile -c icnC /Volumes/UnraidUC/.VolumeIcon.icns
+SetFile -a C /Volumes/UnraidUC
+ln -s /Applications /Volumes/UnraidUC/Applications
 
 # tell the Finder to resize the window, set the background,
 #  change the icon size, place the icons in the right position, etc.
@@ -129,7 +129,7 @@ echo '
   *)
 
   tell application "Finder"
-    tell disk "unRAIDUC"
+    tell disk "UnraidUC"
       open
       set current view of container window to icon view
       set toolbar visible of container window to false
@@ -139,7 +139,7 @@ echo '
       set arrangement of viewOptions to not arranged
       set icon size of viewOptions to 72
       set background picture of viewOptions to file ".background:'background.png'"
-      set position of item "unRAID USB Creator.app" of container window to {'${unraid_icon_x}', '${both_icon_y}'}
+      set position of item "Unraid USB Creator.app" of container window to {'${unraid_icon_x}', '${both_icon_y}'}
       set position of item "Applications" of container window to {'${app_icon_x}', '${both_icon_y}'}
       close
       open
@@ -160,20 +160,20 @@ hdiutil detach $DEVICE
 
 echo ""
 echo "Running hdiutil convert..."
-hdiutil convert -imagekey zlib-level=9 -format UDZO -ov -o "unRAID USB Creator_new.dmg" "unRAID USB Creator.dmg" -shadow
-mv "unRAID USB Creator_new.dmg" "unRAID USB Creator.dmg"
+hdiutil convert -imagekey zlib-level=9 -format UDZO -ov -o "Unraid USB Creator_new.dmg" "Unraid USB Creator.dmg" -shadow
+mv "Unraid USB Creator_new.dmg" "Unraid USB Creator.dmg"
 rm -f *.shadow
 
 echo ""
 echo "Running attach convert..."
-hdiutil attach -owners on "unRAID USB Creator.dmg" -shadow
-ls -al /Volumes/unRAIDUC
+hdiutil attach -owners on "Unraid USB Creator.dmg" -shadow
+ls -al /Volumes/UnraidUC
 
 echo ""
 echo "Running hdiutil detach..."
 hdiutil detach $DEVICE
 
-mv "unRAID USB Creator.dmg" unRAID.USB.Creator.macOS.dmg
+mv "Unraid USB Creator.dmg" Unraid.USB.Creator.macOS.dmg
 
 rm -f *.shadow
 rm -f hdiutil.log

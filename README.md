@@ -1,4 +1,4 @@
 # usb-creator
-USB creator App for unRAID
+USB creator App for Unraid
 
-An easy to use application to create bootable USB flash for unRAID. Runs on Windows operating systems.  macOS and Linux support coming soon.
+An easy to use application to create bootable USB flash for Unraid. Runs on Windows and macOS operating systems.  Linux support coming soon.

@@ -1,21 +1,21 @@
 ////////////////////////////////////////////////////////////////////////////////
-//      This file is part of unRAID USB Creator - https://github.com/limetech/usb-creator
+//      This file is part of Unraid USB Creator - https://github.com/limetech/usb-creator
 //      Copyright (C) 2013-2015 RasPlex project
 //      Copyright (C) 2016 Team LibreELEC
-//      Copyright (C) 2017 Lime TEchnology, Inc
+//      Copyright (C) 2018 Lime TEchnology, Inc
 //
-//  unRAID USB Creator is free software: you can redistribute it and/or modify
+//  Unraid USB Creator is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation, either version 2 of the License, or
 //  (at your option) any later version.
 //
-//  unRAID USB Creator is distributed in the hope that it will be useful,
+//  Unraid USB Creator is distributed in the hope that it will be useful,
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
 //  You should have received a copy of the GNU General Public License
-//  along with unRAID USB Creator.  If not, see <http://www.gnu.org/licenses/>.
+//  along with Unraid USB Creator.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <windows.h>
@@ -28,15 +28,15 @@
 #define VER_PRODUCTVERSION_STR      "0.0\0"
 
 #define VER_COMPANYNAME_STR         "Lime Technology"
-#define VER_FILEDESCRIPTION_STR     "unRAID USB Flash device creator application"
-#define VER_INTERNALNAME_STR        "unRAID USB Creator"
-#define VER_LEGALCOPYRIGHT_STR      "Copyright © 2017 Lime Technology, Inc"
+#define VER_FILEDESCRIPTION_STR     "Unraid USB Flash device creator application"
+#define VER_INTERNALNAME_STR        "Unraid USB Creator"
+#define VER_LEGALCOPYRIGHT_STR      "Copyright © 2018 Lime Technology, Inc"
 #define VER_LEGALTRADEMARKS1_STR    "All Rights Reserved"
 #define VER_LEGALTRADEMARKS2_STR    VER_LEGALTRADEMARKS1_STR
-#define VER_ORIGINALFILENAME_STR    "unRAID.USB.Creator.exe"
-#define VER_PRODUCTNAME_STR         "unRAID USB Creator"
+#define VER_ORIGINALFILENAME_STR    "Unraid.USB.Creator.exe"
+#define VER_PRODUCTNAME_STR         "Unraid USB Creator"
 
-#define VER_COMPANYDOMAIN_STR       "https://lime-technology.com/"
+#define VER_COMPANYDOMAIN_STR       "https://unraid.net/"
 ////////////////////////////////////////////////////////////////
 
 #define IDR_RT_MANIFEST1    1

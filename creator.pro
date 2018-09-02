@@ -1,21 +1,21 @@
 ################################################################################
-#      This file is part of unRAID USB Creator - https://github.com/limetech/usb-creator
+#      This file is part of Unraid USB Creator - https://github.com/limetech/usb-creator
 #      Copyright (C) 2013-2015 RasPlex project
 #      Copyright (C) 2016 Team LibreELEC
-#      Copyright (C) 2017 Lime Technology, Inc
+#      Copyright (C) 2018 Lime Technology, Inc
 #
-#  unRAID USB Creator is free software: you can redistribute it and/or modify
+#  Unraid USB Creator is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation, either version 2 of the License, or
 #  (at your option) any later version.
 #
-#  unRAID USB Creator is distributed in the hope that it will be useful,
+#  Unraid USB Creator is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
 #
 #  You should have received a copy of the GNU General Public License
-#  along with unRAID USB Creator.  If not, see <http://www.gnu.org/licenses/>.
+#  along with Unraid USB Creator.  If not, see <http://www.gnu.org/licenses/>.
 ################################################################################
 
 #-------------------------------------------------
@@ -26,7 +26,7 @@
 
 QT += core gui network widgets concurrent
 
-TARGET = unRAID.USB.Creator
+TARGET = Unraid.USB.Creator
 TEMPLATE = app
 
 SOURCES += main.cpp \
@@ -95,7 +95,7 @@ static { # everything below takes effect with CONFIG += static
 
 win32 {
     # add suffix
-    TARGET = unRAID.USB.Creator.Win32
+    TARGET = Unraid.USB.Creator.Win32
 
     SOURCES += diskwriter_windows.cpp \
                deviceenumerator_windows.cpp \
@@ -168,7 +168,7 @@ unix {
 
 macx {
     # use spaces on macOS
-    TARGET = "unRAID USB Creator"
+    TARGET = "Unraid USB Creator"
 
     SOURCES += deviceenumerator_macos.cpp
     HEADERS += deviceenumerator_macos.h
@@ -179,12 +179,12 @@ macx {
     #QT_CONFIG -= no-pkg-config
     #CONFIG += link_pkgconfig
     # same thing
-    #QMAKE_POST_LINK += install_name_tool -add_rpath @executable_path/../Frameworks \"unRAID USB Creator.app/Contents/MacOS/unRAID USB Creator\"
+    #QMAKE_POST_LINK += install_name_tool -add_rpath @executable_path/../Frameworks \"Unraid USB Creator.app/Contents/MacOS/Unraid USB Creator\"
 }
 
 linux* {
     # manually add suffix 32/64
-    TARGET = unRAID.USB.Creator.Linux-bit.bin
+    TARGET = Unraid.USB.Creator.Linux-bit.bin
 
     SOURCES += deviceenumerator_linux.cpp
     HEADERS += deviceenumerator_linux.h
