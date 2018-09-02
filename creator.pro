@@ -117,7 +117,7 @@ win32 {
     RC_FILE = winapp.rc
 
     LIBS += -lsetupapi
-    LIBS += -LC:\Build-OpenSSL-VC32-Release-Static\lib -llibeay32 -lssleay32
+    LIBS += -LC:\Build-OpenSSL-VC32-Release-Static\lib -llibcrypto -llibssl
 
     # remove possible other optimization flags
     QMAKE_CXXFLAGS_RELEASE -= -O
