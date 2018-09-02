@@ -21,7 +21,7 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define BUILD_VERSION  "1.3"
+#define BUILD_VERSION  "1.4"
 #define BUILD_DATE     __DATE__ " " __TIME__
 
 #endif // VERSION_H
