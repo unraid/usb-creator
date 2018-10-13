@@ -94,8 +94,8 @@ void DiskWriter::writeSyslinux(const QString& device)
     QString syslinuxbin = "syslinux";
 #endif
 
-    qDebug() << "copying" << ":/bin/"+syslinuxbin+" to" << tempDir+"/"+syslinuxbin;
-    QFile::copy(":/bin/"+syslinuxbin, tempDir+"/"+syslinuxbin);
+    qDebug() << "copying" << ":/bin/syslinux/"+syslinuxbin+" to" << tempDir+"/"+syslinuxbin;
+    QFile::copy(":/bin/syslinux/"+syslinuxbin, tempDir+"/"+syslinuxbin);
 
 #if defined(Q_OS_UNIX)
     qDebug() << "setting execute permissions on" << tempDir+"/"+syslinuxbin;

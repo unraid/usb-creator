@@ -5,9 +5,19 @@
         <file>bin/boot_16k.img.gz</file>
         <file>bin/boot_32k.img.gz</file>
         <file>bin/shadow</file>
-        <file>bin/syslinux</file>
-        <file>bin/syslinux_linux</file>
-        <file>bin/syslinux.exe</file>
+        <file>bin/syslinux/ldlinux.c32</file>
+        <file>bin/syslinux/libcom32.c32</file>
+        <file>bin/syslinux/libutil.c32</file>
+        <file>bin/syslinux/make_bootable_linux.sh</file>
+        <file>bin/syslinux/make_bootable_mac.sh</file>
+        <file>bin/syslinux/mboot.c32</file>
+        <file>bin/syslinux/mbr.bin</file>
+        <file>bin/syslinux/menu.c32</file>
+        <file>bin/syslinux/syslinux</file>
+        <file>bin/syslinux/syslinux_linux</file>
+        <file>bin/syslinux/syslinux.cfg</file>
+        <file>bin/syslinux/syslinux.cfg-</file>
+        <file>bin/syslinux/syslinux.exe</file>
         <file>images/winapp_icon.ico</file>
         <file>images/icon_256.png</file>
         <file>images/header.png</file>
