@@ -1449,6 +1449,38 @@ void Creator::handleExtractFilesComplete(const QString &targetpath)
         }
     }
 
+    QDir dirTarget(targetpath);
+    if (dirTarget.mkdir("syslinux"))
+    {
+        flashProgressBarText(tr("Restoring Syslinux folder"));
+        qDebug() << "copying" << ":/bin/syslinux/ldlinux.c32 to" << targetpath+"/syslinux/ldlinux.c32";
+        QFile::copy(":/bin/syslinux/ldlinux.c32", targetpath+"/syslinux/ldlinux.c32");
+        qDebug() << "copying" << ":/bin/syslinux/libcom32.c32 to" << targetpath+"/syslinux/libcom32.c32";
+        QFile::copy(":/bin/syslinux/libcom32.c32", targetpath+"/syslinux/libcom32.c32");
+        qDebug() << "copying" << ":/bin/syslinux/libutil.c32 to" << targetpath+"/syslinux/libutil.c32";
+        QFile::copy(":/bin/syslinux/libutil.c32", targetpath+"/syslinux/libutil.c32");
+        qDebug() << "copying" << ":/bin/syslinux/make_bootable_linux.sh to" << targetpath+"/syslinux/make_bootable_linux.sh";
+        QFile::copy(":/bin/syslinux/make_bootable_linux.sh", targetpath+"/syslinux/make_bootable_linux.sh");
+        qDebug() << "copying" << ":/bin/syslinux/make_bootable_mac.sh to" << targetpath+"/syslinux/make_bootable_mac.sh";
+        QFile::copy(":/bin/syslinux/make_bootable_mac.sh", targetpath+"/syslinux/make_bootable_mac.sh");
+        qDebug() << "copying" << ":/bin/syslinux/mboot.c32 to" << targetpath+"/syslinux/mboot.c32";
+        QFile::copy(":/bin/syslinux/mboot.c32", targetpath+"/syslinux/mboot.c32");
+        qDebug() << "copying" << ":/bin/syslinux/mbr.bin to" << targetpath+"/syslinux/mbr.bin";
+        QFile::copy(":/bin/syslinux/mbr.bin", targetpath+"/syslinux/mbr.bin");
+        qDebug() << "copying" << ":/bin/syslinux/menu.c32 to" << targetpath+"/syslinux/menu.c32";
+        QFile::copy(":/bin/syslinux/menu.c32", targetpath+"/syslinux/menu.c32");
+        qDebug() << "copying" << ":/bin/syslinux/syslinux to" << targetpath+"/syslinux/syslinux";
+        QFile::copy(":/bin/syslinux/syslinux", targetpath+"/syslinux/syslinux");
+        qDebug() << "copying" << ":/bin/syslinux/syslinux_linux to" << targetpath+"/syslinux/syslinux_linux";
+        QFile::copy(":/bin/syslinux/syslinux_linux", targetpath+"/syslinux/syslinux_linux");
+        qDebug() << "copying" << ":/bin/syslinux/syslinux.cfg to" << targetpath+"/syslinux/syslinux.cfg";
+        QFile::copy(":/bin/syslinux/syslinux.cfg", targetpath+"/syslinux/syslinux.cfg");
+        qDebug() << "copying" << ":/bin/syslinux/syslinux.cfg- to" << targetpath+"/syslinux/syslinux.cfg-";
+        QFile::copy(":/bin/syslinux/syslinux.cfg-", targetpath+"/syslinux/syslinux.cfg-");
+        qDebug() << "copying" << ":/bin/syslinux/syslinux.exe to" << targetpath+"/syslinux/syslinux.exe";
+        QFile::copy(":/bin/syslinux/syslinux.exe", targetpath+"/syslinux/syslinux.exe");
+    }
+
     flashProgressBarText(tr("Writing Syslinux"));
 
     QString targetdev = ui->removableDevicesComboBox->currentData().toMap()["dev"].toString();
