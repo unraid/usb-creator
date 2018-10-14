@@ -273,6 +273,19 @@
         </item>
        </layout>
       </item>
+      <item alignment="Qt::AlignRight">
+       <widget class="QCheckBox" name="EFIBootLocalCheckBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Allow UEFI Boot  </string>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QWidget" name="CustomizePanel" native="true">
         <property name="maximumSize">

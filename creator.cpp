@@ -171,6 +171,7 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     ui->LocalZipPickerButton->hide();
     ui->StaticIPPanel->hide();
     ui->CustomizePanel->hide();
+    ui->EFIBootLocalCheckBox->hide();
 
     //TODO: make the crypt256 lib available on Windows and then the app can provide a password field
     ui->RootPasswordLabel->hide();
@@ -420,6 +421,7 @@ void Creator::setProjectImages()
     if (ui->projectSelectBox->currentText() == "Local Zip") {
         ui->LocalZipText->show();
         ui->LocalZipPickerButton->show();
+        ui->EFIBootLocalCheckBox->show();
         ui->imageSelectBox->hide();
         ui->CustomizeButton->setChecked(false);
         ui->CustomizeButton->hide();
@@ -428,6 +430,7 @@ void Creator::setProjectImages()
     } else {
         ui->LocalZipText->hide();
         ui->LocalZipPickerButton->hide();
+        ui->EFIBootLocalCheckBox->hide();
         ui->imageSelectBox->show();
         ui->CustomizeButton->show();
     }
@@ -506,6 +509,8 @@ void Creator::reset(const QString& message)
     ui->CustomizeButton->setEnabled(true);
     ui->CustomizePanel->setEnabled(true);
 
+    ui->EFIBootLocalCheckBox->setEnabled(true);
+
     ui->LocalZipText->setEnabled(true);
     ui->LocalZipPickerButton->setEnabled(true);
 
@@ -557,6 +562,7 @@ void Creator::disableControls()
     ui->imageSelectBox->blockSignals(true);
     ui->CustomizeButton->setEnabled(false);
     ui->CustomizePanel->setEnabled(false);
+    ui->EFIBootLocalCheckBox->setEnabled(false);
     ui->LocalZipText->setEnabled(false);
     ui->LocalZipPickerButton->setEnabled(false);
     ui->refreshRemovablesButton->setEnabled(false);
@@ -1445,6 +1451,17 @@ void Creator::handleExtractFilesComplete(const QString &targetpath)
                     }
                     fileNetwork.close();
                 }
+            }
+        }
+    } 
+    else 
+    {
+        if (ui->EFIBootLocalCheckBox->isChecked())
+        {
+            QDir dirEFI(targetpath+"/EFI-");
+            if (dirEFI.exists())
+            {
+                dirEFI.rename(targetpath+"/EFI-", targetpath+"/EFI");
             }
         }
     }
