@@ -231,7 +231,7 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
     {
         /* do something with device, eg. check properties */
         /* ... */
-        IOUSBDeviceInterface **deviceInterface = NULL;
+        IOUSBDeviceInterface300 **deviceInterface = NULL;
         io_name_t            deviceName;
 
         UInt32               locationID;
@@ -285,18 +285,18 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
         kr = IOCreatePlugInInterfaceForService(usbDevice, kIOUSBDeviceUserClientTypeID, kIOCFPlugInInterfaceID, &plugInInterface, &score);
 
         if((kIOReturnSuccess != kr) || !plugInInterface) {
-            fprintf(stderr, "IOCreatePlugInInterfaceForService returned 0x%08x.\n", kr);
+            fprintf(stderr, "IOCreatePlugInInterfaceForService returned 0x%08x for device name %s.\n", kr, deviceName);
             goto releaseObj;
         }
 
         // Use the plugin interface to retrieve the device interface.
-        res = (*plugInInterface)->QueryInterface(plugInInterface, CFUUIDGetUUIDBytes(kIOUSBDeviceInterfaceID), (LPVOID*) &deviceInterface);
+        res = (*plugInInterface)->QueryInterface(plugInInterface, CFUUIDGetUUIDBytes(kIOUSBDeviceInterfaceID300), (LPVOID*) &deviceInterface);
 
         // Now done with the plugin interface.
         (*plugInInterface)->Release(plugInInterface);
 
         if(res || deviceInterface == NULL) {
-            fprintf(stderr, "QueryInterface returned %d.\n", (int) res);
+            fprintf(stderr, "QueryInterface returned 0x%08x.\n", (int) res);
             goto releaseObj;
         }
 
