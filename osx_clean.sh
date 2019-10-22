@@ -2,7 +2,7 @@
 ################################################################################
 #      This file is part of Unraid USB Creator - https://github.com/limetech/usb-creator
 #      Copyright (C) 2016 Team LibreELEC
-#      Copyright (C) 2018 Lime Technology, Inc
+#      Copyright (C) 2019 Lime Technology, Inc
 #
 #  Unraid USB Creator is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@ if [ -f Makefile ]; then
   rmdir .generated_files
 fi
 
-#rm -f lang/*.qm
 rm -f log.txt
 rm -f *.dmg
 rm -f local_image_file

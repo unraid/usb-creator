@@ -2,7 +2,7 @@
 ################################################################################
 #      This file is part of Unraid USB Creator - https://github.com/limetech/usb-creator
 #      Copyright (C) 2016 Team LibreELEC
-#      Copyright (C) 2018 Lime Technology, Inc
+#      Copyright (C) 2019 Lime Technology, Inc
 #
 #  Unraid USB Creator is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -27,17 +27,13 @@ USER=$(whoami)
 
 chmod -R 755 dmg_osx
 
-#echo ""
-#echo "Creating .qm files"
-#/Users/$USER/Qt/5.12.3-static/bin/lrelease creator.pro
-
 echo ""
 echo "Running qmake..."
-/Users/$USER/Qt/5.12.3-static/bin/qmake
+/Users/$USER/Qt/5.13.1-static/bin/qmake
 
 echo ""
 echo "Building..."
-make -j4
+make -j$(sysctl -n hw.ncpu)
 
 # to decompile
 #    osadecompile main.scpt >main.scpt.txt
@@ -45,10 +41,6 @@ echo ""
 echo "Running osacompile..."
 mkdir -p dmg_osx/template.app/Contents/Resources/Scripts
 osacompile -t osas -o dmg_osx/template.app/Contents/Resources/Scripts/main.scpt dmg_osx/main.scpt.txt
-
-#echo ""
-#echo "Running macdeployqt..."
-#/Users/$USER/Qt/5.12.3-static/bin/macdeployqt "Unraid USB Creator.app" -no-plugins
 
 echo ""
 echo "Copying template files over..."

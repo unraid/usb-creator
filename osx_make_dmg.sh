@@ -2,7 +2,7 @@
 ################################################################################
 #      This file is part of Unraid USB Creator - https://github.com/limetech/usb-creator
 #      Copyright (C) 2016 Team LibreELEC
-#      Copyright (C) 2018 Lime Technology, Inc
+#      Copyright (C) 2019 Lime Technology, Inc
 #
 #  Unraid USB Creator is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ sync
 
 echo ""
 echo "Running macdeployqt..."
-/Users/$USER/Qt/5.12.3-static/bin/macdeployqt "Unraid USB Creator.app" -no-plugins -no-strip -dmg
+/Users/$USER/Qt/5.13.1-static/bin/macdeployqt "Unraid USB Creator.app" -no-plugins -no-strip -dmg
 
 echo ""
 echo "Running hdiutil attach..."

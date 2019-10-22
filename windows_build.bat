@@ -3,7 +3,7 @@ rem ############################################################################
 rem #      This file is part of Unraid USB Creator - https://github.com/limetech/usb-creator
 rem #      Copyright (C) 2013-2015 RasPlex project
 rem #      Copyright (C) 2016 Team LibreELEC
-rem #      Copyright (C) 2018 Lime Technology, Inc
+rem #      Copyright (C) 2019 Lime Technology, Inc
 rem #
 rem #  Unraid USB Creator is free software: you can redistribute it and/or modify
 rem #  it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ rem #  You should have received a copy of the GNU General Public License
 rem #  along with Unraid USB Creator.  If not, see <http://www.gnu.org/licenses/>.
 rem ################################################################################
 
-set PATH=c:\Qt\5.12.3-static\bin;%PATH%
+set PATH=c:\Qt\5.13.1-static\bin;%PATH%
 
 del release\Unraid.USB.Creator.Win32.exe > nul 2>&1
 
