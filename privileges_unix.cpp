@@ -40,10 +40,10 @@ Privileges::Privileges()
 
     // save information about the privileges that are
     // being dropped so that they be restored later
-    orig_uid = getegid();   // root
-    orig_gid = geteuid();
+    orig_uid = geteuid();   // root
+    orig_gid = getegid();
     orig_ngroups = getgroups(NGROUPS_MAX, orig_groups);
-
+    
     ppid = getppid();
     pppid = ppid;
     uid = userUidFromPid(ppid, &pppid);
