@@ -1062,9 +1062,25 @@ void Creator::downloadAndWriteButtonClicked()
     QMessageBox msgBox(this);
     msgBox.setWindowTitle(tr("Confirm write"));
     msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText(tr("Selected device:\n  %1\n"
+    
+    QString text = tr("Selected device:\n  %1\n"
                       "Are you sure you want to write the image?\n\n"
-                      "Your USB device will be wiped!").arg(destinationText));
+                      "Your USB device will be wiped!").arg(destinationText);
+
+
+    if (ui->removableDevicesComboBox->count() > 1) {
+        text += "\n\n" + tr("To avoid accidentally selecting a wrong key, please remove all keys except the one you wish to write to.");
+    }
+    
+    static const qint64 GB = 1024 * 1024 * 1024;
+    static const qint64 WARNING_SIZE = 4 * GB;
+    qint64 deviceSize = ui->removableDevicesComboBox->currentData().toMap()["size"].toULongLong();
+
+    if (deviceSize >= WARNING_SIZE) {
+        text += "\n\n" + tr("Unraid needs less than 1 Gb of space to run. The USB key you have chosen is quite large for this purpose, and the extra space will not provide additional benefits.");
+    }
+
+    msgBox.setText(text);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
     msgBox.setButtonText(QMessageBox::Yes, tr("Erase and Write"));
