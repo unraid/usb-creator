@@ -294,12 +294,10 @@ QList<QVariantMap> DeviceEnumerator_windows::listBlockDevices() const
             int VIDpos = strDeviceInstanceID.indexOf("VID_");
             int Serialpos = strDeviceInstanceID.lastIndexOf("\\");
 
-            if (PIDpos == -1 || VIDpos == -1 || Serialpos == -1) continue;
-
             QVariantMap projectData;
-            projectData.insert("pid", strDeviceInstanceID.mid(PIDpos+4, 4));
-            projectData.insert("vid", strDeviceInstanceID.mid(VIDpos+4, 4));
-            projectData.insert("serial", strDeviceInstanceID.mid(Serialpos+1));
+            projectData.insert("pid", PIDpos == -1 ? "" : strDeviceInstanceID.mid(PIDpos+4, 4));
+            projectData.insert("vid", VIDpos == -1 ? "" : strDeviceInstanceID.mid(VIDpos+4, 4));
+            projectData.insert("serial", Serialpos == -1 ? "" : strDeviceInstanceID.mid(Serialpos+1));
 
             QString SerialPadded = projectData["serial"].toString().rightJustified(16, '0').right(16);
             QString GUID = (projectData["vid"].toString() + "-" + projectData["pid"].toString() + "-" + SerialPadded.left(4) + "-" + SerialPadded.mid(4)).toUpper();
