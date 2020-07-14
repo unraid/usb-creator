@@ -27,26 +27,27 @@
 class DeviceEnumerator_macos : public DeviceEnumerator
 {
 public:
-    QStringList getRemovableDeviceNames() const;
-    QStringList getUserFriendlyNames(const QStringList& devices) const;
-    bool unmountDevicePartitions(const QString &device) const
+    QStringList getRemovableDeviceNames() const override;
+    QStringList getUserFriendlyNames(const QStringList& devices) const override;
+    bool unmountDevicePartitions(const QString &device) const override
     {
         Q_UNUSED(device);
         return true;
     }
-    qint64 getSizeOfDevice(const QString &device) const;
-    int loadEjectDrive(const QString &device, const loadEject action) const
+    qint64 getSizeOfDevice(const QString &device) const override;
+    int loadEjectDrive(const QString &device, const loadEject action) const override
     {
         Q_UNUSED(device);
         Q_UNUSED(action);
         return 0;
     }
-    int removeDrive(const QString &device) const
+    int removeDrive(const QString &device) const override
     {
         Q_UNUSED(device);
         return 0;
     }
-    QList<QVariantMap> listBlockDevices() const;
+    QList<QVariantMap> listBlockDevices() const override;
+    bool supportsGuid() const override { return true; }
 
 private:
     bool checkIsMounted(const QString& device) const;

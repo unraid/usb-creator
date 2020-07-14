@@ -41,6 +41,7 @@ public:
     virtual int loadEjectDrive(const QString &device, const loadEject action) const = 0;
     virtual int removeDrive(const QString &device) const = 0;
     virtual QList<QVariantMap> listBlockDevices() const = 0;
+    virtual bool supportsGuid() const = 0; 
 
     static QString sizeToHuman(const qint64 size)
     {

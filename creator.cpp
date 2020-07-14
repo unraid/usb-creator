@@ -1059,6 +1059,23 @@ void Creator::downloadAndWriteButtonClicked()
         return;
     }
 
+    if (devEnumerator->supportsGuid()) {
+        QString pid = ui->removableDevicesComboBox->currentData().toMap()["pid"].toString();
+        QString serial = ui->removableDevicesComboBox->currentData().toMap()["serial"].toString();
+        QString vid = ui->removableDevicesComboBox->currentData().toMap()["vid"].toString();
+        
+        if (vid.isEmpty() || pid.isEmpty() || serial.isEmpty()) {
+            // Missing identifier, GUID will be invalid
+            QMessageBox msgBox(this);
+            msgBox.setWindowTitle(tr("Error"));
+            msgBox.setIcon(QMessageBox::Warning);
+            msgBox.setText(tr("This key is not compatible with Unraid. It contains no unique identifier to generate a license key. Please try with another key."));
+            msgBox.exec();
+            reset();
+            return;
+        }
+    }
+
     QMessageBox msgBox(this);
     msgBox.setWindowTitle(tr("Confirm write"));
     msgBox.setIcon(QMessageBox::Warning);
@@ -1096,17 +1113,15 @@ void Creator::downloadAndWriteButtonClicked()
 
     state = STATE_DOWNLOADING_VALIDATION;
 
-    QString vid = ui->removableDevicesComboBox->currentData().toMap()["vid"].toString();
-    if (vid.isEmpty()) {
+    if (devEnumerator->supportsGuid()) {
+        // start guid validation
+        QString guid = ui->removableDevicesComboBox->currentData().toMap()["guid"].toString();
+        qDebug() << "Validating GUID" << guid;
+        manager->post(validatorUrl, QString("guid=" + guid).toLocal8Bit());
+    } else {
         // skip guid validation and continue on to the next step
         handleFinishedDownload(QByteArray());
-        return;
     }
-
-    // start guid validation
-    QString guid = ui->removableDevicesComboBox->currentData().toMap()["guid"].toString();
-    qDebug() << "Validating GUID" << guid;
-    manager->post(validatorUrl, QString("guid="+guid).toLocal8Bit());
 }
 
 
