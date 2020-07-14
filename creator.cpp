@@ -1053,7 +1053,6 @@ void Creator::downloadAndWriteButtonClicked()
     }
 
     disableControls();
-    ui->writeFlashButton->setEnabled(true);
 
     QString destinationText = ui->removableDevicesComboBox->currentText();
     QString destination = ui->removableDevicesComboBox->currentData().toMap()["dev"].toString();
@@ -1113,10 +1112,9 @@ void Creator::downloadAndWriteButtonClicked()
         return;
     }
 
-    ui->writeFlashButton->setText(tr("Cance&l"));
-
-
     state = STATE_DOWNLOADING_VALIDATION;
+    ui->writeFlashButton->setText(tr("Cance&l"));
+    ui->writeFlashButton->setEnabled(true);
 
     if (devEnumerator->supportsGuid()) {
         // start guid validation
@@ -1134,6 +1132,8 @@ void Creator::downloadImage()
 {
     // start download
     state = STATE_DOWNLOADING_IMAGE;
+    ui->writeFlashButton->setText(tr("Cance&l"));
+    ui->writeFlashButton->setEnabled(true);
 
     selectedImage = ui->imageSelectBox->itemData(ui->imageSelectBox->currentIndex()).toMap()["name"].toString();
     qDebug() << "selectedImage" << selectedImage;
@@ -1249,6 +1249,7 @@ void Creator::writeFlash()
     privileges.SetRoot();    // root need for opening a device
 
     ui->writeFlashButton->setText(tr("Cance&l"));
+    ui->writeFlashButton->setEnabled(true);
 
     emit proceedToWriteImageToDevice(bootimageFile.fileName(), destination, partitionlength, clustersize);
 
@@ -1364,6 +1365,7 @@ void Creator::handleExtractFiles(QString targetpath)
         return;
 
     state = STATE_EXTRACTING_FILES;
+    disableControls();
 
     qDebug() << "Extracting files to" << targetpath;
     ui->flashProgressBar->setValue(0);
