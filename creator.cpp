@@ -1026,6 +1026,11 @@ void Creator::downloadAndWriteButtonClicked()
         ui->flashProgressBar->setValue(0);
         flashProgressBarText(tr("Writing canceled."));
         diskWriter->cancelWrite();
+
+        QMessageBox::warning(this, tr("Writing canceled."), tr(
+            "Writing to the USB key did not finish properly. "
+            "If you cancelled the writing process because it appeared to hang, "
+            "try reformatting the key with FAT32 or exFAT using your operating system tools."));
         return;
     }
 
