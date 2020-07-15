@@ -24,6 +24,7 @@
 
 #include <QDebug>
 #include <QString>
+#include <QScopedPointer>
 #include <QFile>
 #include <QFileDialog>
 #include <iostream>
@@ -72,6 +73,17 @@ const QString Creator::validatorUrl = "https://keys.lime-technology.com/validate
 const QString Creator::helpUrl = "https://unraid.net/download/";
 const int Creator::timerValue = 1500;  // msec
 
+static DeviceEnumerator* makeEnumerator()
+{
+#if defined(Q_OS_WIN)
+    return new DeviceEnumerator_windows();
+#elif defined(Q_OS_MACOS)
+    return new DeviceEnumerator_macos();
+#elif defined(Q_OS_LINUX)
+    return new DeviceEnumerator_linux();
+#endif
+}
+
 Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Creator),
@@ -95,14 +107,13 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
 
 #if defined(Q_OS_WIN)
     diskWriter = new DiskWriter_windows();
-    devEnumerator = new DeviceEnumerator_windows();
 #elif defined(Q_OS_MACOS)
     diskWriter = new DiskWriter_unix();
-    devEnumerator = new DeviceEnumerator_macos();
 #elif defined(Q_OS_LINUX)
     diskWriter = new DiskWriter_unix();
-    devEnumerator = new DeviceEnumerator_linux();
 #endif
+
+    devEnumerator = makeEnumerator();
     diskWriterThread = new QThread(this);
     diskWriter->moveToThread(diskWriterThread);
 
@@ -1328,20 +1339,16 @@ void Creator::refreshRemovablesList()
     if (state != STATE_IDLE)
         return;
 
+    // don't start the enumeration if one is in progress
+    if (enumeratorThreadWatcher.isRunning())
+        return;
+
     //qDebug() << "Refreshing removable devices list";
 
-    QFuture<void> f1 = QtConcurrent::run([&](Creator *creator)
+    enumeratorThreadWatcher.setFuture(QtConcurrent::run([](QPointer<Creator> creator)
     {
         Privileges privileges;
-        DeviceEnumerator* devEnumerator;
-
-        #if defined(Q_OS_WIN)
-            devEnumerator = new DeviceEnumerator_windows();
-        #elif defined(Q_OS_MACOS)
-            devEnumerator = new DeviceEnumerator_macos();
-        #elif defined(Q_OS_LINUX)
-            devEnumerator = new DeviceEnumerator_linux();
-        #endif
+        QScopedPointer<DeviceEnumerator> devEnumerator(makeEnumerator());
 
         privileges.SetRoot();    // root need for opening a device
         //QStringList devNames = devEnumerator->getRemovableDeviceNames();
@@ -1353,9 +1360,10 @@ void Creator::refreshRemovablesList()
         QList<QVariantMap> blockDevices = devEnumerator->listBlockDevices();
         //qDebug() << "Found" << blockDevices.count() << "block devices";
 
-
-        emit creator->handleRemovablesList(blockDevices);
-    }, this);
+        if (creator) {
+            creator->handleRemovablesList(blockDevices);
+        }
+    }, this));
 }
 
 void Creator::handleExtractFiles(QString targetpath)
@@ -1572,7 +1580,11 @@ void Creator::handleRemovablesList(QList<QVariantMap> blockDevices)
         // same number, check values too
         bool sameDevices = true;
         for (int i = 0; i < blockDevices.size(); i++) {
-            QString friendlyName = blockDevices.at(i)["name"].toString() + " " + DeviceEnumerator::sizeToHuman(blockDevices.at(i)["size"].toULongLong()) + " [" + blockDevices.at(i)["guid"].toString() + "]";
+            QString friendlyName = 
+                blockDevices.at(i)["name"].toString() + " " + 
+                DeviceEnumerator::sizeToHuman(blockDevices.at(i)["size"].toULongLong()) + 
+                " [" + blockDevices.at(i)["guid"].toString() + "]";
+            
             if (friendlyName.compare(ui->removableDevicesComboBox->itemText(i)) != 0 ||
                 blockDevices.at(i)["dev"].toString().compare(ui->removableDevicesComboBox->itemData(i).toMap()["dev"].toString()) != 0) {
                 sameDevices = false;

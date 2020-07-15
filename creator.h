@@ -25,6 +25,7 @@
 #include <QDialog>
 #include <QNetworkAccessManager>
 #include <QFile>
+#include <QFutureWatcher>
 #include <QStandardPaths>
 #include <QTime>
 
@@ -62,6 +63,9 @@ public:
     //void closeEvent(QCloseEvent *);
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);
+    void refreshMountedList();
+    void handleExtractFiles(QString targetpath);
+    void handleRemovablesList(QList<QVariantMap> blockDevices);
 
 private:
     Ui::Creator *ui;
@@ -128,6 +132,7 @@ private:
     unsigned int uncompressedImageSize;
     Privileges privileges;
     QString deviceEjected;
+    QFutureWatcher<void> enumeratorThreadWatcher;
 
 protected:
     void timerEvent(QTimerEvent *event);
@@ -171,11 +176,6 @@ private slots:
     void handleExtractProgress(int files);
     void handleExtractFilesComplete(const QString &targetpath);
     void handleWriteSyslinux();
-
-public slots:
-    void refreshMountedList();
-    void handleExtractFiles(QString targetpath);
-    void handleRemovablesList(QList<QVariantMap> blockDevices);
 
 };
 
