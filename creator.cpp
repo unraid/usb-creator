@@ -1084,13 +1084,10 @@ void Creator::downloadAndWriteButtonClicked()
     msgBox.setWindowTitle(tr("Confirm write"));
     msgBox.setIcon(QMessageBox::Warning);
     
-    QString text = tr("Selected device:\n  %1\n"
-                      "Are you sure you want to write the image?\n\n"
-                      "Your USB device will be wiped!").arg(destinationText);
-
+    QString text = tr("Selected device:\n  %1\n").arg(destinationText);
 
     if (ui->removableDevicesComboBox->count() > 1) {
-        text += "\n\n" + tr("To avoid accidentally selecting a wrong key, please remove all keys except the one you wish to write to.");
+        text += "\n\n" + tr("To avoid accidentally selecting a wrong key, we recommend that you remove all keys except the one you wish to use for the Unraid boot drive.");
     }
     
     static const qint64 GB = 1024 * 1024 * 1024;
@@ -1100,6 +1097,9 @@ void Creator::downloadAndWriteButtonClicked()
     if (deviceSize >= WARNING_SIZE) {
         text += "\n\n" + tr("Unraid needs less than 1 Gb of space to run. The USB key you have chosen is quite large for this purpose, and the extra space will not provide additional benefits.");
     }
+
+    text += "\n\n" + tr("Your USB device will be wiped!");
+    text += "\n\n" + tr("Are you sure you want to write the image?");
 
     msgBox.setText(text);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
@@ -1302,7 +1302,7 @@ void Creator::refreshMountedList()
 
     QTimer::singleShot(500, [&] {
         if (state != STATE_WAITING_FOR_EXTRACTION)
-        return;
+            return;
 
         qDebug() << "timer fired --> Refreshing mounted list now";
 
