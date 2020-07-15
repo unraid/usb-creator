@@ -1018,7 +1018,7 @@ void Creator::checkNewVersion(const QString &verNewStr)
 
 void Creator::downloadAndWriteButtonClicked()
 {
-    if (state == STATE_WRITING_IMAGE) {
+    if (state == STATE_WRITING_IMAGE || state == STATE_WAITING_FOR_EXTRACTION) {
         state = STATE_IDLE;
         // cancel flashing
         //privileges.SetUser();
@@ -1271,7 +1271,7 @@ void Creator::writingFinished()
 
     /* if error happened leave it visible */
     if (state != STATE_IDLE) {
-        state = STATE_IDLE;
+        state = STATE_WAITING_FOR_EXTRACTION;
 
         // remove temp files
         if (bootimageFile.exists()) {
@@ -1298,12 +1298,12 @@ void Creator::writingError(QString message)
 
 void Creator::refreshMountedList()
 {
-    if (state != STATE_IDLE)
-        return;
-
     qDebug() << "Refreshing mounted list";
 
-    QTimer::singleShot(500, [=] {
+    QTimer::singleShot(500, [&] {
+        if (state != STATE_WAITING_FOR_EXTRACTION)
+        return;
+
         qDebug() << "timer fired --> Refreshing mounted list now";
 
         foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
@@ -1311,14 +1311,14 @@ void Creator::refreshMountedList()
                 if (!storage.isReadOnly()) {
                     if (storage.name() == "UNRAID") {
                         qDebug() << "Found UNRAID drive at: " << storage.rootPath();
-                        emit handleExtractFiles(storage.rootPath());
+                        handleExtractFiles(storage.rootPath());
                         return;
                     }
                 }
             }
         }
 
-        emit refreshMountedList();
+        refreshMountedList();
     });
 }
 
@@ -1361,7 +1361,7 @@ void Creator::refreshRemovablesList()
 void Creator::handleExtractFiles(QString targetpath)
 {
     // timer is always running but don't enumerate when writing image
-    if (state != STATE_IDLE)
+    if (state != STATE_WAITING_FOR_EXTRACTION)
         return;
 
     state = STATE_EXTRACTING_FILES;
