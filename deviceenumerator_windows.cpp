@@ -337,6 +337,8 @@ QList<QVariantMap> DeviceEnumerator_windows::listBlockDevices() const
 
         if (strDeviceInstanceID.startsWith("USBSTOR\\"))
         {
+            bool foundMatchingDevice = false;
+
             for (QList<QVariantMap>::iterator it = stagingList.begin();
                  it != stagingList.end();
                  it++)
@@ -344,6 +346,8 @@ QList<QVariantMap> DeviceEnumerator_windows::listBlockDevices() const
                 QString match = QString("\\").append((*it)["serial"].toString());
                 if (strDeviceInstanceID.contains(match))
                 {
+                    foundMatchingDevice = true;
+
                     if (UsedStorageDevices.filter(match).count() > 0)
                     {
                         // Duplicate Storage device with a different port... smells like a sd card reader
@@ -364,6 +368,24 @@ QList<QVariantMap> DeviceEnumerator_windows::listBlockDevices() const
                                  << "Friendly Name:" << (*it)["name"].toString();
 //*/
                     }
+
+                    break;
+                }
+            }
+
+            if (!foundMatchingDevice)
+            {
+                DWORD DataT;
+
+                if (SetupDiGetDeviceRegistryProperty(hInfo, DeviceInfoData, SPDRP_FRIENDLYNAME, &DataT, (PBYTE)buf, bufferSize, &nSize))
+                {
+                    QVariantMap projectData;
+                    projectData.insert("name", QString::fromWCharArray(buf));
+                    projectData.insert("serial", "");
+                    ValidList.append(projectData);
+
+                    qDebug() << "Found storage without matching device with instance ID:" << strDeviceInstanceID << endl
+                             << "Friendly Name:" << projectData["name"].toString();
                 }
             }
         }
@@ -435,6 +457,7 @@ QList<QVariantMap> DeviceEnumerator_windows::listBlockDevices() const
                         else
                         {
                             //it->insert("size", 0);
+                            stagingList.erase(it);
                             break;  // probably a sd card reader
                         }
 

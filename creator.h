@@ -137,6 +137,9 @@ private:
 protected:
     void timerEvent(QTimerEvent *event);
 
+private:
+    QString getFriendlyName(const QVariantMap& data) const;
+
 signals:
     void proceedToWriteImageToDevice(const QString& image, const QString& device, quint32 partitionlength, quint8 clustersize);
     void proceedToExtractFiles(const QString& sourcezip, const QString& targetpath);

@@ -148,7 +148,10 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     connect(ui->LocalZipPickerButton, SIGNAL(clicked()), this, SLOT(localZipPickerButtonClicked()));
     connect(ui->projectSelectBox, SIGNAL(currentIndexChanged(int)), this, SLOT(setProjectImages()));
     connect(ui->imageSelectBox, &QComboBox::currentTextChanged, [=] { flashProgressBarText(); });
-    connect(ui->removableDevicesComboBox, &QComboBox::currentTextChanged, [=] { flashProgressBarText(); });
+    connect(ui->removableDevicesComboBox, &QComboBox::currentTextChanged, [=] { 
+        flashProgressBarText(); 
+        checkWriteFlashAvailable();
+    });
     connect(ui->LocalZipText, &QLineEdit::textChanged, [=] { checkWriteFlashAvailable(); });
     connect(ui->CustomizeButton, &QPushButton::toggled, [=] (bool active) { ui->CustomizePanel->setVisible(active); });
     connect(ui->NetworkStaticRadioButton, &QRadioButton::toggled, [=] (bool active) { ui->StaticIPPanel->setVisible(active); });
@@ -1570,6 +1573,18 @@ void Creator::handleWriteSyslinux()
     QApplication::beep();
 }
 
+QString Creator::getFriendlyName(const QVariantMap& data) const
+{
+    const QString guid = data["guid"].toString();
+
+    return data["name"].toString() + " " +
+        DeviceEnumerator::sizeToHuman(data["size"].toULongLong()) +
+        " [" +
+        (guid.isEmpty() && devEnumerator->supportsGuid() ? 
+            tr("incompatible") : 
+            guid) +
+        "]";
+}
 
 void Creator::handleRemovablesList(QList<QVariantMap> blockDevices)
 {
@@ -1580,12 +1595,7 @@ void Creator::handleRemovablesList(QList<QVariantMap> blockDevices)
         // same number, check values too
         bool sameDevices = true;
         for (int i = 0; i < blockDevices.size(); i++) {
-            QString friendlyName = 
-                blockDevices.at(i)["name"].toString() + " " + 
-                DeviceEnumerator::sizeToHuman(blockDevices.at(i)["size"].toULongLong()) + 
-                " [" + blockDevices.at(i)["guid"].toString() + "]";
-            
-            if (friendlyName.compare(ui->removableDevicesComboBox->itemText(i)) != 0 ||
+            if (getFriendlyName(blockDevices.at(i)).compare(ui->removableDevicesComboBox->itemText(i)) != 0 ||
                 blockDevices.at(i)["dev"].toString().compare(ui->removableDevicesComboBox->itemData(i).toMap()["dev"].toString()) != 0) {
                 sameDevices = false;
                 break;
@@ -1601,8 +1611,7 @@ void Creator::handleRemovablesList(QList<QVariantMap> blockDevices)
     ui->removableDevicesComboBox->clear();
 
     for (int i = 0; i < blockDevices.size(); i++) {
-        QString friendlyName = blockDevices.at(i)["name"].toString() + " " + DeviceEnumerator::sizeToHuman(blockDevices.at(i)["size"].toULongLong()) + " [" + blockDevices.at(i)["guid"].toString() + "]";
-        ui->removableDevicesComboBox->addItem(friendlyName, blockDevices.at(i));
+        ui->removableDevicesComboBox->addItem(getFriendlyName(blockDevices.at(i)), blockDevices.at(i));
     }
 
     int idx = ui->removableDevicesComboBox->findData(previouslySelectedDevice, Qt::UserRole);
