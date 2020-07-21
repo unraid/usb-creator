@@ -25,6 +25,7 @@
 #include <QDialog>
 #include <QNetworkAccessManager>
 #include <QFile>
+#include <QFutureWatcher>
 #include <QStandardPaths>
 #include <QTime>
 
@@ -62,6 +63,9 @@ public:
     //void closeEvent(QCloseEvent *);
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);
+    void refreshMountedList();
+    void handleExtractFiles(QString targetpath);
+    void handleRemovablesList(QList<QVariantMap> blockDevices);
 
 private:
     Ui::Creator *ui;
@@ -94,7 +98,8 @@ private:
         STATE_DOWNLOADING_IMAGE,
         STATE_DOWNLOADING_VALIDATION,
         STATE_WRITING_IMAGE,
-        STATE_EXTRACTING_FILES
+        STATE_EXTRACTING_FILES,
+        STATE_WAITING_FOR_EXTRACTION
     } state;
     enum {
         STACK_WIDGET_MAIN = 0,
@@ -127,9 +132,13 @@ private:
     unsigned int uncompressedImageSize;
     Privileges privileges;
     QString deviceEjected;
+    QFutureWatcher<void> enumeratorThreadWatcher;
 
 protected:
     void timerEvent(QTimerEvent *event);
+
+private:
+    QString getFriendlyName(const QVariantMap& data) const;
 
 signals:
     void proceedToWriteImageToDevice(const QString& image, const QString& device, quint32 partitionlength, quint8 clustersize);
@@ -170,11 +179,6 @@ private slots:
     void handleExtractProgress(int files);
     void handleExtractFilesComplete(const QString &targetpath);
     void handleWriteSyslinux();
-
-public slots:
-    void refreshMountedList();
-    void handleExtractFiles(QString targetpath);
-    void handleRemovablesList(QList<QVariantMap> blockDevices);
 
 };
 

@@ -29,16 +29,17 @@
 class DeviceEnumerator_windows : public DeviceEnumerator
 {
 public:
-    QStringList getRemovableDeviceNames() const;
-    QStringList getUserFriendlyNames(const QStringList& devices) const;
-    bool unmountDevicePartitions(const QString &device) const {
+    QStringList getRemovableDeviceNames() const override;
+    QStringList getUserFriendlyNames(const QStringList& devices) const override;
+    bool unmountDevicePartitions(const QString &device) const override {
         Q_UNUSED(device);
         return true;
     }
-    qint64 getSizeOfDevice(const QString &device) const;
-    int loadEjectDrive(const QString &device, const loadEject action) const;
-    int removeDrive(const QString &device) const;
-    QList<QVariantMap> listBlockDevices() const;
+    qint64 getSizeOfDevice(const QString &device) const override;
+    int loadEjectDrive(const QString &device, const loadEject action) const override;
+    int removeDrive(const QString &device) const override;
+    QList<QVariantMap> listBlockDevices() const override;
+    bool supportsGuid() const override { return true; }
 
 private:
     static QString getLabelOfDevice(const QString &device);

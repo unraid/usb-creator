@@ -24,6 +24,7 @@
 
 #include <QDebug>
 #include <QString>
+#include <QScopedPointer>
 #include <QFile>
 #include <QFileDialog>
 #include <iostream>
@@ -72,6 +73,17 @@ const QString Creator::validatorUrl = "https://keys.lime-technology.com/validate
 const QString Creator::helpUrl = "https://unraid.net/download/";
 const int Creator::timerValue = 1500;  // msec
 
+static DeviceEnumerator* makeEnumerator()
+{
+#if defined(Q_OS_WIN)
+    return new DeviceEnumerator_windows();
+#elif defined(Q_OS_MACOS)
+    return new DeviceEnumerator_macos();
+#elif defined(Q_OS_LINUX)
+    return new DeviceEnumerator_linux();
+#endif
+}
+
 Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Creator),
@@ -95,14 +107,13 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
 
 #if defined(Q_OS_WIN)
     diskWriter = new DiskWriter_windows();
-    devEnumerator = new DeviceEnumerator_windows();
 #elif defined(Q_OS_MACOS)
     diskWriter = new DiskWriter_unix();
-    devEnumerator = new DeviceEnumerator_macos();
 #elif defined(Q_OS_LINUX)
     diskWriter = new DiskWriter_unix();
-    devEnumerator = new DeviceEnumerator_linux();
 #endif
+
+    devEnumerator = makeEnumerator();
     diskWriterThread = new QThread(this);
     diskWriter->moveToThread(diskWriterThread);
 
@@ -137,7 +148,10 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     connect(ui->LocalZipPickerButton, SIGNAL(clicked()), this, SLOT(localZipPickerButtonClicked()));
     connect(ui->projectSelectBox, SIGNAL(currentIndexChanged(int)), this, SLOT(setProjectImages()));
     connect(ui->imageSelectBox, &QComboBox::currentTextChanged, [=] { flashProgressBarText(); });
-    connect(ui->removableDevicesComboBox, &QComboBox::currentTextChanged, [=] { flashProgressBarText(); });
+    connect(ui->removableDevicesComboBox, &QComboBox::currentTextChanged, [=] { 
+        flashProgressBarText(); 
+        checkWriteFlashAvailable();
+    });
     connect(ui->LocalZipText, &QLineEdit::textChanged, [=] { checkWriteFlashAvailable(); });
     connect(ui->CustomizeButton, &QPushButton::toggled, [=] (bool active) { ui->CustomizePanel->setVisible(active); });
     connect(ui->NetworkStaticRadioButton, &QRadioButton::toggled, [=] (bool active) { ui->StaticIPPanel->setVisible(active); });
@@ -1018,7 +1032,7 @@ void Creator::checkNewVersion(const QString &verNewStr)
 
 void Creator::downloadAndWriteButtonClicked()
 {
-    if (state == STATE_WRITING_IMAGE) {
+    if (state == STATE_WRITING_IMAGE || state == STATE_WAITING_FOR_EXTRACTION) {
         state = STATE_IDLE;
         // cancel flashing
         //privileges.SetUser();
@@ -1026,6 +1040,11 @@ void Creator::downloadAndWriteButtonClicked()
         ui->flashProgressBar->setValue(0);
         flashProgressBarText(tr("Writing canceled."));
         diskWriter->cancelWrite();
+
+        QMessageBox::warning(this, tr("Writing canceled."), tr(
+            "Writing to the USB key did not finish properly. "
+            "If you cancelled the writing process because it appeared to hang, "
+            "try reformatting the key with FAT32 or exFAT using your operating system tools."));
         return;
     }
 
@@ -1048,7 +1067,6 @@ void Creator::downloadAndWriteButtonClicked()
     }
 
     disableControls();
-    ui->writeFlashButton->setEnabled(true);
 
     QString destinationText = ui->removableDevicesComboBox->currentText();
     QString destination = ui->removableDevicesComboBox->currentData().toMap()["dev"].toString();
@@ -1059,12 +1077,45 @@ void Creator::downloadAndWriteButtonClicked()
         return;
     }
 
+    if (devEnumerator->supportsGuid()) {
+        QString pid = ui->removableDevicesComboBox->currentData().toMap()["pid"].toString();
+        QString serial = ui->removableDevicesComboBox->currentData().toMap()["serial"].toString();
+        QString vid = ui->removableDevicesComboBox->currentData().toMap()["vid"].toString();
+        
+        if (vid.isEmpty() || pid.isEmpty() || serial.isEmpty()) {
+            // Missing identifier, GUID will be invalid
+            QMessageBox msgBox(this);
+            msgBox.setWindowTitle(tr("Error"));
+            msgBox.setIcon(QMessageBox::Warning);
+            msgBox.setText(tr("This key is not compatible with Unraid. It contains no unique identifier to generate a license key. Please try with another key."));
+            msgBox.exec();
+            reset();
+            return;
+        }
+    }
+
     QMessageBox msgBox(this);
     msgBox.setWindowTitle(tr("Confirm write"));
     msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText(tr("Selected device:\n  %1\n"
-                      "Are you sure you want to write the image?\n\n"
-                      "Your USB device will be wiped!").arg(destinationText));
+    
+    QString text = tr("Selected device:\n  %1\n").arg(destinationText);
+
+    if (ui->removableDevicesComboBox->count() > 1) {
+        text += "\n\n" + tr("To avoid accidentally selecting a wrong key, we recommend that you remove all keys except the one you wish to use for the Unraid boot drive.");
+    }
+    
+    static const qint64 GB = 1024 * 1024 * 1024;
+    static const qint64 WARNING_SIZE = 4 * GB;
+    qint64 deviceSize = ui->removableDevicesComboBox->currentData().toMap()["size"].toULongLong();
+
+    if (deviceSize >= WARNING_SIZE) {
+        text += "\n\n" + tr("Unraid needs less than 1 Gb of space to run. The USB key you have chosen is quite large for this purpose, and the extra space will not provide additional benefits.");
+    }
+
+    text += "\n\n" + tr("Your USB device will be wiped!");
+    text += "\n\n" + tr("Are you sure you want to write the image?");
+
+    msgBox.setText(text);
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
     msgBox.setButtonText(QMessageBox::Yes, tr("Erase and Write"));
@@ -1075,22 +1126,19 @@ void Creator::downloadAndWriteButtonClicked()
         return;
     }
 
-    ui->writeFlashButton->setText(tr("Cance&l"));
-
-
     state = STATE_DOWNLOADING_VALIDATION;
+    ui->writeFlashButton->setText(tr("Cance&l"));
+    ui->writeFlashButton->setEnabled(true);
 
-    QString vid = ui->removableDevicesComboBox->currentData().toMap()["vid"].toString();
-    if (vid.isEmpty()) {
+    if (devEnumerator->supportsGuid()) {
+        // start guid validation
+        QString guid = ui->removableDevicesComboBox->currentData().toMap()["guid"].toString();
+        qDebug() << "Validating GUID" << guid;
+        manager->post(validatorUrl, QString("guid=" + guid).toLocal8Bit());
+    } else {
         // skip guid validation and continue on to the next step
         handleFinishedDownload(QByteArray());
-        return;
     }
-
-    // start guid validation
-    QString guid = ui->removableDevicesComboBox->currentData().toMap()["guid"].toString();
-    qDebug() << "Validating GUID" << guid;
-    manager->post(validatorUrl, QString("guid="+guid).toLocal8Bit());
 }
 
 
@@ -1098,6 +1146,8 @@ void Creator::downloadImage()
 {
     // start download
     state = STATE_DOWNLOADING_IMAGE;
+    ui->writeFlashButton->setText(tr("Cance&l"));
+    ui->writeFlashButton->setEnabled(true);
 
     selectedImage = ui->imageSelectBox->itemData(ui->imageSelectBox->currentIndex()).toMap()["name"].toString();
     qDebug() << "selectedImage" << selectedImage;
@@ -1213,6 +1263,7 @@ void Creator::writeFlash()
     privileges.SetRoot();    // root need for opening a device
 
     ui->writeFlashButton->setText(tr("Cance&l"));
+    ui->writeFlashButton->setEnabled(true);
 
     emit proceedToWriteImageToDevice(bootimageFile.fileName(), destination, partitionlength, clustersize);
 
@@ -1234,7 +1285,7 @@ void Creator::writingFinished()
 
     /* if error happened leave it visible */
     if (state != STATE_IDLE) {
-        state = STATE_IDLE;
+        state = STATE_WAITING_FOR_EXTRACTION;
 
         // remove temp files
         if (bootimageFile.exists()) {
@@ -1261,12 +1312,12 @@ void Creator::writingError(QString message)
 
 void Creator::refreshMountedList()
 {
-    if (state != STATE_IDLE)
-        return;
-
     qDebug() << "Refreshing mounted list";
 
-    QTimer::singleShot(500, [=] {
+    QTimer::singleShot(500, [&] {
+        if (state != STATE_WAITING_FOR_EXTRACTION)
+            return;
+
         qDebug() << "timer fired --> Refreshing mounted list now";
 
         foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
@@ -1274,14 +1325,14 @@ void Creator::refreshMountedList()
                 if (!storage.isReadOnly()) {
                     if (storage.name() == "UNRAID") {
                         qDebug() << "Found UNRAID drive at: " << storage.rootPath();
-                        emit handleExtractFiles(storage.rootPath());
+                        handleExtractFiles(storage.rootPath());
                         return;
                     }
                 }
             }
         }
 
-        emit refreshMountedList();
+        refreshMountedList();
     });
 }
 
@@ -1291,20 +1342,16 @@ void Creator::refreshRemovablesList()
     if (state != STATE_IDLE)
         return;
 
+    // don't start the enumeration if one is in progress
+    if (enumeratorThreadWatcher.isRunning())
+        return;
+
     //qDebug() << "Refreshing removable devices list";
 
-    QFuture<void> f1 = QtConcurrent::run([&](Creator *creator)
+    enumeratorThreadWatcher.setFuture(QtConcurrent::run([](QPointer<Creator> creator)
     {
         Privileges privileges;
-        DeviceEnumerator* devEnumerator;
-
-        #if defined(Q_OS_WIN)
-            devEnumerator = new DeviceEnumerator_windows();
-        #elif defined(Q_OS_MACOS)
-            devEnumerator = new DeviceEnumerator_macos();
-        #elif defined(Q_OS_LINUX)
-            devEnumerator = new DeviceEnumerator_linux();
-        #endif
+        QScopedPointer<DeviceEnumerator> devEnumerator(makeEnumerator());
 
         privileges.SetRoot();    // root need for opening a device
         //QStringList devNames = devEnumerator->getRemovableDeviceNames();
@@ -1316,18 +1363,20 @@ void Creator::refreshRemovablesList()
         QList<QVariantMap> blockDevices = devEnumerator->listBlockDevices();
         //qDebug() << "Found" << blockDevices.count() << "block devices";
 
-
-        emit creator->handleRemovablesList(blockDevices);
-    }, this);
+        if (creator) {
+            creator->handleRemovablesList(blockDevices);
+        }
+    }, this));
 }
 
 void Creator::handleExtractFiles(QString targetpath)
 {
     // timer is always running but don't enumerate when writing image
-    if (state != STATE_IDLE)
+    if (state != STATE_WAITING_FOR_EXTRACTION)
         return;
 
     state = STATE_EXTRACTING_FILES;
+    disableControls();
 
     qDebug() << "Extracting files to" << targetpath;
     ui->flashProgressBar->setValue(0);
@@ -1524,6 +1573,18 @@ void Creator::handleWriteSyslinux()
     QApplication::beep();
 }
 
+QString Creator::getFriendlyName(const QVariantMap& data) const
+{
+    const QString guid = data["guid"].toString();
+
+    return data["name"].toString() + " " +
+        DeviceEnumerator::sizeToHuman(data["size"].toULongLong()) +
+        " [" +
+        (guid.isEmpty() && devEnumerator->supportsGuid() ? 
+            tr("incompatible") : 
+            guid) +
+        "]";
+}
 
 void Creator::handleRemovablesList(QList<QVariantMap> blockDevices)
 {
@@ -1534,8 +1595,7 @@ void Creator::handleRemovablesList(QList<QVariantMap> blockDevices)
         // same number, check values too
         bool sameDevices = true;
         for (int i = 0; i < blockDevices.size(); i++) {
-            QString friendlyName = blockDevices.at(i)["name"].toString() + " " + DeviceEnumerator::sizeToHuman(blockDevices.at(i)["size"].toULongLong()) + " [" + blockDevices.at(i)["guid"].toString() + "]";
-            if (friendlyName.compare(ui->removableDevicesComboBox->itemText(i)) != 0 ||
+            if (getFriendlyName(blockDevices.at(i)).compare(ui->removableDevicesComboBox->itemText(i)) != 0 ||
                 blockDevices.at(i)["dev"].toString().compare(ui->removableDevicesComboBox->itemData(i).toMap()["dev"].toString()) != 0) {
                 sameDevices = false;
                 break;
@@ -1551,8 +1611,7 @@ void Creator::handleRemovablesList(QList<QVariantMap> blockDevices)
     ui->removableDevicesComboBox->clear();
 
     for (int i = 0; i < blockDevices.size(); i++) {
-        QString friendlyName = blockDevices.at(i)["name"].toString() + " " + DeviceEnumerator::sizeToHuman(blockDevices.at(i)["size"].toULongLong()) + " [" + blockDevices.at(i)["guid"].toString() + "]";
-        ui->removableDevicesComboBox->addItem(friendlyName, blockDevices.at(i));
+        ui->removableDevicesComboBox->addItem(getFriendlyName(blockDevices.at(i)), blockDevices.at(i));
     }
 
     int idx = ui->removableDevicesComboBox->findData(previouslySelectedDevice, Qt::UserRole);

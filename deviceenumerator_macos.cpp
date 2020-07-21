@@ -34,6 +34,15 @@
 // show only USB devices
 #define SHOW_ONLY_USB_DEVICES
 
+class ObjectReleaseGuard {
+public:
+    ObjectReleaseGuard(io_object_t &object) : _object(object) {}
+    ~ObjectReleaseGuard() { IOObjectRelease(_object); }
+
+private:
+    io_object_t &_object;
+};
+
 QStringList DeviceEnumerator_macos::getRemovableDeviceNames() const
 {
     QStringList names;
@@ -226,6 +235,9 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
         return ValidList;
     }
 
+    /* Release the iterator when done. */
+    ObjectReleaseGuard iterGuard(iter);
+
     /* iterate */
     while ((usbDevice = IOIteratorNext(iter)))
     {
@@ -255,6 +267,8 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
 
         QVariantMap          projectData;
 
+        /* Free the reference taken before continuing to the next item. */
+        ObjectReleaseGuard deviceGuard(usbDevice);
 
         // Get the USB device's name.
         kr = IORegistryEntryGetName(usbDevice, deviceName);
@@ -274,11 +288,6 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
         serialNumberString = QString::fromCFString(serialNumberAsCFString);
         if (serialNumberAsCFString) CFRelease(serialNumberAsCFString);
 
-        if (serialNumberString.isEmpty()) {
-            // Skip
-            goto releaseObj;
-        }
-
         // Now, get the locationID of this device. In order to do this, we need to create an IOUSBDeviceInterface
         // for our device. This will create the necessary connections between our userland application and the
         // kernel object for the USB Device.
@@ -286,7 +295,7 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
 
         if((kIOReturnSuccess != kr) || !plugInInterface) {
             fprintf(stderr, "IOCreatePlugInInterfaceForService returned 0x%08x for device name %s.\n", kr, deviceName);
-            goto releaseObj;
+            continue;
         }
 
         // Use the plugin interface to retrieve the device interface.
@@ -297,7 +306,7 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
 
         if(res || deviceInterface == NULL) {
             fprintf(stderr, "QueryInterface returned 0x%08x.\n", (int) res);
-            goto releaseObj;
+            continue;
         }
 
         // Now that we have the IOUSBDeviceInterface, we can call the routines in IOUSBLib.h.
@@ -307,24 +316,26 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
         kr = (*deviceInterface)->GetLocationID(deviceInterface, &locationID);
         if(KERN_SUCCESS != kr) {
             fprintf(stderr, "GetLocationID returned 0x%08x.\n", kr);
-            goto releaseObj;
+            continue;
         }
         kr = (*deviceInterface)->GetDeviceAddress(deviceInterface, &addr);
         if(KERN_SUCCESS != kr) {
             fprintf(stderr, "GetDeviceAddress returned 0x%08x.\n", kr);
-            goto releaseObj;
+            continue;
         }
 
         kr = (*deviceInterface)->GetDeviceVendor(deviceInterface, &vendorId);
-        if(KERN_SUCCESS != kr) {
+        if(KERN_SUCCESS == kr) {
+            vendorIdString = QString::number(vendorId, 16).rightJustified(4, '0').right(4);
+        } else {
             fprintf(stderr, "GetDeviceVendor returned 0x%08x.\n", kr);
-            goto releaseObj;
         }
 
         kr = (*deviceInterface)->GetDeviceProduct(deviceInterface, &productId);
-        if(KERN_SUCCESS != kr) {
+        if(KERN_SUCCESS == kr) {
+            productIdString = QString::number(productId, 16).rightJustified(4, '0').right(4);
+        } else {
             fprintf(stderr, "GetDeviceProduct returned 0x%08x.\n", kr);
-            goto releaseObj;
         }
 
 
@@ -332,15 +343,13 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
         bsdNameString = "/dev/" + QString::fromCFString(bsdNameAsCFString);
         if (bsdNameAsCFString) CFRelease(bsdNameAsCFString);
 
-        vendorIdString = QString::number(vendorId, 16).rightJustified(4, '0').right(4);
-        productIdString = QString::number(productId, 16).rightJustified(4, '0').right(4);
         SerialPadded = QString(serialNumberString).rightJustified(16, '0').right(16);
         GUID = (vendorIdString + "-" + productIdString + "-" + SerialPadded.left(4) + "-" + SerialPadded.mid(4)).toUpper();
 
         size = getSizeOfDevice(bsdNameString);
         if (size == 0) {
             // Skip
-            goto releaseObj;
+            continue;
         }
 
         projectData.insert("pid", productIdString);
@@ -352,14 +361,7 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
         projectData.insert("dev", bsdNameString);
 
         ValidList.append(projectData);
-
-releaseObj:
-        /* And free the reference taken before continuing to the next item */
-        IOObjectRelease(usbDevice);
     }
-
-    /* Done, release the iterator */
-    IOObjectRelease(iter);
 
     return ValidList;
 }
