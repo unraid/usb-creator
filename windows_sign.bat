@@ -3,7 +3,7 @@ rem ############################################################################
 rem #      This file is part of Unraid USB Creator - https://github.com/limetech/usb-creator
 rem #      Copyright (C) 2013-2015 RasPlex project
 rem #      Copyright (C) 2016 Team LibreELEC
-rem #      Copyright (C) 2018 Lime Technology, Inc
+rem #      Copyright (C) 2018-2020 Lime Technology, Inc
 rem #
 rem #  Unraid USB Creator is free software: you can redistribute it and/or modify
 rem #  it under the terms of the GNU General Public License as published by

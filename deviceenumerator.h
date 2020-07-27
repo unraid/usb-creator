@@ -2,7 +2,7 @@
 //      This file is part of Unraid USB Creator - https://github.com/limetech/usb-creator
 //      Copyright (C) 2013-2015 RasPlex project
 //      Copyright (C) 2016 Team LibreELEC
-//      Copyright (C) 2018 Lime Technology, Inc
+//      Copyright (C) 2018-2020 Lime Technology, Inc
 //
 //  Unraid USB Creator is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
