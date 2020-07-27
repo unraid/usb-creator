@@ -1104,13 +1104,13 @@ void Creator::downloadAndWriteButtonClicked()
         text += "\n\n" + tr("To avoid accidentally selecting a wrong key, we recommend that you remove all keys except the one you wish to use for the Unraid boot drive.");
     }
     
-    static const qint64 GB = 1024 * 1024 * 1024;
-    static const qint64 WARNING_SIZE = 4 * GB;
-    qint64 deviceSize = ui->removableDevicesComboBox->currentData().toMap()["size"].toULongLong();
+    //static const qint64 GB = 1024 * 1024 * 1024;
+    //static const qint64 WARNING_SIZE = 4 * GB;
+    //qint64 deviceSize = ui->removableDevicesComboBox->currentData().toMap()["size"].toULongLong();
 
-    if (deviceSize >= WARNING_SIZE) {
-        text += "\n\n" + tr("Unraid needs less than 1 Gb of space to run. The USB key you have chosen is quite large for this purpose, and the extra space will not provide additional benefits.");
-    }
+    //if (deviceSize >= WARNING_SIZE) {
+    //    text += "\n\n" + tr("Unraid needs less than 1 Gb of space to run. The USB key you have chosen is quite large for this purpose, and the extra space will not provide additional benefits.");
+    //}
 
     text += "\n\n" + tr("Your USB device will be wiped!");
     text += "\n\n" + tr("Are you sure you want to write the image?");
