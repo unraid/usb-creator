@@ -44,6 +44,8 @@ private:
     io_object_t &_object;
 };
 
+QList<QString> USBInvalidList;
+
 QStringList DeviceEnumerator_macos::getRemovableDeviceNames() const
 {
     QStringList names;
@@ -289,6 +291,11 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
         serialNumberString = QString::fromCFString(serialNumberAsCFString);
         if (serialNumberAsCFString) CFRelease(serialNumberAsCFString);
 
+        /* Skip any devices that failed with 'IOCreatePlugInInterfaceForService returned 0xe00002be for device name xxxxxxx' */
+        if (USBInvalidList.contains(deviceNameString+manufacturerString+serialNumberString)) {
+            continue;
+        }
+
         // Now, get the locationID of this device. In order to do this, we need to create an IOUSBDeviceInterface
         // for our device. This will create the necessary connections between our userland application and the
         // kernel object for the USB Device.
@@ -296,6 +303,7 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
 
         if((kIOReturnSuccess != kr) || !plugInInterface) {
             fprintf(stderr, "IOCreatePlugInInterfaceForService returned 0x%08x for device name %s.\n", kr, deviceName);
+            USBInvalidList.append(deviceNameString+manufacturerString+serialNumberString);
             continue;
         }
 
