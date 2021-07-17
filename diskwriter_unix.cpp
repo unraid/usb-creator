@@ -50,7 +50,7 @@ bool DiskWriter_unix::open(const QString& device)
 
     // unmount the device
     QProcess unmount;
-    unmount.start("diskutil unmountDisk "+rawdev, QIODevice::ReadOnly);
+    unmount.start("diskutil", {"unmountDisk", rawdev}, QIODevice::ReadOnly);
     unmount.waitForStarted();
     unmount.waitForFinished();
     dev.setFileName(rawdev);

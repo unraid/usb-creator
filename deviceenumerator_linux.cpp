@@ -320,7 +320,7 @@ QString DeviceEnumerator_linux::getFirstPartitionLabel(const QString& device) co
 bool DeviceEnumerator_linux::unmount(const QString& what) const
 {
     QProcess cmd;
-    cmd.start("umount " + what, QIODevice::ReadOnly);
+    cmd.start("umount", {what}, QIODevice::ReadOnly);
     cmd.waitForStarted();
     cmd.waitForFinished();
 

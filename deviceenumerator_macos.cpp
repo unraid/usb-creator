@@ -20,6 +20,7 @@
 
 #include "deviceenumerator_macos.h"
 
+#include <QtCore/qregularexpression.h>
 #include <QDebug>
 #include <QTextStream>
 #include <QDir>
@@ -48,7 +49,7 @@ QStringList DeviceEnumerator_macos::getRemovableDeviceNames() const
     QStringList names;
     QStringList unmounted;
     QProcess lsblk;
-    lsblk.start("diskutil list", QIODevice::ReadOnly);
+    lsblk.start("diskutil", {"list"}, QIODevice::ReadOnly);
     lsblk.waitForStarted();
     lsblk.waitForFinished();
 
@@ -57,7 +58,7 @@ QStringList DeviceEnumerator_macos::getRemovableDeviceNames() const
         device = device.trimmed(); // Odd trailing whitespace
 
         if (device.startsWith("/dev/disk")) {
-            QString name = device.split(QRegExp("\\s+")).first();
+            QString name = device.split(QRegularExpression(QStringLiteral("\\s+")), Qt::SkipEmptyParts).first();
             // We only want to add USB devics
             if (this->checkIfUSB(name))
                 names << name;
@@ -118,7 +119,7 @@ bool DeviceEnumerator_macos::checkIfUSB(const QString &device) const
 #endif
 
     QProcess lssize;
-    lssize.start(QString("diskutil info %1").arg(device), QIODevice::ReadOnly);
+    lssize.start("diskutil", {"info", device}, QIODevice::ReadOnly);
     lssize.waitForStarted();
     lssize.waitForFinished();
 
@@ -158,7 +159,7 @@ qint64 DeviceEnumerator_macos::getSizeOfDevice(const QString& device) const
     QProcess lsblk;
     QString output;
 
-    lsblk.start(QString("diskutil info %1").arg(device), QIODevice::ReadOnly);
+    lsblk.start("diskutil", {"info", device}, QIODevice::ReadOnly);
     lsblk.waitForStarted();
     lsblk.waitForFinished();
 
@@ -188,7 +189,7 @@ QString DeviceEnumerator_macos::getFirstPartitionLabel(const QString& device) co
     QString output;
     QString label;
 
-    lsblk.start(QString("diskutil info %1s1").arg(device), QIODevice::ReadOnly);
+    lsblk.start("diskutil", {"info", QString("%1s1").arg(device)}, QIODevice::ReadOnly);
     lsblk.waitForStarted();
     lsblk.waitForFinished();
 

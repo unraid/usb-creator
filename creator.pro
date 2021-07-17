@@ -24,7 +24,7 @@
 #
 #-------------------------------------------------
 
-QT += core gui network widgets concurrent
+QT += core gui network widgets concurrent core5compat
 
 TARGET = Unraid.USB.Creator
 TEMPLATE = app

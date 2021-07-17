@@ -192,8 +192,8 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     ui->RootPasswordText->hide();
     ui->ShowPasswordButton->hide();
 
-    QRegExp rgx("^[A-Za-z0-9]([A-Za-z0-9\\-\\.]{0,13}[A-Za-z0-9])?$");
-    QValidator *comValidator = new QRegExpValidator(rgx, this);
+    QRegularExpression rgx("^[A-Za-z0-9]([A-Za-z0-9\\-\\.]{0,13}[A-Za-z0-9])?$");
+    QValidator *comValidator = new QRegularExpressionValidator(rgx, this);
     ui->ServerNameText->setValidator(comValidator);
 
     refreshRemovablesList();

@@ -126,7 +126,7 @@ private:
     static const QString validatorUrl;
     static const QString helpUrl;
     JsonParser *parserData;
-    QTime speedTime;
+    QElapsedTimer speedTime;
     qlonglong bytesLast;
     MovingAverage *averageSpeed;
     unsigned int uncompressedImageSize;

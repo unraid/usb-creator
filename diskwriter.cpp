@@ -104,7 +104,7 @@ void DiskWriter::writeSyslinux(const QString& device)
 
     qDebug() << "running" << tempDir+"/"+syslinuxbin+" --install --force "+device;
     QProcess syslinux;
-    syslinux.start(tempDir+"/"+syslinuxbin+" --install --force "+device, QIODevice::ReadOnly);
+    syslinux.start(tempDir+"/"+syslinuxbin, {"--install", "--force", device}, QIODevice::ReadOnly);
     syslinux.waitForStarted();
     syslinux.waitForFinished();
 

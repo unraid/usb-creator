@@ -29,7 +29,7 @@ chmod -R 755 dmg_osx
 
 echo ""
 echo "Running qmake..."
-/Users/$USER/Qt/5.13.1-static/bin/qmake
+/Users/$USER/Qt/6.1.2-static/bin/qmake
 
 echo ""
 echo "Building..."

@@ -86,7 +86,7 @@ void logMessageHandler(QtMsgType type, const QMessageLogContext &context, const 
         debugFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text);
     }
     QTextStream ts(&debugFile);
-    ts << QTime::currentTime().toString() << txt << endl;
+    ts << QTime::currentTime().toString() << txt << Qt::endl;
 
     // Call the default handler
     (*QT_DEFAULT_MESSAGE_HANDLER)(type, context, msg);
