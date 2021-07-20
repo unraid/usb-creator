@@ -61,7 +61,7 @@ void JsonParser::parseBranches(const QByteArray &data)
     //qDebug() << "parseBranches data:" << data;
     QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
     QJsonArray jsonArray = jsonDocument.array();
-    foreach (const QJsonValue & branch, jsonArray)
+    for (const QJsonValue branch : jsonArray)
     {
         dataBranches.append(branch.toObject().toVariantMap());
         qDebug() << "parseBranches added branch" << branch.toObject().value("name").toString();
@@ -74,7 +74,7 @@ void JsonParser::parseVersions(const QByteArray &data, const QString &projectNam
     QJsonDocument jsonDocument = QJsonDocument::fromJson(data);
     QJsonArray jsonArray = jsonDocument.array();
     QList<QVariantMap> images;
-    foreach (const QJsonValue & version, jsonArray)
+    for (const QJsonValue version : jsonArray)
     {
         images.append(version.toObject().toVariantMap());
         qDebug() << "parseVersions added version" << version.toObject().value("name").toString() << "to branch" << projectName;

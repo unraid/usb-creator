@@ -56,7 +56,7 @@ RCC_DIR     = .generated_files
 UI_DIR      = .
 
 # hide the full g++ command line and print only filename
-CONFIG += silent c++11
+CONFIG += silent c++17
 
 #TRANSLATIONS += lang/lang-en_GB.ts \
 #                lang/lang-bg_BG.ts \
