@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>490</width>
-    <height>572</height>
+    <height>600</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1059,6 +1059,52 @@
     </widget>
    </widget>
   </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>214</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuLanguage">
+    <property name="title">
+     <string/>
+    </property>
+   </widget>
+   <addaction name="menuLanguage"/>
+  </widget>
+  <widget class="QPushButton" name="langButton">
+   <property name="geometry">
+    <rect>
+     <x>456</x>
+     <y>10</y>
+     <width>22</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/lang/flag-en_US.png</normaloff>:/lang/flag-en_US.png</iconset>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>menuBar</zorder>
+  <zorder>logo</zorder>
+  <zorder>stackedWidget</zorder>
+  <zorder>langButton</zorder>
  </widget>
  <layoutdefault spacing="5" margin="10"/>
  <customwidgets>
@@ -1069,6 +1115,7 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>langButton</tabstop>
   <tabstop>projectSelectBox</tabstop>
   <tabstop>imageSelectBox</tabstop>
   <tabstop>LocalZipText</tabstop>

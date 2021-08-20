@@ -35,6 +35,7 @@ SOURCES += main.cpp \
            jsonparser.cpp \
            movingaverage.cpp \
            downloadmanager.cpp \
+           translator.cpp \
            libs/quazip/*.c \
            libs/quazip/*.cpp
 #libs/sha256crypt/*.c
@@ -47,6 +48,7 @@ HEADERS += creator.h \
            movingaverage.h \
            downloadmanager.h  \
            deviceenumerator.h \
+           translator.h \
            libs/quazip/*.h
 #libs/sha256crypt/*.h
 
@@ -58,33 +60,11 @@ UI_DIR      = .
 # hide the full g++ command line and print only filename
 CONFIG += silent c++17
 
-#TRANSLATIONS += lang/lang-en_GB.ts \
-#                lang/lang-bg_BG.ts \
-#                lang/lang-cs_CZ.ts \
-#                lang/lang-da_DK.ts \
-#                lang/lang-de_DE.ts \
-#                lang/lang-el_GR.ts \
-#                lang/lang-es_ES.ts \
-#                lang/lang-fi_FI.ts \
-#                lang/lang-fr_FR.ts \
-#                lang/lang-hu_HU.ts \
-#                lang/lang-it_IT.ts \
-#                lang/lang-nl_NL.ts \
-#                lang/lang-no_NO.ts \
-#                lang/lang-pl_PL.ts \
-#                lang/lang-pt_PT.ts \
-#                lang/lang-ru_RU.ts \
-#                lang/lang-sl_SI.ts \
-#                lang/lang-sr_RS.ts \
-#                lang/lang-tr_TR.ts \
-#                lang/lang-uk_UA.ts \
-#                lang/lang-he_IL.ts \
-#                lang/lang-hr_HR.ts \
-#                lang/lang-sk_SK.ts \
-#                lang/lang-sv_SE.ts \
-#                lang/lang-ast_ES.ts \
-#                lang/lang-fa_IR.ts \
-#                lang/lang-lt_LT.ts
+TRANSLATIONS += lang/lang-de_DE.ts \
+                lang/lang-en_US.ts \
+                lang/lang-es_ES.ts \
+                lang/lang-fr_FR.ts \
+                lang/lang-zh_CN.ts
 
 static { # everything below takes effect with CONFIG += static
     CONFIG += static

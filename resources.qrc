@@ -27,5 +27,16 @@
         <file>images/no1.png</file>
         <file>images/no2.png</file>
         <file>images/no3.png</file>
+        <file>lang/flag-empty.png</file>
+        <file>lang/flag-de_DE.png</file>
+        <file>lang/flag-en_US.png</file>
+        <file>lang/flag-es_ES.png</file>
+        <file>lang/flag-fr_FR.png</file>
+        <file>lang/flag-zh_CN.png</file>
+        <file>lang/lang-de_DE.qm</file>
+        <file>lang/lang-en_US.qm</file>
+        <file>lang/lang-es_ES.qm</file>
+        <file>lang/lang-fr_FR.qm</file>
+        <file>lang/lang-zh_CN.qm</file>
     </qresource>
 </RCC>

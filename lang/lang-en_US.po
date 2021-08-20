@@ -1,0 +1,314 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Qt-Contexts: true\n"
+
+msgctxt "Creator|"
+msgid "LibreELEC USB-SD Creator"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Write image"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Select your USB stick or SD card"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Download or select a local image file"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Eject device"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Load device"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Yes"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "No"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "OK"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Select version"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "&Close"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "&Download"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "&About"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "&Write"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "&Help"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Select &file"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "&Show all"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Select project"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Select image"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Eject  Load         Remove"
+msgstr ""
+
+msgctxt "Creator|"
+msgid ""
+"Root privileges required to write image.\n"
+"Run application with sudo."
+msgstr ""
+
+#, qt-format
+msgctxt "Creator|"
+msgid ""
+"Version: %1\n"
+"Build date: %2"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "This software was created with love and released"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "under GPLv2, using earlier work from RasPlex."
+msgstr ""
+
+msgctxt "Creator|"
+msgid "For license, credits and history, please read:"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "If you enjoy using LibreELEC please consider a"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "donation to support the project."
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Click the logo below or donate"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "using Paypal to:"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "[Stable]"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "[Alpha]"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "[Beta]"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Download complete, syncing file..."
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Download complete, verifying checksum..."
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Download complete, checksum ok."
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Download complete, checksum not ok."
+msgstr ""
+
+#, qt-format
+msgctxt "Creator|"
+msgid "%1 seconds remaining - %2% at %3"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Update Notification"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "&Visit Website"
+msgstr ""
+
+#, qt-format
+msgctxt "Creator|"
+msgid "LibreELEC USB-SD Creator %1 is available."
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Download canceled."
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Directory to store image file"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Error"
+msgstr ""
+
+#, qt-format
+msgctxt "Creator|"
+msgid ""
+"File \n"
+"%1/%2\n"
+"already exist."
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Do you want to overwrite?"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "File already exists."
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Failed to open file for writing!"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Cance&l"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Open image file"
+msgstr ""
+
+msgctxt "Creator|"
+msgid ""
+"Compressed gz image (*img.gz);;Compressed zip image (*img.zip);;Uncompressed "
+"image (*.img);;All files (*.*)"
+msgstr ""
+
+#, qt-format
+msgctxt "Creator|"
+msgid "Error: %1"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Writing canceled."
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Confirm write"
+msgstr ""
+
+#, qt-format
+msgctxt "Creator|"
+msgid ""
+"Selected device: %1\n"
+"Are you sure you want to write the image?\n"
+"\n"
+"Your USB-SD device will be wiped!"
+msgstr ""
+
+#, qt-format
+msgctxt "Creator|"
+msgid "Cannot unmount partititons on device %1"
+msgstr ""
+
+#, qt-format
+msgctxt "Creator|"
+msgid "Not enough space on %1 [%2 < %3]"
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Syncing file system..."
+msgstr ""
+
+msgctxt "Creator|"
+msgid "Writing done!"
+msgstr ""
+
+msgctxt "QObject|"
+msgid "Write Error"
+msgstr ""
+
+#, qt-format
+msgctxt "QObject|"
+msgid ""
+"An error occurred when attempting to write data to handle.\n"
+"Error %1: %2"
+msgstr ""
+
+msgctxt "QObject|"
+msgid "Volume Error"
+msgstr ""
+
+#, qt-format
+msgctxt "QObject|"
+msgid ""
+"An error occurred when attempting to get a handle on the volume.\n"
+"Error %1: %2"
+msgstr ""
+
+msgctxt "QObject|"
+msgid "Lock Error"
+msgstr ""
+
+#, qt-format
+msgctxt "QObject|"
+msgid ""
+"An error occurred when attempting to lock the volume.\n"
+"Error %1: %2"
+msgstr ""
+
+msgctxt "QObject|"
+msgid "Unlock Error"
+msgstr ""
+
+#, qt-format
+msgctxt "QObject|"
+msgid ""
+"An error occurred when attempting to unlock the volume.\n"
+"Error %1: %2"
+msgstr ""
+
+msgctxt "QObject|"
+msgid "Dismount Error"
+msgstr ""
+
+#, qt-format
+msgctxt "QObject|"
+msgid ""
+"An error occurred when attempting to dismount the volume.\n"
+"Error %1: %2"
+msgstr ""

@@ -164,6 +164,8 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     connect(ui->closeAboutButton, SIGNAL(clicked()), this, SLOT(closeAbout()));
     connect(ui->closeAppButton, SIGNAL(clicked()), this, SLOT(close()));
 
+    connect(ui->langButton,SIGNAL(clicked()), this, SLOT(languageChange()));
+
     ui->NetmaskComboBox->addItem("255.255.0.0");
     ui->NetmaskComboBox->addItem("255.255.128.0");
     ui->NetmaskComboBox->addItem("255.255.192.0");
@@ -213,6 +215,9 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     // call web browser through our wrapper for Linux
     QDesktopServices::setUrlHandler("http", this, "httpsUrlHandler");
     QDesktopServices::setUrlHandler("https", this, "httpsUrlHandler");
+
+    translator = new Translator(this);  // pass parent
+    translator->fillLanguages(ui->menuLanguage, ui->langButton);
 
     retranslateUi();  // retranslate dynamic texts
 
@@ -566,6 +571,12 @@ void Creator::checkWriteFlashAvailable()
         ui->writeFlashButton->setEnabled(true);
     else
         ui->writeFlashButton->setEnabled(false);
+}
+
+void Creator::languageChange()
+{
+    // menu has padding around
+    ui->menuLanguage->exec(ui->langButton->mapToGlobal(QPoint(0, 0)));
 }
 
 void Creator::disableControls()
