@@ -127,6 +127,7 @@ private:
     static const QString versionUrl;
     static const QString validatorUrl;
     static const QString helpUrl;
+    static const QString efiInfoUrl;
     JsonParser *parserData;
     QElapsedTimer speedTime;
     qlonglong bytesLast;
@@ -168,6 +169,7 @@ private slots:
     void setProjectImages();
     void localZipPickerButtonClicked();
     void refreshRemovablesList();
+    void infoEFIClicked();
     void downloadAndWriteButtonClicked();
     void downloadImage();
     void writeFlash();

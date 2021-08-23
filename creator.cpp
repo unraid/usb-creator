@@ -71,6 +71,7 @@ const QString Creator::branchesUrl = "https://s3.amazonaws.com/dnld.lime-technol
 const QString Creator::versionUrl = "https://s3.amazonaws.com/dnld.lime-technology.com/creator_version";
 const QString Creator::validatorUrl = "https://keys.lime-technology.com/validate/guid";
 const QString Creator::helpUrl = "https://unraid.net/download/";
+const QString Creator::efiInfoUrl = "https://wiki.unraid.net/Articles/Getting_Started#Using_the_Flash_Creator";
 const int Creator::timerValue = 1500;  // msec
 
 static DeviceEnumerator* makeEnumerator()
@@ -138,6 +139,8 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     diskWriterThread->start();
 
     connect(ui->refreshRemovablesButton,SIGNAL(clicked()), this,SLOT(refreshRemovablesList()));
+    connect(ui->infoEFIBootLocalButton, SIGNAL(clicked()), this, SLOT(infoEFIClicked()));
+    connect(ui->infoEFIBootButton, SIGNAL(clicked()), this, SLOT(infoEFIClicked()));
 
     connect(manager, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(handleDownloadProgress(qint64, qint64)));
     connect(manager, SIGNAL(downloadComplete(QByteArray)), this, SLOT(handleFinishedDownload(QByteArray)));
@@ -188,6 +191,7 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     ui->StaticIPPanel->hide();
     ui->CustomizePanel->hide();
     ui->EFIBootLocalCheckBox->hide();
+    ui->infoEFIBootLocalButton->hide();
 
     //TODO: make the crypt256 lib available on Windows and then the app can provide a password field
     ui->RootPasswordLabel->hide();
@@ -441,6 +445,7 @@ void Creator::setProjectImages()
         ui->LocalZipText->show();
         ui->LocalZipPickerButton->show();
         ui->EFIBootLocalCheckBox->show();
+        ui->infoEFIBootLocalButton->show();
         ui->imageSelectBox->hide();
         ui->CustomizeButton->setChecked(false);
         ui->CustomizeButton->hide();
@@ -450,6 +455,7 @@ void Creator::setProjectImages()
         ui->LocalZipText->hide();
         ui->LocalZipPickerButton->hide();
         ui->EFIBootLocalCheckBox->hide();
+        ui->infoEFIBootLocalButton->hide();
         ui->imageSelectBox->show();
         ui->CustomizeButton->show();
     }
@@ -1378,6 +1384,11 @@ void Creator::refreshRemovablesList()
             creator->handleRemovablesList(blockDevices);
         }
     }, this));
+}
+
+void Creator::infoEFIClicked()
+{
+    QDesktopServices::openUrl(QUrl(efiInfoUrl));
 }
 
 void Creator::handleExtractFiles(QString targetpath)

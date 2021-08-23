@@ -273,21 +273,91 @@
         </item>
        </layout>
       </item>
-      <item alignment="Qt::AlignRight">
-       <widget class="QCheckBox" name="EFIBootLocalCheckBox">
-        <property name="sizePolicy">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_21">
+        <property name="spacing">
+         <number>10</number>
+        </property>
+        <property name="leftMargin">
+         <number>10</number>
+        </property>
+        <property name="rightMargin">
+         <number>10</number>
+        </property>
+        <item>
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::MinimumExpanding</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item alignment="Qt::AlignRight">
+         <widget class="QCheckBox" name="EFIBootLocalCheckBox">
+          <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Allow UEFI Boot</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="infoEFIBootLocalButton">
+          <property name="minimumSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">border: none</string>
+          </property>
+          <property name="icon">
+           <iconset resource="resources.qrc">
+            <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QWidget" name="CustomizePanel" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="text">
-         <string>Allow UEFI Boot  </string>
+        <property name="minimumSize">
+         <size>
+          <width>480</width>
+          <height>140</height>
+         </size>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QWidget" name="CustomizePanel" native="true">
         <property name="maximumSize">
          <size>
           <width>480</width>
@@ -457,11 +527,46 @@
               </size>
              </property>
             </spacer>
-           </item>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="EFIBootCheckBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Allow UEFI Boot </string>
+            </property>
+           </widget>
+          </item>
            <item>
-            <widget class="QCheckBox" name="EFIBootCheckBox">
-             <property name="text">
-              <string>Allow UEFI Boot</string>
+            <widget class="QToolButton" name="infoEFIBootButton">
+             <property name="minimumSize">
+              <size>
+               <width>16</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16</width>
+               <height>16</height>
+              </size>
+             </property>
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">border: none</string>
+             </property>
+             <property name="icon">
+              <iconset resource="resources.qrc">
+               <normaloff>:/images/info.png</normaloff>:/images/info.png</iconset>
              </property>
             </widget>
            </item>
@@ -816,11 +921,9 @@
           </property>
          </widget>
         </item>
-       </layout>
-      </item>
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
         <property name="sizeHint" stdset="0">
@@ -828,8 +931,10 @@
           <width>20</width>
           <height>40</height>
          </size>
-        </property>
-       </spacer>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayoutButtons3">
@@ -982,15 +1087,18 @@
         <property name="sizeConstraint">
          <enum>QLayout::SetNoConstraint</enum>
         </property>
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>15</number>
+        </property>
         <property name="rightMargin">
          <number>5</number>
         </property>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <property name="spacing">
-           <number>0</number>
-          </property>
-          <property name="leftMargin">
            <number>0</number>
           </property>
           <item>
@@ -1050,6 +1158,9 @@
          <widget class="QLabel" name="labelVersion">
           <property name="alignment">
            <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+          </property>
+          <property name="bottomMargin" stdset="0">
+           <number>5</number>
           </property>
          </widget>
         </item>
