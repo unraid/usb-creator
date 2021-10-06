@@ -16,7 +16,7 @@ msgid "USB Flash Creator"
 msgstr " Outil de création de clé USB"
 
 msgctxt "Creator|"
-msgid "Select Version"
+msgid "Select version"
 msgstr "Sélectionnez une version"
 
 msgctxt "Creator|"
@@ -36,16 +36,11 @@ msgid "Customize"
 msgstr "Personnalisez"
 
 msgctxt "Creator|"
-msgid "Server Name"
-
-msgstr "Nom du serveur"
-
-msgctxt "Creator|"
-msgid "Server Name"
-msgstr "Nom du serveur"
+msgid "Server name:"
+msgstr "Nom du serveur:"
 
 msgctxt "Creator|"
-msgid "Network Mode:"
+msgid "Network mode:"
 msgstr "Mode Réseau:"
 
 msgctxt "Creator|"
@@ -61,20 +56,32 @@ msgid "Allow UEFI Boot"
 msgstr "Permettre le démarrage UEFI"
 
 msgctxt "Creator|"
+msgid "Allow UEFI Boot "
+msgstr "Permettre le démarrage UEFI "
+
+msgctxt "Creator|"
 msgid "Download and Install the French Language Pack"
 msgstr "Télécharger et Installer le pack de langue Français"
 
 msgctxt "Creator|"
-msgid "Select Your USB Flash Device"
+msgid "Select your USB Flash device"
 msgstr "Sélectionnez votre clé USB de démarrage"
 
 msgctxt "Creator|"
-msgid "Write Image"
+msgid "Write image"
 msgstr "Écrire l'image"
 
 msgctxt "Creator|"
-msgid "About"
+msgid "&About"
 msgstr "À Propos"
+
+msgctxt "Creator|"
+msgid "&Write"
+msgstr "Écrire"
+
+msgctxt "Creator|"
+msgid "Cance&l"
+msgstr "Annuler"
 
 msgctxt "Creator|"
 msgid "© 2021 Lime Technology, Inc"
@@ -85,21 +92,20 @@ msgid "This software was created under GPLv2, using earlier work from LibreELEC.
 msgstr "Ce logiciel a été crée sous GPLv2, utilisant du code de LibreELEC."
 
 msgctxt "Creator|"
-msgid "For license, credits and history, please read: [https://github.com/limetech/usb-creator](https://github.com/limetech/usb-creator)"
-msgstr "Pour la licence, les crédits et l'historique, svp lire : "[https://github.com/limetech/usb-creator](https://github.com/limetech/usb-creator)"
+msgid "For license, credits and history, please read:"
+msgstr "Pour la licence, les crédits et l'historique, svp lire:"
 
 msgctxt "Creator|"
-msgid "If you are having issues getting up and running, see also the Manual Method: [https://wiki.unraid.net/Manual/Changing_The_Flash_Device#Manual_Method_.28Legacy.29](https://wiki.unraid.net/Manual/Changing_The_Flash_Device#Manual_Method_.28Legacy.29)"
-msgstr "Si vous avez des problèmes à démarrer et être opérationnel, voir également la méthode manuelle: [https://wiki.unraid.net/Manual/Changing_The_Flash_Device#Manual_Method_.28Legacy.29](https://wiki.unraid.net/Manual/Changing_The_Flash_Device#Manual_Method_.28Legacy.29)"
+msgid "If you are having issues getting up and running, see also the Manual Method:"
+msgstr "Si vous avez des problèmes à démarrer et être opérationnel, voir également la méthode manuelle:"
 
 msgctxt "Creator|"
-msgid "To report issues with this tool, please send an email to: [general@support.unraid.net](mailto:general@support.unraid.net)"
-msgstr "Pour rapporter des problèmes avec cet outil, svp envoyez un courriel à: [general@support.unraid.net](mailto:general@support.unraid.net)"
+msgid "To report issues with this tool, please email:"
+msgstr "Pour rapporter des problèmes avec cet outil, svp envoyez un courriel à:"
 
 msgctxt "Creator|"
-msgid "Close"
+msgid "&Close"
 msgstr "Fermer"
-
 
 #, qt-format
 msgctxt "Creator|"

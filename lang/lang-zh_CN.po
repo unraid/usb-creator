@@ -16,7 +16,7 @@ msgid "USB Flash Creator"
 msgstr "USB 闪存创建工具" 
 
 msgctxt "Creator|"
-msgid "Select Version"
+msgid "Select version"
 msgstr "选择版本"
 
 msgctxt "Creator|"
@@ -36,16 +36,12 @@ msgid "Customize"
 msgstr "自定义"
 
 msgctxt "Creator|"
-msgid "Server Name"
-msgstr "服务器名称"
+msgid "Server name:"
+msgstr "服务器名称:"
 
 msgctxt "Creator|"
-msgid "Server Name"
-msgstr "服务器名称"
-
-msgctxt "Creator|"
-msgid "Network Mode:"
-msgstr "网络模式："
+msgid "Network mode:"
+msgstr "网络模式:"
 
 msgctxt "Creator|"
 msgid "DHCP"
@@ -60,20 +56,32 @@ msgid "Allow UEFI Boot"
 msgstr "允许使用 UEFI 启动"
 
 msgctxt "Creator|"
+msgid "Allow UEFI Boot "
+msgstr "允许使用 UEFI 启动 "
+
+msgctxt "Creator|"
 msgid "Download and Install the Chinse Language Pack" 
 msgstr "下载并安装中文语言包"
 
 msgctxt "Creator|"
-msgid "Select Your USB Flash Device"
+msgid "Select your USB Flash device"
 msgstr "选择 USB 闪存设备"
 
 msgctxt "Creator|"
-msgid "Write Image"
+msgid "Write image"
 msgstr "写入映像"
 
 msgctxt "Creator|"
-msgid "About"
+msgid "&About"
 msgstr "关于"
+
+msgctxt "Creator|"
+msgid "&Write"
+msgstr "TODO"
+
+msgctxt "Creator|"
+msgid "Cance&l"
+msgstr "TODO"
 
 msgctxt "Creator|"
 msgid "© 2021 Lime Technology, Inc"
@@ -84,21 +92,25 @@ msgid "This software was created under GPLv2, using earlier work from LibreELEC.
 msgstr "本软件基于 GPLv2 协议创建, 并使用了源自 LibreELEC 的早期工作."
 
 msgctxt "Creator|"
-msgid "This software was created under GPLv2, using earlier work from LibreELEC."
-msgstr "本软件基于 GPLv2 协议创建, 并使用了源自 LibreELEC 的早期工作."
+msgid "For license, credits and history, please read:"
+msgstr "关于授权许可、制作人员及历史，请阅读:"
 
 msgctxt "Creator|"
-msgid "For license, credits and history, please read: [https://github.com/limetech/usb-creator](https://github.com/limetech/usb-creator)"
-msgstr "关于授权许可、制作人员及历史，请阅读：[https://github.com/limetech/usb-creator](https://github.com/limetech/usb-creator)"
+msgid "If you are having issues getting up and running, see also the Manual Method:"
+msgstr "如在启动和运行过程中存在任何问题，亦可查阅手动制作方式:"
 
 msgctxt "Creator|"
-msgid "If you are having issues getting up and running, see also the Manual Method: [https://wiki.unraid.net/Manual/Changing_The_Flash_Device#Manual_Method_.28Legacy.29](https://wiki.unraid.net/Manual/Changing_The_Flash_Device#Manual_Method_.28Legacy.29)"
-msgstr "如在启动和运行过程中存在任何问题，亦可查阅手动制作方式：[https://wiki.unraid.net/Manual/Changing_The_Flash_Device#Manual_Method_.28Legacy.29](https://wiki.unraid.net/Manual/Changing_The_Flash_Device#Manual_Method_.28Legacy.29)"
+msgid "To report issues with this tool, please email:"
+msgstr "如需报告关于本工具的问题，请联系此电子邮箱:"
 
 msgctxt "Creator|"
-msgid "To report issues with this tool, please send an email to: [general@support.unraid.net](mailto:general@support.unraid.net)"
-msgstr "如需报告关于本工具的问题，请联系此电子邮箱：[general@support.unraid.net](mailto:general@support.unraid.net)"
-
-msgctxt "Creator|"
-msgid "Close"
+msgid "&Close"
 msgstr "关闭"
+
+msgctxt "Creator|"
+msgid ""
+"Version: %1\n"
+"Build date: %2"
+msgstr ""
+"TODO: %1\n"
+"TODO: %2"

@@ -56,6 +56,10 @@ msgid "Allow UEFI Boot"
 msgstr "Permitir el arranque UEFI"
 
 msgctxt "Creator|"
+msgid "Allow UEFI Boot "
+msgstr "Permitir el arranque UEFI "
+
+msgctxt "Creator|"
 msgid "Download and Install the Spanish Language Pack"
 msgstr "Descargue e instale el paquete de idioma español"
 
@@ -96,7 +100,7 @@ msgid "If you are having issues getting up and running, see also the Manual Meth
 msgstr "Si tiene problemas con el creador de USB, consulte también el Método manual:"
 
 msgctxt "Creator|"
-msgid "To report issues with this tool, please send email to:"
+msgid "To report issues with this tool, please email:"
 msgstr "Para informar de problemas con esta herramienta, por favor envíe un correo electrónico a:"
 
 msgctxt "Creator|"

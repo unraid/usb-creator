@@ -94,34 +94,6 @@ Build date: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This software was created with love and released</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>under GPLv2, using earlier work from RasPlex.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For license, credits and history, please read:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If you enjoy using LibreELEC please consider a</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>donation to support the project.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click the logo below or donate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>using Paypal to:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>[Stable]</source>
         <translation type="unfinished"></translation>
     </message>

@@ -99,34 +99,6 @@ msgid ""
 msgstr ""
 
 msgctxt "Creator|"
-msgid "This software was created with love and released"
-msgstr ""
-
-msgctxt "Creator|"
-msgid "under GPLv2, using earlier work from RasPlex."
-msgstr ""
-
-msgctxt "Creator|"
-msgid "For license, credits and history, please read:"
-msgstr ""
-
-msgctxt "Creator|"
-msgid "If you enjoy using LibreELEC please consider a"
-msgstr ""
-
-msgctxt "Creator|"
-msgid "donation to support the project."
-msgstr ""
-
-msgctxt "Creator|"
-msgid "Click the logo below or donate"
-msgstr ""
-
-msgctxt "Creator|"
-msgid "using Paypal to:"
-msgstr ""
-
-msgctxt "Creator|"
 msgid "[Stable]"
 msgstr ""
 

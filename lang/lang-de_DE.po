@@ -16,7 +16,7 @@ msgid "USB Flash Creator"
 msgstr "USB Stick Creator"
 
 msgctxt "Creator|"
-msgid "Select Version"
+msgid "Select version"
 msgstr "Version auswählen"
 
 msgctxt "Creator|"
@@ -36,16 +36,12 @@ msgid "Customize"
 msgstr "Anpassen"
 
 msgctxt "Creator|"
-msgid "Server Name"
-msgstr "Server Name"
+msgid "Server name:"
+msgstr "Server name:"
 
 msgctxt "Creator|"
-msgid "Server Name"
-msgstr "Server Name"
-
-msgctxt "Creator|"
-msgid "Network Mode:"
-msgstr "Netzwerk Modus:"
+msgid "Network mode:"
+msgstr "Netzwerk modus:"
 
 msgctxt "Creator|"
 msgid "DHCP"
@@ -60,20 +56,32 @@ msgid "Allow UEFI Boot"
 msgstr "UEFI Boot erlauben"
 
 msgctxt "Creator|"
+msgid "Allow UEFI Boot "
+msgstr "UEFI Boot erlauben "
+
+msgctxt "Creator|"
 msgid "Download and Install the German Language Pack"
 msgstr "Downloade und installiere das Deutsche Sprachpaket"
 
 msgctxt "Creator|"
-msgid "Select Your USB Flash Device"
+msgid "Select your USB Flash device"
 msgstr "USB Laufwerk auswählen"
 
 msgctxt "Creator|"
-msgid "Write Image"
-msgstr "Schreibe Abbild"
+msgid "Write image"
+msgstr "Schreibe abbild"
 
 msgctxt "Creator|"
-msgid "About"
+msgid "&About"
 msgstr "Über"
+
+msgctxt "Creator|"
+msgid "&Write"
+msgstr "TODO"
+
+msgctxt "Creator|"
+msgid "Cance&l"
+msgstr "TODO"
 
 msgctxt "Creator|"
 msgid "© 2021 Lime Technology, Inc"
@@ -84,22 +92,26 @@ msgid "This software was created under GPLv2, using earlier work from LibreELEC.
 msgstr "Diese Software wurde unter GPLv2 erstellt, unter Verwendung früherer Arbeiten von LibreELEC."
 
 msgctxt "Creator|"
-msgid "This software was created under GPLv2, using earlier work from LibreELEC."
-msgstr "Diese Software wurde unter GPLv2 erstellt, unter Verwendung früherer Arbeiten von LibreELEC."
+msgid "For license, credits and history, please read:"
+msgstr "Für Lizenz, Danksagung und Versionsverlauf bitte:"
 
 msgctxt "Creator|"
-msgid "For license, credits and history, please read: [https://github.com/limetech/usb-creator](https://github.com/limetech/usb-creator)"
-msgstr "Für Lizenz, Danksagung und Versionsverlauf bitte: [https://github.com/limetech/usb-creator](https://github.com/limetech/usb-creator) besuchen"
+msgid "If you are having issues getting up and running, see also the Manual Method:"
+msgstr "Falls Probleme auftreten, kann der USB Stick auch manuell erstellt werden:"
 
 msgctxt "Creator|"
-msgid "If you are having issues getting up and running, see also the Manual Method: [https://wiki.unraid.net/Manual/Changing_The_Flash_Device#Manual_Method_.28Legacy.29](https://wiki.unraid.net/Manual/Changing_The_Flash_Device#Manual_Method_.28Legacy.29)"
-msgstr "Falls Probleme auftreten, kann der USB Stick auch manuell erstellt werden: [https://wiki.unraid.net/Manual/Changing_The_Flash_Device#Manual_Method_.28Legacy.29](https://wiki.unraid.net/Manual/Changing_The_Flash_Device#Manual_Method_.28Legacy.29)"
+msgid "To report issues with this tool, please email:"
+msgstr "Um Probleme zu Melden, bitte sende ein Email an:"
 
 msgctxt "Creator|"
-msgid "To report issues with this tool, please send an email to: [general@support.unraid.net](mailto:general@support.unraid.net)"
-msgstr "Um Probleme zu Melden, bitte sende ein Email an: [general@support.unraid.net](mailto:general@support.unraid.net) senden"
-
-msgctxt "Creator|"
-msgid "Close"
+msgid "&Close"
 msgstr "Schließen"
+
+msgctxt "Creator|"
+msgid ""
+"Version: %1\n"
+"Build date: %2"
+msgstr ""
+"TODO: %1\n"
+"TODO: %2"
 
