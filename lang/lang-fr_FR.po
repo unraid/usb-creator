@@ -45,7 +45,7 @@ msgstr "Mode Réseau:"
 
 msgctxt "Creator|"
 msgid "DHCP"
-msgstr_fr "DHCP"
+msgstr "DHCP"
 
 msgctxt "Creator|"
 msgid "Static IP"
