@@ -21,19 +21,19 @@
 #ifndef MOVINGAVERAGE_H
 #define MOVINGAVERAGE_H
 
-#include <QLinkedList>
+#include <list>
 #include <limits>
 
 class MovingAverage
 {
 public:
-    MovingAverage(const uint numSamples = 10);
+    MovingAverage(const unsigned int numSamples = 10);
     void AddValue(double val);
     double AverageValue();
 
 private:
-    QLinkedList<double> samples;
-    int size;
+    std::list<double> samples;
+    unsigned int size;
     double total;
 };
 

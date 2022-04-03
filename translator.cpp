@@ -135,12 +135,13 @@ void Translator::languageAction(QAction *action)
     if (qtranslator->isFilled())
         qApp->removeTranslator(qtranslator);
 
+    bool loaded = false;
     if (QFile::exists(":/lang/lang-" + locale + ".qm"))
-        qtranslator->load(":/lang/lang-" + locale + ".qm");
+        loaded = qtranslator->load(":/lang/lang-" + locale + ".qm");
     else
-        qtranslator->load("lang-" + locale + ".qm");
+        loaded = qtranslator->load("lang-" + locale + ".qm");
 
-    if (qtranslator->isFilled())
+    if (loaded && qtranslator->isFilled())
         qApp->installTranslator(qtranslator);
 
     // clear checked status

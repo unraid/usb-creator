@@ -94,6 +94,10 @@ void DownloadManager::handleGetFinished(QNetworkReply *reply)
         switch (responseCode) {
         case RESPONSE_FOUND:
             redirectionUrl = reply->header(QNetworkRequest::LocationHeader).toUrl();
+            // Fallthrough to redirect is required, hence no break;
+#if (defined(_MSVC_LANG) && _MSVC_LANG >= 201703L) || (defined(__cplusplus) && __cplusplus >= 201703L)
+            [[fallthrough]];
+#endif
         case RESPONSE_REDIRECT:
             if (redirectionUrl.isValid()) {
                 qDebug() << reply->url() << "redirected to" << redirectionUrl;

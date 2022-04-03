@@ -106,7 +106,7 @@ QString DeviceEnumerator_windows::getLabelOfDevice(const QString &device)
           label, ARRAYSIZE(label), \
           NULL, NULL, NULL, NULL, 0))
     {
-        return QString::fromUtf16((const ushort *) label);
+        return QString::fromUtf16((const char16_t *) label);
     }
 
     return "";

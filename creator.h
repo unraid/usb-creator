@@ -27,7 +27,7 @@
 #include <QFile>
 #include <QFutureWatcher>
 #include <QStandardPaths>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include "downloadmanager.h"
 #include "jsonparser.h"

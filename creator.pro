@@ -97,7 +97,7 @@ win32 {
     RC_FILE = winapp.rc
 
     LIBS += -lsetupapi
-    LIBS += -LC:\Build-OpenSSL-VC32-Release-Static\lib -llibcrypto -llibssl
+    #LIBS += -LC:\Build-OpenSSL-VC32-Release-Static\lib -llibcrypto -llibssl
 
     # remove possible other optimization flags
     QMAKE_CXXFLAGS_RELEASE -= -O
@@ -131,8 +131,8 @@ unix {
 
     contains(QT_ARCH, i386) {
         # link with i386 library manualy unpacked
-        QMAKE_LFLAGS += -L$(HOME)/Qt5.6.1/ubuntu-i386-lib/usr/lib/i386-linux-gnu
-        QMAKE_RPATHLINKDIR += $$(HOME)/Qt5.6.1/ubuntu-i386-lib/lib/i386-linux-gnu
+        QMAKE_LFLAGS += -L$(HOME)/Qt6.2.4/ubuntu-i386-lib/usr/lib/i386-linux-gnu
+        QMAKE_RPATHLINKDIR += $$(HOME)/Qt6.2.4/ubuntu-i386-lib/lib/i386-linux-gnu
     }
 
     SOURCES += diskwriter_unix.cpp \
@@ -156,6 +156,7 @@ macx {
     # Specifies where to find the libraries at runtime
     QMAKE_RPATHDIR += @executable_path/../Frameworks
     QMAKE_LFLAGS_SONAME = -Wl,-install_name,@rpath/
+    QMAKE_INFO_PLIST = dmg_osx/template.app/Contents/Info.plist
     #QT_CONFIG -= no-pkg-config
     #CONFIG += link_pkgconfig
     # same thing

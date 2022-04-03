@@ -35,7 +35,6 @@
 #include <QThread>
 #include <QTimer>
 #include <QPlainTextEdit>
-#include <QLinkedList>
 #include <QStyleFactory>
 #include <QDesktopServices>
 #include <QMimeData>
@@ -240,7 +239,6 @@ bool Creator::showRootMessageBox()
     msgBox.setText(tr("Root privileges required to write image.\nRun application with sudo."));
     msgBox.setIcon(QMessageBox::Critical);
     msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setButtonText(QMessageBox::Ok, tr("OK"));
     msgBox.exec();
     return true;
 #endif
@@ -261,6 +259,7 @@ Creator::~Creator()
     diskWriterThread->wait();
     delete diskWriterThread;
     delete devEnumerator;
+    delete parserData;
 }
 
 void Creator::httpsUrlHandler(const QUrl &url)
@@ -418,7 +417,7 @@ void Creator::populateBranches()
     QList<JsonData> dataList = parserData->getJsonData();
     for (int ix = 0; ix < dataList.size(); ix++) {
         QString projectName = dataList.at(ix).name;
-        ui->projectSelectBox->insertItem(0, projectName);
+        ui->projectSelectBox->insertItem(0, projectName.toLocal8Bit().constData());
     }
 
     ui->projectSelectBox->addItem("Local Zip");
@@ -467,7 +466,7 @@ void Creator::setProjectImages()
         QString projectName = dataList.at(ix).name;
 
         // show images only for selected project
-        if (projectName != ui->projectSelectBox->currentText())
+        if (projectName.toLocal8Bit().constData() != ui->projectSelectBox->currentText())
             continue;
 
         QList<QVariantMap> releases = dataList.at(ix).images;
