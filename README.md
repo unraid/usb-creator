@@ -14,18 +14,16 @@ An easy to use application to create bootable USB flash for Unraid. Runs on Wind
 
 4. Download and extract https://download.qt.io/official_releases/qt/6.2/6.2.4/submodules/qttools-everywhere-src-6.2.4.zip to %USERPROFILE%\Downloads
 
-5. Download and extract http://download.qt.io/official_releases/jom/jom_1_1_3.zip to %USERPROFILE%\Downloads\qtbase-everywhere-src-5.13.1
-
-6. Open 'Developer Command Prompt for VS 2022' app and type the following in the console:
+5. Open 'Developer Command Prompt for VS 2022' app and type the following in the console:
 ```
 cd %USERPROFILE%\Downloads\qtbase-everywhere-src-6.2.4
 
 configure.bat -static -static-runtime -no-shared -release -opensource -confirm-license -silent -platform win32-msvc -prefix C:\Qt\6.2.4-static -nomake examples -nomake tests -nomake tools -no-strip -no-cups -no-openvg -no-plugin-manifests -no-dbus -no-directwrite -qt-zlib -qt-pcre -qt-libpng -qt-libjpeg -qt-harfbuzz -qt-freetype -DFEATURE_openssl=OFF -DFEATURE_schannel=ON
 ```
 
-7. Edit _mkspecs/common/msvc-desktop.conf_ and change _-MD_ to _-MT_
+6. Edit _mkspecs/common/msvc-desktop.conf_ and change _-MD_ to _-MT_
 
-8. Back in the 'Developer Command Prompt for VS 2022' app, type in:
+7. Back in the 'Developer Command Prompt for VS 2022' app, type in:
 ```
 cmake --build . --parallel
 cmake --install .
