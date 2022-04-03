@@ -188,9 +188,11 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     ui->LocalZipText->hide();
     ui->LocalZipPickerButton->hide();
     ui->StaticIPPanel->hide();
-    ui->CustomizePanel->hide();
+    //ui->CustomizePanel->hide();
     ui->EFIBootLocalCheckBox->hide();
     ui->infoEFIBootLocalButton->hide();
+
+    ui->CustomizePanel->setVisible(true);
 
     //TODO: make the crypt256 lib available on Windows and then the app can provide a password field
     ui->RootPasswordLabel->hide();
@@ -455,6 +457,7 @@ void Creator::setProjectImages()
         ui->imageSelectBox->hide();
         ui->CustomizeButton->setChecked(false);
         ui->CustomizeButton->hide();
+        ui->CustomizePanel->hide();
         reset();
         return;
     } else {
@@ -463,7 +466,9 @@ void Creator::setProjectImages()
         ui->EFIBootLocalCheckBox->hide();
         ui->infoEFIBootLocalButton->hide();
         ui->imageSelectBox->show();
+        ui->CustomizeButton->setChecked(true);
         ui->CustomizeButton->show();
+        ui->CustomizePanel->show();
     }
 
     ui->imageSelectBox->clear();

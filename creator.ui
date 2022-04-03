@@ -1056,7 +1056,7 @@
          <set>Qt::AlignHCenter|Qt::AlignTop</set>
         </property>
         <property name="wordWrap">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="openExternalLinks">
          <bool>true</bool>
