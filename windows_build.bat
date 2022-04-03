@@ -19,11 +19,11 @@ rem #  You should have received a copy of the GNU General Public License
 rem #  along with Unraid USB Creator.  If not, see <http://www.gnu.org/licenses/>.
 rem ################################################################################
 
-set PATH=c:\Qt\6.1.2-static\bin;%PATH%
+set PATH=c:\Qt\6.2.4-static\bin;%PATH%
 
 del release\Unraid.USB.Creator.Win32.exe > nul 2>&1
 
-rem call windows_prepare_lang.bat
+call windows_prepare_lang.bat
 
 qmake.exe
 nmake release

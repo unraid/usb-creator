@@ -20,6 +20,7 @@
 
 #include "deviceenumerator_windows.h"
 
+#include <QtCore/qregularexpression.h>
 #include <windows.h>
 #include <setupapi.h>
 
@@ -236,7 +237,7 @@ int DeviceEnumerator_windows::removeDrive(const QString &device) const
     error = ERROR_SUCCESS;          \
     Error_Exit:                     \
     if ( ERROR_SUCCESS != error ) { \
-        qDebug() << failedApi << " failed at " << failedLine << " : Error Code - " << error << endl;    \
+        qDebug() << failedApi << " failed at " << failedLine << " : Error Code - " << error << Qt::endl;    \
     }
 
 
@@ -286,9 +287,9 @@ QList<QVariantMap> DeviceEnumerator_windows::listBlockDevices() const
         }
 
         QString strDeviceInstanceID = QString::fromWCharArray(buf);
+        QRegularExpression re(QStringLiteral("\\\\[0-9A-Z]+$"));
 
-
-        if (strDeviceInstanceID.startsWith("USB\\") && strDeviceInstanceID.contains(QRegExp("\\\\[0-9A-Z]+$")))
+        if (strDeviceInstanceID.startsWith("USB\\") && re.match(strDeviceInstanceID).hasMatch())
         {
             int PIDpos = strDeviceInstanceID.indexOf("PID_");
             int VIDpos = strDeviceInstanceID.indexOf("VID_");
@@ -305,10 +306,10 @@ QList<QVariantMap> DeviceEnumerator_windows::listBlockDevices() const
             projectData.insert("guid", GUID);
             stagingList.append(projectData);
 ///*
-            qDebug() << "Instance ID:" << strDeviceInstanceID << endl \
-                     << "PID:" << projectData["pid"].toString() << endl \
-                     << "VID:" << projectData["vid"].toString() << endl \
-                     << "Serial:" << projectData["serial"].toString() << endl \
+            qDebug() << "Instance ID:" << strDeviceInstanceID << Qt::endl
+                     << "PID:" << projectData["pid"].toString() << Qt::endl
+                     << "VID:" << projectData["vid"].toString() << Qt::endl
+                     << "Serial:" << projectData["serial"].toString() << Qt::endl
                      << "GUID:" << projectData["guid"].toString();
 //*/
         }
@@ -364,7 +365,7 @@ QList<QVariantMap> DeviceEnumerator_windows::listBlockDevices() const
                     {
                         it->insert("name", QString::fromWCharArray(buf));
 ///*
-                        qDebug() << "Instance ID:" << strDeviceInstanceID << endl \
+                        qDebug() << "Instance ID:" << strDeviceInstanceID << Qt::endl
                                  << "Friendly Name:" << (*it)["name"].toString();
 //*/
                     }
@@ -384,7 +385,7 @@ QList<QVariantMap> DeviceEnumerator_windows::listBlockDevices() const
                     projectData.insert("serial", "");
                     ValidList.append(projectData);
 
-                    qDebug() << "Found storage without matching device with instance ID:" << strDeviceInstanceID << endl
+                    qDebug() << "Found storage without matching device with instance ID:" << strDeviceInstanceID << Qt::endl
                              << "Friendly Name:" << projectData["name"].toString();
                 }
             }
@@ -509,8 +510,8 @@ QList<QVariantMap> DeviceEnumerator_windows::listBlockDevices() const
                         ValidList.append((*it));
 
 ///*
-                        qDebug() << "Device path:" << strDevicePath << endl \
-                                 << "Physical path:" << (*it)["dev"].toString() << endl \
+                        qDebug() << "Device path:" << strDevicePath << Qt::endl
+                                 << "Physical path:" << (*it)["dev"].toString() << Qt::endl
                                  << "Size:" << QString::number((*it)["size"].toULongLong());
 //*/
                         break;

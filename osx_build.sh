@@ -28,12 +28,22 @@ USER=$(whoami)
 chmod -R 755 dmg_osx
 
 echo ""
+echo "Creating .ts files"
+for f in lang/*.po; do 
+  if [ -f "$f" ]
+  then
+    echo "Processing $f file..";
+    lconvert -verbose -locations none "$f" -o "lang/$(basename $f .po).ts"
+  fi
+done
+
+echo ""
 echo "Creating .qm files"
-/Users/$USER/Qt/6.1.2-static/bin/lrelease creator.pro
+/Users/$USER/Qt/6.2.4-static/bin/lrelease creator.pro
 
 echo ""
 echo "Running qmake..."
-/Users/$USER/Qt/6.1.2-static/bin/qmake
+/Users/$USER/Qt/6.2.4-static/bin/qmake
 
 echo ""
 echo "Building..."

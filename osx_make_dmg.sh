@@ -71,7 +71,7 @@ sync
 
 echo ""
 echo "Running macdeployqt..."
-/Users/$USER/Qt/6.1.2-static/bin/macdeployqt "Unraid USB Creator.app" -no-plugins -no-strip -dmg
+/Users/$USER/Qt/6.2.4-static/bin/macdeployqt "Unraid USB Creator.app" -no-plugins -no-strip -dmg -codesign="Developer ID Application: Lime Technology Inc. (B4L35Y5N35)" -timestamp -sign-for-notarization="Developer ID Application: Lime Technology Inc. (B4L35Y5N35)" -verbose=2
 
 echo ""
 echo "Running hdiutil attach..."

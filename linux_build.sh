@@ -23,13 +23,13 @@ set -e
 echo ""
 if [ "$1" = "32" ]; then
   echo "Building 32 bit version..."
-  QT_DIR=~/Qt/6.1.2-static-32
+  QT_DIR=~/Qt/6.2.4-static-32
 else
   echo "Building 64 bit version..."
-  QT_DIR=~/Qt/6.1.2-static-64
+  QT_DIR=~/Qt/6.2.4-static-64
 fi
 
-export PATH=$QT_DIR/bin:$QT_DIR/../6.1.2/gcc_64/bin:$PATH
+export PATH=$QT_DIR/bin:$QT_DIR/../6.2.4/gcc_64/bin:$PATH
 
 echo ""
 echo "Creating .qm files"
