@@ -51,11 +51,11 @@
     </message>
     <message>
         <source>Allow UEFI Boot</source>
-        <translation>Permitir el arranque UEFI</translation>
+        <translation>Permitir UEFI</translation>
     </message>
     <message>
         <source>Allow UEFI Boot </source>
-        <translation>Permitir el arranque UEFI </translation>
+        <translation>Permitir UEFI </translation>
     </message>
     <message>
         <source>Download and Install the Spanish Language Pack</source>
@@ -82,8 +82,8 @@
         <translation>Cancelar</translation>
     </message>
     <message>
-        <source>© 2021 Lime Technology, Inc</source>
-        <translation>© 2021 Lime Technology, Inc</translation>
+        <source>© 2022 Lime Technology, Inc</source>
+        <translation>© 2022 Lime Technology, Inc</translation>
     </message>
     <message>
         <source>This software was created under GPLv2, using earlier work from LibreELEC.</source>
@@ -94,8 +94,8 @@
         <translation>Para la licencia, créditos e historia, por favor, lea:</translation>
     </message>
     <message>
-        <source>If you are having issues getting up and running, see also the Manual Method:</source>
-        <translation>Si tiene problemas con el creador de USB, consulte también el Método manual:</translation>
+        <source>If you are having issues getting up and running, see also the &lt;a href=&apos;https://wiki.unraid.net/Articles/Getting_Started#Manual_Install_Method&apos;&gt;Manual Method&lt;/a&gt;</source>
+        <translation>Si tiene problemas con el creador de USB, consulte también el &lt;a href=&apos;https://wiki.unraid.net/M%C3%A9todo_Manual&apos;&gt;Método manual&lt;/a&gt;</translation>
     </message>
     <message>
         <source>To report issues with this tool, please email:</source>

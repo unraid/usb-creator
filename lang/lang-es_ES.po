@@ -53,11 +53,11 @@ msgstr "dirección IP estática"
 
 msgctxt "Creator|"
 msgid "Allow UEFI Boot"
-msgstr "Permitir el arranque UEFI"
+msgstr "Permitir UEFI"
 
 msgctxt "Creator|"
 msgid "Allow UEFI Boot "
-msgstr "Permitir el arranque UEFI "
+msgstr "Permitir UEFI "
 
 msgctxt "Creator|"
 msgid "Download and Install the Spanish Language Pack"
@@ -84,8 +84,8 @@ msgid "Cance&l"
 msgstr "Cancelar"
 
 msgctxt "Creator|"
-msgid "© 2021 Lime Technology, Inc"
-msgstr "© 2021 Lime Technology, Inc"
+msgid "© 2022 Lime Technology, Inc"
+msgstr "© 2022 Lime Technology, Inc"
 
 msgctxt "Creator|"
 msgid "This software was created under GPLv2, using earlier work from LibreELEC."
@@ -96,8 +96,8 @@ msgid "For license, credits and history, please read:"
 msgstr "Para la licencia, créditos e historia, por favor, lea:"
 
 msgctxt "Creator|"
-msgid "If you are having issues getting up and running, see also the Manual Method:"
-msgstr "Si tiene problemas con el creador de USB, consulte también el Método manual:"
+msgid "If you are having issues getting up and running, see also the <a href='https://wiki.unraid.net/Articles/Getting_Started#Manual_Install_Method'>Manual Method</a>"
+msgstr "Si tiene problemas con el creador de USB, consulte también el <a href='https://wiki.unraid.net/M%C3%A9todo_Manual'>Método manual</a>"
 
 msgctxt "Creator|"
 msgid "To report issues with this tool, please email:"

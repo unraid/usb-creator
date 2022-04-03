@@ -59,7 +59,7 @@
         <translation>允许使用 UEFI 启动 </translation>
     </message>
     <message>
-        <source>Download and Install the Chinse Language Pack</source>
+        <source>Download and Install the Chinese Language Pack</source>
         <translation>下载并安装中文语言包</translation>
     </message>
     <message>
@@ -76,15 +76,15 @@
     </message>
     <message>
         <source>&amp;Write</source>
-        <translation>TODO</translation>
+        <translation>写</translation>
     </message>
     <message>
         <source>Cance&amp;l</source>
-        <translation>TODO</translation>
+        <translation>取消</translation>
     </message>
     <message>
-        <source>© 2021 Lime Technology, Inc</source>
-        <translation>© 2021 Lime Technology, Inc</translation>
+        <source>© 2022 Lime Technology, Inc</source>
+        <translation>© 2022 Lime Technology, Inc</translation>
     </message>
     <message>
         <source>This software was created under GPLv2, using earlier work from LibreELEC.</source>
@@ -95,8 +95,8 @@
         <translation>关于授权许可、制作人员及历史，请阅读:</translation>
     </message>
     <message>
-        <source>If you are having issues getting up and running, see also the Manual Method:</source>
-        <translation>如在启动和运行过程中存在任何问题，亦可查阅手动制作方式:</translation>
+        <source>If you are having issues getting up and running, see also the &lt;a href=&apos;https://wiki.unraid.net/Articles/Getting_Started#Manual_Install_Method&apos;&gt;Manual Method&lt;/a&gt;</source>
+        <translation>如在启动和运行过程中存在任何问题，亦可查阅&lt;a href=&apos;https://wiki.unraid.net/%E6%89%8B%E5%8A%A8%E6%96%B9%E5%BC%8F&apos;&gt;手动制作方&lt;/a&gt;式</translation>
     </message>
     <message>
         <source>To report issues with this tool, please email:</source>
@@ -109,8 +109,8 @@
     <message>
         <source>Version: %1
 Build date: %2</source>
-        <translation>TODO: %1
-TODO: %2</translation>
+        <translation>版本: %1
+建造日期: %2</translation>
     </message>
 </context>
 </TS>

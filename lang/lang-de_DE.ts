@@ -75,15 +75,15 @@
     </message>
     <message>
         <source>&amp;Write</source>
-        <translation>TODO</translation>
+        <translation>Schreibe</translation>
     </message>
     <message>
         <source>Cance&amp;l</source>
-        <translation>TODO</translation>
+        <translation>Stornieren</translation>
     </message>
     <message>
-        <source>© 2021 Lime Technology, Inc</source>
-        <translation>© 2021 Lime Technology, Inc</translation>
+        <source>© 2022 Lime Technology, Inc</source>
+        <translation>© 2022 Lime Technology, Inc</translation>
     </message>
     <message>
         <source>This software was created under GPLv2, using earlier work from LibreELEC.</source>
@@ -94,8 +94,8 @@
         <translation>Für Lizenz, Danksagung und Versionsverlauf bitte:</translation>
     </message>
     <message>
-        <source>If you are having issues getting up and running, see also the Manual Method:</source>
-        <translation>Falls Probleme auftreten, kann der USB Stick auch manuell erstellt werden:</translation>
+        <source>If you are having issues getting up and running, see also the &lt;a href=&apos;https://wiki.unraid.net/Articles/Getting_Started#Manual_Install_Method&apos;&gt;Manual Method&lt;/a&gt;</source>
+        <translation>Falls Probleme auftreten, kann der USB Stick auch &lt;a href=&apos;https://wiki.unraid.net/Manuelle_Methode_-_Deutsch&apos;&gt;manuell erstellt werden&lt;/a&gt;</translation>
     </message>
     <message>
         <source>To report issues with this tool, please email:</source>
@@ -108,8 +108,8 @@
     <message>
         <source>Version: %1
 Build date: %2</source>
-        <translation>TODO: %1
-TODO: %2</translation>
+        <translation>Ausführung: %1
+Baudatum: %2</translation>
     </message>
 </context>
 </TS>

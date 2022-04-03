@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR">
-    <extra-po-header-language>es</extra-po-header-language>
+    <extra-po-header-language>fr</extra-po-header-language>
     <extra-po-header-language_team>French</extra-po-header-language_team>
     <extra-po-header-last_translator>Patrick Fortin-Ducharme</extra-po-header-last_translator>
     <extra-po-header_comment># Translators:
@@ -82,8 +82,8 @@
         <translation>Annuler</translation>
     </message>
     <message>
-        <source>© 2021 Lime Technology, Inc</source>
-        <translation>© 2021 Lime Technology, Inc</translation>
+        <source>© 2022 Lime Technology, Inc</source>
+        <translation>© 2022 Lime Technology, Inc</translation>
     </message>
     <message>
         <source>This software was created under GPLv2, using earlier work from LibreELEC.</source>
@@ -94,8 +94,8 @@
         <translation>Pour la licence, les crédits et l&apos;historique, svp lire:</translation>
     </message>
     <message>
-        <source>If you are having issues getting up and running, see also the Manual Method:</source>
-        <translation>Si vous avez des problèmes à démarrer et être opérationnel, voir également la méthode manuelle:</translation>
+        <source>If you are having issues getting up and running, see also the &lt;a href=&apos;https://wiki.unraid.net/Articles/Getting_Started#Manual_Install_Method&apos;&gt;Manual Method&lt;/a&gt;</source>
+        <translation>Si vous avez des problèmes à démarrer et être opérationnel, voir également la &lt;a href=&apos;https://wiki.unraid.net/M%C3%A9thode_Manuelle_-_Fran%C3%A7ais&apos;&gt;méthode manuelle&lt;/a&gt;</translation>
     </message>
     <message>
         <source>To report issues with this tool, please email:</source>

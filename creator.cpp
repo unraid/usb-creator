@@ -325,6 +325,13 @@ void Creator::retranslateUi()
 {
     // retranslate dynamic texts
     ui->labelVersion->setText(tr("Version: %1\nBuild date: %2").arg(BUILD_VERSION).arg(BUILD_DATE));
+
+    QString about1 = tr("This software was created under GPLv2, using earlier work from LibreELEC.");
+    QString about2 = tr("For license, credits and history, please read:");
+    QString about3 = tr("To report issues with this tool, please email:");
+    QString about4 = tr("If you are having issues getting up and running, see also the <a href='https://wiki.unraid.net/Articles/Getting_Started#Manual_Install_Method'>Manual Method</a>");
+
+    ui->labelAbout->setText("<html><head/><body><p align='center'><span style='font-size:16pt; font-weight:600;'>© 2022 Lime Technology, Inc</span></p><p align='center'>"+about1+"</p><p align='center'>"+about2+"<br/><a href='https://github.com/limetech/usb-creator'>https://github.com/limetech/usb-creator</a></p><p align='center'>"+about3+" <br/><a href='mailto:general@support.unraid.net'>general@support.unraid.net</a></p><p align='center'>"+about4+"</p></body></html>");
 }
 
 void Creator::keyPressEvent(QKeyEvent *event)
