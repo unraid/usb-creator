@@ -25,5 +25,6 @@ echo ""
 # clean any extended attributes otherwise codesigning fails
 xattr -cr "Unraid USB Creator.app"
 
-sudo codesign --deep -v -fs "Developer ID Application: Lime Technology Inc. (B4L35Y5N35)" "Unraid USB Creator.app"
+codesign --deep -v -fs "Developer ID Application: Lime Technology Inc. (B4L35Y5N35)" "Unraid USB Creator.app"
 codesign -vvvv "Unraid USB Creator.app"
+spctl -a -v "Unraid USB Creator.app"

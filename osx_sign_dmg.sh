@@ -22,5 +22,5 @@ echo ""
 echo "Signing DMG..."
 echo ""
 
-sudo codesign -v -fs  "Developer ID Application: Lime Technology Inc. (B4L35Y5N35)"  Unraid.USB.Creator.macOS.dmg
-codesign -vvvv Unraid.USB.Creator.macOS.dmg
+codesign -v -fs "Developer ID Application: Lime Technology Inc. (B4L35Y5N35)" "Unraid.USB.Creator.macOS.dmg"
+codesign -vvvv "Unraid.USB.Creator.macOS.dmg"
