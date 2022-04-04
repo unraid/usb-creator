@@ -30,11 +30,11 @@ public:
     void Whoami() {}
     QString GetUserEnvDbusSession()
     {
-        return QString::null;
+        return QString();
     }
     QString GetUserEnvLogname()
     {
-        return QString::null;
+        return QString();
     }
 };
 

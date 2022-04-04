@@ -36,8 +36,8 @@ SOURCES += main.cpp \
            movingaverage.cpp \
            downloadmanager.cpp \
            translator.cpp \
-           libs/quazip/*.c \
-           libs/quazip/*.cpp
+           $$files(libs/quazip/*.c) \
+           $$files(libs/quazip/*.cpp)
 #libs/sha256crypt/*.c
 
 HEADERS += creator.h \
@@ -49,7 +49,7 @@ HEADERS += creator.h \
            downloadmanager.h  \
            deviceenumerator.h \
            translator.h \
-           libs/quazip/*.h
+           $$files(libs/quazip/*.h)
 #libs/sha256crypt/*.h
 
 MOC_DIR     = .generated_files
@@ -79,12 +79,12 @@ win32 {
 
     SOURCES += diskwriter_windows.cpp \
                deviceenumerator_windows.cpp \
-               libs/zlib/*.c
+               $$files(libs/zlib/*.c)
 
     HEADERS += diskwriter_windows.h \
                deviceenumerator_windows.h \
                privileges.h \
-               libs/zlib/*.h
+               $$files(libs/zlib/*.h)
 
     INCLUDEPATH += "libs\zlib"
     #INCLUDEPATH += "libs\sha256crypt"
