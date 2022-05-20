@@ -155,7 +155,6 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
         checkWriteFlashAvailable();
     });
     connect(ui->LocalZipText, &QLineEdit::textChanged, [=] { checkWriteFlashAvailable(); });
-    connect(ui->CustomizeButton, &QPushButton::toggled, [=] (bool active) { ui->CustomizePanel->setVisible(active); });
     connect(ui->NetworkStaticRadioButton, &QRadioButton::toggled, [=] (bool active) { ui->StaticIPPanel->setVisible(active); });
 
     connect(ui->ShowPasswordButton, &QPushButton::toggled, [=] (bool active) {
@@ -188,7 +187,6 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     ui->LocalZipText->hide();
     ui->LocalZipPickerButton->hide();
     ui->StaticIPPanel->hide();
-    //ui->CustomizePanel->hide();
     ui->EFIBootLocalCheckBox->hide();
     ui->infoEFIBootLocalButton->hide();
 
@@ -455,8 +453,6 @@ void Creator::setProjectImages()
         ui->EFIBootLocalCheckBox->show();
         ui->infoEFIBootLocalButton->show();
         ui->imageSelectBox->hide();
-        ui->CustomizeButton->setChecked(false);
-        ui->CustomizeButton->hide();
         ui->CustomizePanel->hide();
         reset();
         return;
@@ -466,8 +462,6 @@ void Creator::setProjectImages()
         ui->EFIBootLocalCheckBox->hide();
         ui->infoEFIBootLocalButton->hide();
         ui->imageSelectBox->show();
-        ui->CustomizeButton->setChecked(true);
-        ui->CustomizeButton->show();
         ui->CustomizePanel->show();
     }
 
@@ -542,7 +536,6 @@ void Creator::reset(const QString& message)
     ui->imageSelectBox->blockSignals(false);
     ui->imageSelectBox->setEnabled(true);
 
-    ui->CustomizeButton->setEnabled(true);
     ui->CustomizePanel->setEnabled(true);
 
     ui->EFIBootLocalCheckBox->setEnabled(true);
@@ -602,7 +595,6 @@ void Creator::disableControls()
     ui->projectSelectBox->blockSignals(true);
     ui->imageSelectBox->setEnabled(false);
     ui->imageSelectBox->blockSignals(true);
-    ui->CustomizeButton->setEnabled(false);
     ui->CustomizePanel->setEnabled(false);
     ui->EFIBootLocalCheckBox->setEnabled(false);
     ui->LocalZipText->setEnabled(false);
@@ -1448,91 +1440,88 @@ void Creator::handleExtractFilesComplete(const QString &targetpath)
         }
 
         // write custom Unraid settings
-        if (ui->CustomizeButton->isChecked())
+        QFile fileIdent(targetpath+"/config/ident.cfg");
+        if (fileIdent.exists())
         {
-            QFile fileIdent(targetpath+"/config/ident.cfg");
-            if (fileIdent.exists())
+            fileIdent.open(QIODevice::ReadOnly);
+            QString dataText = fileIdent.readAll();
+            fileIdent.close();
+
+            dataText.replace("NAME=\"Tower\"", "NAME=\"" + ui->ServerNameText->text() + "\"");
+
+            if (fileIdent.open(QFile::WriteOnly | QFile::Truncate))
             {
-                fileIdent.open(QIODevice::ReadOnly);
-                QString dataText = fileIdent.readAll();
-                fileIdent.close();
+                QTextStream out(&fileIdent);
+                out << dataText;
+            }
+            fileIdent.close();
+        }
 
-                dataText.replace("NAME=\"Tower\"", "NAME=\"" + ui->ServerNameText->text() + "\"");
+        if (ui->EFIBootCheckBox->isChecked())
+        {
+            QDir dirEFI(targetpath+"/EFI-");
+            if (dirEFI.exists())
+            {
+                dirEFI.rename(targetpath+"/EFI-", targetpath+"/EFI");
+            }
+        }
 
-                if (fileIdent.open(QFile::WriteOnly | QFile::Truncate))
+        /*
+        // TODO: Open /config/shadow, replace  root:!:  with  root:<password_hash>:
+        if (!ui->RootPasswordText->text().isEmpty())
+        {
+            QFile::copy(":/bin/shadow", targetpath+"/config/shadow");
+
+            //TODO - generate random salt
+            QString salt = "S7nS65721g/d";
+
+            QString newHash = sha256_crypt(ui->RootPasswordText->text().toUtf8(), salt.toUtf8());
+
+            qDebug() << "SHA-256 Hashed password:" << newHash;
+
+
+            QFile fileShadow(":/bin/shadow");
+            if (fileShadow.exists())
+            {
+                fileShadow.open(QIODevice::ReadOnly);
+                QString dataText = fileShadow.readAll();
+                fileShadow.close();
+
+                dataText.replace("root:!:", "root:"+newHash+":");
+
+                QFile fileShadowOut(targetpath+"/config/shadow");
+                if (fileShadowOut.open(QFile::WriteOnly | QFile::Truncate))
                 {
-                    QTextStream out(&fileIdent);
+                    QTextStream out(&fileShadow);
                     out << dataText;
                 }
-                fileIdent.close();
+                fileShadowOut.close();
             }
 
-            if (ui->EFIBootCheckBox->isChecked())
+        }
+        */
+
+        if (ui->NetworkStaticRadioButton->isChecked())
+        {
+            QFile fileNetwork(targetpath+"/config/network.cfg");
+            if (fileNetwork.exists())
             {
-                QDir dirEFI(targetpath+"/EFI-");
-                if (dirEFI.exists())
+                fileNetwork.open(QIODevice::ReadOnly);
+                QString dataText = fileNetwork.readAll();
+                fileNetwork.close();
+
+                dataText.replace("USE_DHCP=\"yes\"", "USE_DHCP=\"no\"");
+                dataText.replace("IPADDR=", "IPADDR=\"" + ui->IPAddressText->getValue() + "\"");
+                dataText.replace("NETMASK=", "NETMASK=\"" + ui->NetmaskComboBox->currentText() + "\"");
+                dataText.replace("GATEWAY=", "GATEWAY=\"" + ui->GatewayText->getValue() + "\"");
+                dataText.append("DNS_SERVER1=\"" + ui->DNSText->getValue() + "\"\r\n");
+
+                if (fileNetwork.open(QFile::WriteOnly | QFile::Truncate))
                 {
-                    dirEFI.rename(targetpath+"/EFI-", targetpath+"/EFI");
+                    QTextStream out(&fileNetwork);
+                    out << dataText;
                 }
-            }
-
-            /*
-            // TODO: Open /config/shadow, replace  root:!:  with  root:<password_hash>:
-            if (!ui->RootPasswordText->text().isEmpty())
-            {
-                QFile::copy(":/bin/shadow", targetpath+"/config/shadow");
-
-                //TODO - generate random salt
-                QString salt = "S7nS65721g/d";
-
-                QString newHash = sha256_crypt(ui->RootPasswordText->text().toUtf8(), salt.toUtf8());
-
-                qDebug() << "SHA-256 Hashed password:" << newHash;
-
-
-                QFile fileShadow(":/bin/shadow");
-                if (fileShadow.exists())
-                {
-                    fileShadow.open(QIODevice::ReadOnly);
-                    QString dataText = fileShadow.readAll();
-                    fileShadow.close();
-
-                    dataText.replace("root:!:", "root:"+newHash+":");
-
-                    QFile fileShadowOut(targetpath+"/config/shadow");
-                    if (fileShadowOut.open(QFile::WriteOnly | QFile::Truncate))
-                    {
-                        QTextStream out(&fileShadow);
-                        out << dataText;
-                    }
-                    fileShadowOut.close();
-                }
-
-            }
-            */
-
-            if (ui->NetworkStaticRadioButton->isChecked())
-            {
-                QFile fileNetwork(targetpath+"/config/network.cfg");
-                if (fileNetwork.exists())
-                {
-                    fileNetwork.open(QIODevice::ReadOnly);
-                    QString dataText = fileNetwork.readAll();
-                    fileNetwork.close();
-
-                    dataText.replace("USE_DHCP=\"yes\"", "USE_DHCP=\"no\"");
-                    dataText.replace("IPADDR=", "IPADDR=\"" + ui->IPAddressText->getValue() + "\"");
-                    dataText.replace("NETMASK=", "NETMASK=\"" + ui->NetmaskComboBox->currentText() + "\"");
-                    dataText.replace("GATEWAY=", "GATEWAY=\"" + ui->GatewayText->getValue() + "\"");
-                    dataText.append("DNS_SERVER1=\"" + ui->DNSText->getValue() + "\"\r\n");
-
-                    if (fileNetwork.open(QFile::WriteOnly | QFile::Truncate))
-                    {
-                        QTextStream out(&fileNetwork);
-                        out << dataText;
-                    }
-                    fileNetwork.close();
-                }
+                fileNetwork.close();
             }
         }
     } 
