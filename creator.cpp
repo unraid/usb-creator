@@ -138,7 +138,7 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     diskWriterThread->start();
 
     connect(ui->refreshRemovablesButton,SIGNAL(clicked()), this,SLOT(refreshRemovablesList()));
-    connect(ui->infoEFIBootLocalButton, SIGNAL(clicked()), this, SLOT(infoEFIClicked()));
+    //connect(ui->infoEFIBootLocalButton, SIGNAL(clicked()), this, SLOT(infoEFIClicked()));
     connect(ui->infoEFIBootButton, SIGNAL(clicked()), this, SLOT(infoEFIClicked()));
 
     connect(manager, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(handleDownloadProgress(qint64, qint64)));
@@ -190,6 +190,7 @@ Creator::Creator(Privileges &privilegesArg, QWidget *parent) :
     ui->EFIBootLocalCheckBox->hide();
     ui->infoEFIBootLocalButton->hide();
 
+    ui->EFIBootCheckBox->setChecked(true);
     ui->CustomizePanel->setVisible(true);
 
     //TODO: make the crypt256 lib available on Windows and then the app can provide a password field
@@ -450,8 +451,8 @@ void Creator::setProjectImages()
     if (ui->projectSelectBox->currentText() == "Local Zip") {
         ui->LocalZipText->show();
         ui->LocalZipPickerButton->show();
-        ui->EFIBootLocalCheckBox->show();
-        ui->infoEFIBootLocalButton->show();
+        //ui->EFIBootLocalCheckBox->show();
+        //ui->infoEFIBootLocalButton->show();
         ui->imageSelectBox->hide();
         ui->CustomizePanel->hide();
         reset();
@@ -459,8 +460,8 @@ void Creator::setProjectImages()
     } else {
         ui->LocalZipText->hide();
         ui->LocalZipPickerButton->hide();
-        ui->EFIBootLocalCheckBox->hide();
-        ui->infoEFIBootLocalButton->hide();
+        //ui->EFIBootLocalCheckBox->hide();
+        //ui->infoEFIBootLocalButton->hide();
         ui->imageSelectBox->show();
         ui->CustomizePanel->show();
     }
@@ -1527,7 +1528,7 @@ void Creator::handleExtractFilesComplete(const QString &targetpath)
     } 
     else 
     {
-        if (ui->EFIBootLocalCheckBox->isChecked())
+        if (ui->EFIBootLocalCheckBox->isChecked() /* TODO: OR name matches unRAIDServer-*-x86_64.zip */)
         {
             QDir dirEFI(targetpath+"/EFI-");
             if (dirEFI.exists())
