@@ -817,6 +817,13 @@ void Creator::handleDownloadError(QNetworkReply *reply)
             downloadBranches();
             break;
 
+        case STATE_GET_RELEASES:
+            if (!parserData->getBranches().empty()) {
+                parserData->parseVersions("{}", manager->currentBranch.value("name").toString());
+                downloadNextBranch();
+            }
+            break;
+
         case STATE_DOWNLOADING_VALIDATION:
             // parse JSON to see if error key exists
             if (reply->error() == QNetworkReply::ContentAccessDenied)
