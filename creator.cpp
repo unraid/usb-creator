@@ -66,7 +66,7 @@
 // force update notification dialog
 //#define FORCE_UPDATE_NOTIFICATION "1.3"
 
-const QString Creator::branchesUrl = "https://unraid-dl.sfo2.cdn.digitaloceanspaces.com/creator_branches2.json";
+const QString Creator::branchesUrl = "https://unraid-dl.sfo2.cdn.digitaloceanspaces.com/creator_branches.json";
 const QString Creator::versionUrl = "https://unraid-dl.sfo2.cdn.digitaloceanspaces.com/creator_version";
 const QString Creator::validatorUrl = "https://keys.lime-technology.com/validate/guid";
 const QString Creator::helpUrl = "https://unraid.net/download/";
@@ -253,6 +253,9 @@ Creator::~Creator()
     } else if (state == STATE_WRITING_IMAGE) {
         //privileges.SetUser();    // back to user
     }
+
+    QDesktopServices::unsetUrlHandler("http");
+    QDesktopServices::unsetUrlHandler("https");
 
     delete ui;
     diskWriter->cancelWrite();
