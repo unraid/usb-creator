@@ -66,8 +66,8 @@
 // force update notification dialog
 //#define FORCE_UPDATE_NOTIFICATION "1.3"
 
-const QString Creator::branchesUrl = "https://s3.amazonaws.com/dnld.lime-technology.com/creator_branches.json";
-const QString Creator::versionUrl = "https://s3.amazonaws.com/dnld.lime-technology.com/creator_version";
+const QString Creator::branchesUrl = "https://unraid-dl.sfo2.cdn.digitaloceanspaces.com/creator_branches2.json";
+const QString Creator::versionUrl = "https://unraid-dl.sfo2.cdn.digitaloceanspaces.com/creator_version";
 const QString Creator::validatorUrl = "https://keys.lime-technology.com/validate/guid";
 const QString Creator::helpUrl = "https://unraid.net/download/";
 const QString Creator::efiInfoUrl = "https://wiki.unraid.net/Articles/Getting_Started#Using_the_Flash_Creator";
