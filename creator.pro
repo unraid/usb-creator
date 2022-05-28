@@ -161,6 +161,9 @@ macx {
     #CONFIG += link_pkgconfig
     # same thing
     #QMAKE_POST_LINK += install_name_tool -add_rpath @executable_path/../Frameworks \"Unraid USB Creator.app/Contents/MacOS/Unraid USB Creator\"
+    
+    # Build universal binary with Apple Silicon Mac support 
+    QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
 }
 
 linux* {
