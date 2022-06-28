@@ -19,7 +19,7 @@ rem #  You should have received a copy of the GNU General Public License
 rem #  along with Unraid USB Creator.  If not, see <http://www.gnu.org/licenses/>.
 rem ################################################################################
 
-set PATH=c:\Qt\6.2.4-static\bin;%PATH%
+set PATH=c:\Qt\6.3.1-static\bin;%PATH%
 
 rem update .ts files
 echo Updating ts files

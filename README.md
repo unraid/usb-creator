@@ -8,17 +8,17 @@ An easy to use application to create bootable USB flash for Unraid. Runs on Wind
   - during install, select only 'Desktop development with C++' under Workloads tab.  
   - default options raised the space required to 6.83 GB
 
-2. Download and extract https://download.qt.io/official_releases/qt/6.2/6.2.4/submodules/qtbase-everywhere-src-6.2.4.zip to %USERPROFILE%\Downloads
+2. Download and extract https://download.qt.io/official_releases/qt/6.2/6.3.1/submodules/qtbase-everywhere-src-6.3.1.zip to %USERPROFILE%\Downloads
 
-3. Download and extract https://download.qt.io/official_releases/qt/6.2/6.2.4/submodules/qt5compat-everywhere-src-6.2.4.zip to %USERPROFILE%\Downloads
+3. Download and extract https://download.qt.io/official_releases/qt/6.2/6.3.1/submodules/qt5compat-everywhere-src-6.3.1.zip to %USERPROFILE%\Downloads
 
-4. Download and extract https://download.qt.io/official_releases/qt/6.2/6.2.4/submodules/qttools-everywhere-src-6.2.4.zip to %USERPROFILE%\Downloads
+4. Download and extract https://download.qt.io/official_releases/qt/6.2/6.3.1/submodules/qttools-everywhere-src-6.3.1.zip to %USERPROFILE%\Downloads
 
 5. Open 'Developer Command Prompt for VS 2022' app and type the following in the console:
 ```
-cd %USERPROFILE%\Downloads\qtbase-everywhere-src-6.2.4
+cd %USERPROFILE%\Downloads\qtbase-everywhere-src-6.3.1
 
-configure.bat -static -static-runtime -no-shared -release -opensource -confirm-license -silent -platform win32-msvc -prefix C:\Qt\6.2.4-static -nomake examples -nomake tests -nomake tools -no-strip -no-cups -no-openvg -no-plugin-manifests -no-dbus -no-directwrite -qt-zlib -qt-pcre -qt-libpng -qt-libjpeg -qt-harfbuzz -qt-freetype -DFEATURE_openssl=OFF -DFEATURE_schannel=ON
+configure.bat -static -static-runtime -no-shared -release -opensource -confirm-license -silent -platform win32-msvc -prefix C:\Qt\6.3.1-static -nomake examples -nomake tests -nomake tools -no-strip -no-cups -no-openvg -no-plugin-manifests -no-dbus -no-directwrite -qt-zlib -qt-pcre -qt-libpng -qt-libjpeg -qt-harfbuzz -qt-freetype -DFEATURE_openssl=OFF -DFEATURE_schannel=ON
 ```
 
 6. Edit _mkspecs/common/msvc-desktop.conf_ and change _-MD_ to _-MT_
@@ -28,13 +28,13 @@ configure.bat -static -static-runtime -no-shared -release -opensource -confirm-l
 cmake --build . --parallel
 cmake --install .
 
-cd %USERPROFILE%\Downloads\qt5compat-everywhere-src-6.2.4
-C:\Qt\6.2.4-static\bin\qt-configure-module.bat .
+cd %USERPROFILE%\Downloads\qt5compat-everywhere-src-6.3.1
+C:\Qt\6.3.1-static\bin\qt-configure-module.bat .
 cmake --build . --parallel
 cmake --install .
 
-cd %USERPROFILE%\Downloads\qttools-everywhere-src-6.2.4
-C:\Qt\6.2.4-static\bin\qt-configure-module.bat .
+cd %USERPROFILE%\Downloads\qttools-everywhere-src-6.3.1
+C:\Qt\6.3.1-static\bin\qt-configure-module.bat .
 cmake --build . --parallel
 cmake --install .
 ```
@@ -47,26 +47,26 @@ cmake --install .
 ```
 mkdir -p ~/Downloads ~/Qt
 cd ~/Downloads
-wget https://download.qt.io/official_releases/qt/6.2/6.2.4/submodules/qtbase-everywhere-src-6.2.4.tar.xz
-wget https://download.qt.io/official_releases/qt/6.2/6.2.4/submodules/qt5compat-everywhere-src-6.2.4.tar.xz
-wget https://download.qt.io/official_releases/qt/6.2/6.2.4/submodules/qttools-everywhere-src-6.2.4.tar.xz
-tar xf qtbase-everywhere-src-6.2.4.tar.xz
-tar xf qt5compat-everywhere-src-6.2.4.tar.xz
-tar xf qttools-everywhere-src-6.2.4.tar.xz
-cd qtbase-everywhere-src-6.2.4
+wget https://download.qt.io/official_releases/qt/6.2/6.3.1/submodules/qtbase-everywhere-src-6.3.1.tar.xz
+wget https://download.qt.io/official_releases/qt/6.2/6.3.1/submodules/qt5compat-everywhere-src-6.3.1.tar.xz
+wget https://download.qt.io/official_releases/qt/6.2/6.3.1/submodules/qttools-everywhere-src-6.3.1.tar.xz
+tar xf qtbase-everywhere-src-6.3.1.tar.xz
+tar xf qt5compat-everywhere-src-6.3.1.tar.xz
+tar xf qttools-everywhere-src-6.3.1.tar.xz
+cd qtbase-everywhere-src-6.3.1
 
-./configure -static -no-shared -release -opensource -confirm-license -silent -prefix ~/Qt/6.2.4-static -nomake examples -nomake tests -no-strip -no-cups -no-openvg -no-plugin-manifests -no-dbus -no-directwrite -qt-zlib -qt-pcre -qt-libpng -qt-libjpeg -qt-harfbuzz -qt-freetype -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
+./configure -static -no-shared -release -opensource -confirm-license -silent -prefix ~/Qt/6.3.1-static -nomake examples -nomake tests -no-strip -no-cups -no-openvg -no-plugin-manifests -no-dbus -no-directwrite -qt-zlib -qt-pcre -qt-libpng -qt-libjpeg -qt-harfbuzz -qt-freetype -- -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
 
 cmake --build . --parallel
 cmake --install .
 
-cd ~/Downloads/qt5compat-everywhere-src-6.2.4
-~/Qt/6.2.4-static/bin/qt-configure-module .
+cd ~/Downloads/qt5compat-everywhere-src-6.3.1
+~/Qt/6.3.1-static/bin/qt-configure-module .
 cmake --build . --parallel
 cmake --install .
 
-cd ~/Downloads/qttools-everywhere-src-6.2.4
-~/Qt/6.2.4-static/bin/qt-configure-module .
+cd ~/Downloads/qttools-everywhere-src-6.3.1
+~/Qt/6.3.1-static/bin/qt-configure-module .
 cmake --build . --parallel
 cmake --install .
 ```

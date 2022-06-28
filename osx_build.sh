@@ -33,17 +33,17 @@ for f in lang/*.po; do
   if [ -f "$f" ]
   then
     echo "Processing $f file..";
-    lconvert -verbose -locations none "$f" -o "lang/$(basename $f .po).ts"
+    /Users/$USER/Qt/6.3.1-static/bin/lconvert -verbose -locations none "$f" -o "lang/$(basename $f .po).ts"
   fi
 done
 
 echo ""
 echo "Creating .qm files"
-/Users/$USER/Qt/6.2.4-static/bin/lrelease creator.pro
+/Users/$USER/Qt/6.3.1-static/bin/lrelease creator.pro
 
 echo ""
 echo "Running qmake..."
-/Users/$USER/Qt/6.2.4-static/bin/qmake
+/Users/$USER/Qt/6.3.1-static/bin/qmake
 
 echo ""
 echo "Building..."

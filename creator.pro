@@ -131,8 +131,8 @@ unix {
 
     contains(QT_ARCH, i386) {
         # link with i386 library manualy unpacked
-        QMAKE_LFLAGS += -L$(HOME)/Qt6.2.4/ubuntu-i386-lib/usr/lib/i386-linux-gnu
-        QMAKE_RPATHLINKDIR += $$(HOME)/Qt6.2.4/ubuntu-i386-lib/lib/i386-linux-gnu
+        QMAKE_LFLAGS += -L$(HOME)/Qt6.3.1/ubuntu-i386-lib/usr/lib/i386-linux-gnu
+        QMAKE_RPATHLINKDIR += $$(HOME)/Qt6.3.1/ubuntu-i386-lib/lib/i386-linux-gnu
     }
 
     SOURCES += diskwriter_unix.cpp \
