@@ -224,7 +224,12 @@ QList<QVariantMap> DeviceEnumerator_macos::listBlockDevices() const
     HRESULT             res;
 
     /* set up a matching dictionary for the class */
-    matchingDict = IOServiceMatching(kIOUSBDeviceClassName);
+    //matchingDict = IOServiceMatching(kIOUSBDeviceClassName);
+
+    // Issues with usb device detection since macOS Monterey (Intel only, not M1)
+    // related to using kIOUSBDeviceClassName instead of IOUSBHostDevice
+    // Ref: https://stackoverflow.com/a/70356388
+    matchingDict = IOServiceMatching("IOUSBHostDevice");
 
     if (matchingDict == NULL)
     {
