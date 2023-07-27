@@ -4,11 +4,19 @@ project(Unraid.USB.Creator VERSION 1.0 LANGUAGES C CXX)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(QT NAMES Qt5 Qt6 REQUIRED COMPONENTS Core)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Concurrent Core5Compat Gui Network Widgets)
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core)
+find_package(Qt6 REQUIRED COMPONENTS Concurrent Core5Compat Gui Network Widgets)
 
 qt_standard_project_setup()
 
+set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+set(BUILD_SHARED_LIBS OFF)
+set(CMAKE_EXE_LINKER_FLAGS "-static")
+
+
+FILE(GLOB QuazipCSources libs/quazip/*.c)
+FILE(GLOB QuazipCPPSources libs/quazip/*.cpp)
+FILE(GLOB QuazipHSources libs/quazip/*.h)
 qt_add_executable(Unraid.USB.Creator WIN32 MACOSX_BUNDLE
     creator.cpp creator.h creator.ui
     customipeditor.h
@@ -17,7 +25,7 @@ qt_add_executable(Unraid.USB.Creator WIN32 MACOSX_BUNDLE
     diskwriter.cpp diskwriter.h
     downloadmanager.cpp downloadmanager.h
     jsonparser.cpp jsonparser.h
-    libs/quazip/*.c libs/quazip/*.cpp libs/quazip/*.h
+    ${QuazipCSources} ${QuazipCPPSources} ${QuazipHSources}
     main.cpp
     movingaverage.cpp movingaverage.h
     translator.cpp translator.h
@@ -29,6 +37,7 @@ target_link_libraries(Unraid.USB.Creator PRIVATE
     Qt::Gui
     Qt::Network
     Qt::Widgets
+    -static
 )
 
 
@@ -82,22 +91,22 @@ qt_add_resources(Unraid.USB.Creator "resources"
         ${resources_resource_files}
 )
 
-if(static)
-    target_compile_definitions(Unraid.USB.Creator PRIVATE
-        STATIC
-    )
-endif()
+target_compile_definitions(Unraid.USB.Creator PRIVATE
+    STATIC
+)
 
+FILE(GLOB ZlibCSources libs/zlib/*.c)
+FILE(GLOB ZlibHSources libs/zlib/*.h)
 if(WIN32)
     target_sources(Unraid.USB.Creator PUBLIC
         deviceenumerator_windows.cpp deviceenumerator_windows.h
         diskwriter_windows.cpp diskwriter_windows.h
-        libs/zlib/*.c libs/zlib/*.h
+        ${ZlibCSources} ${ZlibHSources}
         privileges.h
     )
 
     target_include_directories(Unraid.USB.Creator PRIVATE
-        libszlib
+        libs/zlib
     )
 
     target_compile_definitions(Unraid.USB.Creator PRIVATE
