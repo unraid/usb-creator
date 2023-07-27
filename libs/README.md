@@ -6,4 +6,6 @@ If we try to link against pre-compiled versions of these libraries, we get terri
 
 I spent a few hours trying different solutions, it's not worth trying to get rid of this folder.
 
+[This Github issue](https://github.com/Martchus/PKGBUILDs/issues/86) is probably related, but none of their solutions worked here.
+
 \- Justin 2023-07-27
